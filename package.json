@@ -1,0 +1,41 @@
+{
+  "name": "train.js",
+  "version": "0.0.1",
+  "description": "train.js is a library of iterator helper methods (for both sync and async iterators)",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "ava --verbose"
+  },
+  "author": "James \"The Jamesernator\" Browning",
+  "license": "MIT",
+  "devDependencies": {
+    "ava": "^0.18.1",
+    "babel-core": "latest",
+    "babel-preset-latest": "latest",
+    "babel-preset-stage-3": "latest",
+    "babel-preset-stage-2": "latest",
+    "babel-preset-stage-1": "latest",
+    "babel-preset-stage-0": "latest",
+    "babel-polyfill": "latest",
+    "es6-array-map": "latest",
+    "es6-array-set": "latest"
+  },
+  "ava": {
+    "babel": "inherit",
+    "files": [
+       "tests/**/*.js"
+     ],
+     "source": [
+       "src/**/*.js"
+     ],
+     "failFast": false,
+     "powerAssert": true,
+     "require": [
+       "babel-polyfill",
+       "babel-register"
+     ]
+   }
+}

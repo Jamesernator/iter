@@ -1,0 +1,32 @@
+
+function assert(bool, message) {
+    if (!bool) {
+        throw new Error(message)
+    }
+}
+
+assert.empty = function(array, message) {
+    if (array.length) {
+        throw new Error(message)
+    }
+}
+
+assert.function = function(func, message) {
+    if (typeof func !== 'function') {
+        throw new Error(message)
+    }
+}
+
+assert.number = function(number, message) {
+    if (typeof number !== 'number') {
+        throw new Error(message)
+    }
+}
+
+assert.type = function(types, value, message) {
+    if (!types.includes(typeof value)) {
+        throw new Error(message)
+    }
+}
+
+export default assert
