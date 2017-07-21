@@ -1,5 +1,5 @@
 import portable from "./#portable.js"
-import { plain as isIterable } from "./isIterable.js"
+import { raw as isIterable } from "./isIterable.js"
 
 function createMethod(func) {
     if (typeof func !== 'function') {

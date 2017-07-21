@@ -1,22 +1,17 @@
 import create from "./createIterableMethod.js"
-import { plain as enumerate } from "./enumerate.js"
-import { plain as isIterable } from "./isIterable.js"
+import { raw as enumerate } from "./enumerate.js"
+import { raw as isIterable } from "./isIterable.js"
+import assert from "./#assert.js"
 
-function* flatMap(iterable, ...args) {
-    const unexpectedArgs = _ => {
-        throw new Error(`Unexpected additional arguments to flatMap`)
-    }
-
+function* _flatMap(iterable, ...args) {
     /* eslint-disable indent */
     const [allowNonIterable, iteratee] =
         args.length === 0 ?
             [false, x => [x]]
         : args.length === 1 ?
             [false, ...args]
-        : args.length === 2 ?
-            args
         :
-            unexpectedArgs()
+            args
     /* eslint-enable indent */
 
     for (const [idx, item] of enumerate(iterable)) {
@@ -33,6 +28,27 @@ function* flatMap(iterable, ...args) {
     }
 }
 
+function flatMap(...args) {
+    const unexpectedArgs = _ => {
+        throw new Error(`Unexpected additional arguments to flatMap`)
+    }
+
+    /* eslint-disable indent */
+    const [allowNonIterable, iteratee] =
+        args.length === 0 ?
+            [false, x => [x]]
+        : args.length === 1 ?
+            [false, ...args]
+        : args.length === 2 ?
+            args
+        :
+            unexpectedArgs()
+    /* eslint-enable indent */
+
+    assert.function(iteratee, `Expected flatMap iteratee to be a function`)
+    return _flatMap(allowNonIterable, iteratee)
+}
+
 export default create(flatMap)
 
-export { flatMap as plain }
+export { _flatMap as raw }

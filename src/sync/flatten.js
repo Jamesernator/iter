@@ -1,8 +1,8 @@
 import create from "./createIterableMethod.js"
-import { plain as isIterable } from "./isIterable.js"
+import { raw as isIterable } from "./isIterable.js"
 import assert from "./#assert.js"
 
-function* _flatten(iterable, depth) {
+function* _flatten(iterable, depth=1) {
     if (depth === 0) {
         yield* iterable
     } else {
@@ -28,4 +28,4 @@ function flatten(iterable, depth=1, ...rest) {
 }
 
 export default create(flatten)
-export { flatten as plain }
+export { _flatten as raw }

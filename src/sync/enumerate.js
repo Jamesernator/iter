@@ -1,8 +1,7 @@
 import create from "./createIterableMethod.js"
 import assert from "./#assert.js"
 
-function* enumerate(iterable, ...rest) {
-    assert.empty(rest, `Unexpected additional arguments to enumerate`)
+function* _enumerate(iterable) {
     let idx = 0
     for (const item of iterable) {
         yield [idx, item]
@@ -10,6 +9,11 @@ function* enumerate(iterable, ...rest) {
     }
 }
 
+function enumerate(iterable, ...rest) {
+    assert.empty(rest, `Unexpected additional arguments to enumerate`)
+    return _enumerate(iterable)
+}
+
 export default create(enumerate)
 
-export { enumerate as plain }
+export { _enumerate as raw }

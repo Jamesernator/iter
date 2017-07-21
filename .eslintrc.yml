@@ -389,7 +389,7 @@ rules:
         - error
         - as-needed
     semi-spacing:
-        - error
+        - off
     semi:
         - error
         - never

@@ -7,4 +7,4 @@ function isIterable(maybeIterable) {
 
 export default portable(isIterable)
 
-export { isIterable as plain }
+export { isIterable as raw }
