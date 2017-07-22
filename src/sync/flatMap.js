@@ -3,17 +3,7 @@ import { raw as enumerate } from "./enumerate.js"
 import { raw as isIterable } from "./isIterable.js"
 import assert from "./#assert.js"
 
-function* _flatMap(iterable, ...args) {
-    /* eslint-disable indent */
-    const [allowNonIterable, iteratee] =
-        args.length === 0 ?
-            [false, x => [x]]
-        : args.length === 1 ?
-            [false, ...args]
-        :
-            args
-    /* eslint-enable indent */
-
+function* __flatMap(iterable, allowNonIterable, iteratee) {
     for (const [idx, item] of enumerate(iterable)) {
         const value = iteratee(item, idx)
         if (isIterable(value)) {
@@ -26,6 +16,19 @@ function* _flatMap(iterable, ...args) {
             )
         }
     }
+}
+
+function _flatMap(iterable, ...args) {
+    /* eslint-disable indent */
+    const [allowNonIterable, iteratee] =
+        args.length === 0 ?
+            [false, x => [x]]
+        : args.length === 1 ?
+            [false, ...args]
+        :
+            args
+    /* eslint-enable indent */
+    return __flatMap(iterable, allowNonIterable, iteratee)
 }
 
 function flatMap(...args) {
@@ -46,7 +49,7 @@ function flatMap(...args) {
     /* eslint-enable indent */
 
     assert.function(iteratee, `Expected flatMap iteratee to be a function`)
-    return _flatMap(allowNonIterable, iteratee)
+    return __flatMap(allowNonIterable, iteratee)
 }
 
 export default create(flatMap)
