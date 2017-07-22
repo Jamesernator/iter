@@ -20,7 +20,7 @@ function* __flatMap(iterable, allowNonIterable, iteratee) {
 
 function _flatMap(iterable, ...args) {
     /* eslint-disable indent */
-    const [allowNonIterable, iteratee] =
+    const [allowNonIterable, iteratee=x => [x]] =
         args.length === 0 ?
             [false, x => [x]]
         : args.length === 1 ?

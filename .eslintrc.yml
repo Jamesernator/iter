@@ -358,6 +358,8 @@ rules:
         - max: 4
     no-new-object:
         - error
+    no-nested-ternary:
+        - off
     no-plusplus:
         - error
         - allowForLoopAfterthoughts: true
@@ -385,6 +387,7 @@ rules:
             '&&': before
             '?': ignore
             ':': ignore
+            '=': ignore
     quote-props:
         - error
         - as-needed
