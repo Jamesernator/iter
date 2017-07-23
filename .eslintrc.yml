@@ -197,7 +197,7 @@ rules:
     no-shadow-restricted-names:
         - error
     no-shadow:
-        - error
+        - off
     no-undef-init:
         - error
     no-undef:

@@ -1,8 +1,9 @@
-import create from "./createIterableMethod.js"
+import create from "./createMethod.js"
+import iterableGenerator from "./iterableGenerator.js"
 import { raw as isIterable } from "./isIterable.js"
 import assert from "./#assert.js"
 
-function* _flatten(iterable, depth=1) {
+const _flatten = iterableGenerator(function* _flatten(iterable, depth=1) {
     if (depth === 0) {
         yield* iterable
     } else {
@@ -18,7 +19,7 @@ function* _flatten(iterable, depth=1) {
             }
         }
     }
-}
+})
 
 function flatten(iterable, depth=1, ...rest) {
     assert.number(depth, `Expected depth to be a number`)

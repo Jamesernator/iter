@@ -1,8 +1,9 @@
-import create from "./createIterableMethod.js"
+import create from "./createMethod.js"
+import iterableGenerator from "./iterableGenerator.js"
 import { raw as iterator } from "./iterator.js"
 import assert from "./#assert.js"
 
-function* _buffer(iterable, bufferSize=2) {
+const _buffer = iterableGenerator(function* buffer(iterable, bufferSize=2) {
     const iter = iterator(iterable)
     const buff = []
     for (let i = 0 ; i < bufferSize ; i++) {
@@ -18,7 +19,7 @@ function* _buffer(iterable, bufferSize=2) {
         buff.shift()
         buff.push(item)
     }
-}
+})
 
 function buffer(iterable, bufferSize=2, ...rest) {
     assert.number(bufferSize, `Expected bufferSize to be a number`)

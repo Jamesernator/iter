@@ -1,14 +1,15 @@
-import create from "./createIterableMethod.js"
+import create from "./createMethod.js"
+import iterableGenerator from "./iterableGenerator.js"
 import { raw as enumerate } from "./enumerate.js"
 import assert from "./#assert.js"
 
-function* _filter(iterable, predicate=x => x) {
+const _filter = iterableGenerator(function* filter(iterable, predicate=x => x) {
     for (const [idx, item] of enumerate(iterable)) {
         if (predicate(item, idx)) {
             yield item
         }
     }
-}
+})
 
 function filter(iterable, predicate=x => x, ...rest) {
     assert.function(predicate, `Expected filter predicate to be a function`)

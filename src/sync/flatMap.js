@@ -1,9 +1,10 @@
-import create from "./createIterableMethod.js"
+import create from "./createMethod.js"
+import iterableGenerator from "./iterableGenerator.js"
 import { raw as enumerate } from "./enumerate.js"
 import { raw as isIterable } from "./isIterable.js"
 import assert from "./#assert.js"
 
-function* __flatMap(iterable, allowNonIterable, iteratee) {
+const __flatMap = iterableGenerator(function* flatMap(iterable, allowNonIterable, iteratee) {
     for (const [idx, item] of enumerate(iterable)) {
         const value = iteratee(item, idx)
         if (isIterable(value)) {
@@ -16,7 +17,7 @@ function* __flatMap(iterable, allowNonIterable, iteratee) {
             )
         }
     }
-}
+})
 
 function _flatMap(iterable, ...args) {
     /* eslint-disable indent */
