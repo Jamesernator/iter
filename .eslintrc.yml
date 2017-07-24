@@ -281,6 +281,7 @@ rules:
         - error
     template-curly-spacing:
         - error
+        - always
 
     # Style
     array-bracket-spacing:
