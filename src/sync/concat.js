@@ -10,7 +10,7 @@ const _concat = iterableGenerator(function* concat(...iterables) {
 })
 
 function concat(iterable, ...others) {
-    assert.every(others, isIterable, `Expected iterables to concat`)
+    assert.every(others, isIterable, `[concat] Expected iterables to concat`)
     return _concat(iterable, ...others)
 }
 
