@@ -26,16 +26,20 @@
   "ava": {
     "babel": "inherit",
     "files": [
-       "tests/**/*.js"
-     ],
-     "source": [
-       "src/**/*.js"
-     ],
-     "failFast": false,
-     "powerAssert": true,
-     "require": [
-       "babel-polyfill",
-       "babel-register"
-     ]
-   }
+      "tests/**/*.js"
+    ],
+    "source": [
+      "src/**/*.js"
+    ],
+    "failFast": false,
+    "powerAssert": true,
+    "require": [
+      "babel-polyfill",
+      "babel-register"
+    ]
+  },
+  "dependencies": {
+    "@std/esm": "^0.13.0",
+    "folder-module": "^2.0.4"
+  }
 }
