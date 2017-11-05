@@ -1,7 +1,5 @@
 import test from "ava"
-// FIXME ava
-import { default as all } from "../../src/sync/all.mjs"
-//const all = all.default
+import all from "../../src/sync/all.mjs"
 
 test('all without argument returns true if all values are truthy', t => {
     const target1 = [true, 'cats', {}, 1]

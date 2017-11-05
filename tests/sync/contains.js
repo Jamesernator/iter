@@ -1,97 +1,71 @@
 import test from "ava"
-import contains from "../../src/sync/contains.js"
+import contains from "../../src/sync/contains.mjs"
 
-test("contains default ===", t => {
+test("contains default Object.is", t => {
     t.true(
-        [1,2,3,4]::contains(2)
+        contains([1, 2, 3, 4], 2),
     )
     const x = {}
     t.true(
-        [x, {}, NaN]::contains(x)
+        contains([x, {}, NaN], x),
     )
 
     t.true(
-        [-0, 4]::contains(0)
+        contains([0, 4], 0),
     )
+
     t.false(
-        [3, NaN, 'banana']::contains(NaN)
+        contains([-0, 4], 0),
+    )
+    t.true(
+        contains([3, NaN, 'banana'], NaN),
+    )
+
+    t.false(
+        contains([{}, 'foo', NaN], x),
     )
 })
 
-test("contains ===", t => {
+test("contains custom equality", t => {
+    const data = [[1, 2], [3, 4]]
+    const equals = ([x1, y1], [x2, y2]) => {
+        return Object.is(x1, x2) && Object.is(y1, y2)
+    }
     t.true(
-        [1,2,3,4]::contains(2, '===')
-    )
-    const x = {}
-    t.true(
-        [x, {}, NaN]::contains(x, '===')
+        contains(data, [1, 2], equals),
     )
 
-    t.true(
-        [-0, 4]::contains(0, '===')
-    )
     t.false(
-        [3, NaN, 'banana']::contains(NaN, '===')
+        contains(data, [4, 5], equals),
     )
+
+    t.throws(_ => {
+        const data = [null, '3', [1, 2]]
+        contains(data, [1, 2], equals)
+    })
 })
 
-test("contains ==", t => {
-    t.true(
-        [1,'2', 3]::contains(2, '==')
-    )
+test("contains custom equality doesn't throw if value found before throwing case", t => {
+    const data = [[5, 6], [1, 2], null]
+    const equals = ([x1, y1], [x2, y2]) => {
+        return Object.is(x1, x2) && Object.is(y1, y2)
+    }
 
     t.true(
-        [1, '', 0]::contains(false, '==')
-    )
-
-    t.true(
-        // eslint-disable-next-line no-sparse-arrays
-        [2,,,,,]::contains(null, '==')
-    )
-
-    t.false(
-        []::contains(null)
-    )
-})
-
-test("contains SameValueZero", t => {
-    t.true(
-        [4, 'banana', -0, {}]::contains(0, 'SameValueZero')
-    )
-
-    t.true(
-        [4, 'banana', 0, {}]::contains(-0, 'SameValueZero')
-    )
-
-    t.true(
-        [4, 'banana', NaN, {}]::contains(NaN, 'SameValueZero')
-    )
-})
-
-test("contains SameValue", t => {
-    t.false(
-        [4, 'banana', -0, {}]::contains(0, 'SameValue')
-    )
-
-    t.false(
-        [4, 'banana', 0, {}]::contains(-0, 'SameValue')
-    )
-
-    t.true(
-        [4, 'banana', NaN, {}]::contains(NaN, 'SameValue')
+        contains(data, [1, 2], equals),
     )
 })
 
 test("contains throws early on bad arguments", t => {
     t.throws(_ => {
-        []::contains(0, 'fishBiscuit')
+        contains([], 0, 'fishBiscuit')
     })
 
     t.throws(_ => {
-        []::contains(0, null)
+        contains([], 0, null)
     })
 
     t.throws(_ => {
-        []::contains(0, {})
+        contains([], 0, {}, 'bar')
     })
 })

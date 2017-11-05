@@ -1,16 +1,9 @@
 import test from "ava"
-
-// FIXME ava
-import _subSequences from "../../src/sync/subSequences.mjs"
-const subSequences = _subSequences.default
-
-// FIXME ava
-import _toArray from "../../src/sync/toArray.mjs"
-const toArray = _toArray.default
+import subSequences from "../../src/sync/subSequences.mjs"
+import toArray from "../../src/sync/toArray.mjs"
 
 test("subSequences emits small subSequencess of elements", t => {
     const seq = [1, 2, 3, 4, 5, 6]
-    console.log(toArray(subSequences(seq, 3)))
     t.deepEqual(
         toArray(subSequences(seq, 3)),
         [[1, 2, 3], [2, 3, 4], [3, 4, 5], [4, 5, 6]],

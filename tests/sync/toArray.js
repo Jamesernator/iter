@@ -1,10 +1,5 @@
 import test from "ava"
-
-// FIXME ava
 import toArray from "../../src/sync/toArray.mjs"
-// const toArray = _toArray.default
-
-console.log(toArray)
 
 test('array converts iterable to array', t => {
     const seq = function* () {

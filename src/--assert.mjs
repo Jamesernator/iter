@@ -29,4 +29,12 @@ assert.type = function(types, value, message) {
     }
 }
 
+assert.every = function(values, condition, message) {
+    for (const item of values) {
+        if (!condition(item)) {
+            throw new Error(message)
+        }
+    }
+}
+
 export default assert

@@ -12,15 +12,16 @@
   "author": "James \"The Jamesernator\" Browning",
   "license": "MIT",
   "devDependencies": {
-    "ava": "^0.18.1",
+    "ava": "^0.23.0",
     "babel-core": "latest",
     "babel-preset-stage-3": "latest",
     "es6-array-map": "latest",
-    "es6-array-set": "latest"
+    "es6-array-set": "latest",
+    "folder-module": "^2.0.4"
   },
   "ava": {
     "files": [
-      "tests/sync/all.js"
+      "tests/**/*.js"
     ],
     "source": [
       "src/**/*.mjs"
@@ -29,14 +30,12 @@
     "require": "@std/esm",
     "modules": false
   },
-  "@std/esm": {
-    "cjs": true
+  "@std": {
+    "esm": {
+        "cjs": true
+    }
   },
   "dependencies": {
-    "@std/esm": "^0.13.0",
-    "folder-module": "^2.0.4"
-  },
-  "@std/esm": {
-      "esm": "all"
+    "@std/esm": "^0.13.0"
   }
 }

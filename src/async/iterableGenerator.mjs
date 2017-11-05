@@ -6,7 +6,7 @@ function _iterableGenerator(genFunc) {
         return {
             [Symbol.asyncIterator]: _ => {
                 return Reflect.apply(genFunc, this, args)
-            }
+            },
         }
     })
 }
