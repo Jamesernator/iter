@@ -11,7 +11,7 @@ function __find(iterable, predicate, hasDefault, defaultValue) {
     if (hasDefault) {
         return defaultValue
     } else {
-        throw new Error(`No item found with no default provided`)
+        throw new Error(`[find] No item found with no default provided`)
     }
 }
 
@@ -31,7 +31,7 @@ function _find(iterable, ...args) {
 
 function find(iterable, ...args) {
     const unexpectedArgs = _ => {
-        throw new Error(`Unexpected additional arguments to find`)
+        throw new Error(`[find] Unexpected additional arguments to find`)
     }
     /* eslint-disable indent */
     const [hasDefault, defaultValue, predicate]
@@ -44,7 +44,7 @@ function find(iterable, ...args) {
         :
             unexpectedArgs()
     /* eslint-enable indent */
-    assert.function(predicate, `Expected find predicate to be a function`)
+    assert.function(predicate, `[find] Expected find predicate to be a function`)
     return __find(iterable, predicate, hasDefault, defaultValue)
 }
 
