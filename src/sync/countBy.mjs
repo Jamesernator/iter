@@ -16,7 +16,10 @@ function _countBy(iterable, ...args) {
         = args.length === 0 ?
             [new Map(), x => x]
         : args.length === 1 ?
-            [new Map(), ...args]
+            typeof args[0] === 'function' ?
+                [new Map(), ...args]
+            :
+                [...args, x => x]
         :
             args
     /* eslint-enable indent */
@@ -33,14 +36,17 @@ function countBy(iterable, ...args) {
         = args.length === 0 ?
             [new Map(), x => x]
         : args.length === 1 ?
-            [new Map(), ...args]
+            typeof args[0] === 'function' ?
+                [new Map(), ...args]
+            :
+                [...args, x => x]
         : args.length === 2 ?
             args
         :
             unexpectedArgs()
     /* eslint-enable indent */
-    assert(typeof map.get === 'function', `[countBy] map object doesn't have a get method`)
-    assert(typeof map.set === 'function', `[countBy] map object doesn't have a set method`)
+    assert(map && typeof map.get === 'function', `[countBy] map object doesn't have a get method`)
+    assert(map && typeof map.set === 'function', `[countBy] map object doesn't have a set method`)
     assert.function(iteratee, `Expected iteratee to be a function`)
     return __countBy(iterable, map, iteratee)
 }
