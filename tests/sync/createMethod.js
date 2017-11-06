@@ -47,3 +47,21 @@ test('createMethod forwards additional arguments with this application', t => {
     const sequence = [1, 2, 3, 4]
     t.is(3, Reflect.apply(nth, sequence, [2]))
 })
+
+test('createMethod preserves the original function name', t => {
+    const methodName = createMethod(function methodName() {
+        /* Test function */
+    })
+    t.is(methodName.name, 'methodName')
+})
+
+test("createMethod created method throws an error if value isn't iterable", t => {
+    const method = createMethod(function method(iterable) {
+        return iterable
+    })
+
+    t.throws(_ => method(12))
+    t.throws(_ => method())
+    t.throws(_ => method({}))
+    t.throws(_ => method(new Date()))
+})

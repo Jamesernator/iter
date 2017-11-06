@@ -1,5 +1,5 @@
 {
-  "name": "train.js",
+  "name": "@jx/iter",
   "version": "0.0.1",
   "description": "train.js is a library of iterator helper methods (for both sync and async iterators)",
   "main": "index.js",
