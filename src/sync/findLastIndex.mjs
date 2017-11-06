@@ -2,26 +2,55 @@ import { raw as create } from "./createMethod.mjs"
 import { raw as enumerate } from "./enumerate.mjs"
 import assert from "../--assert.mjs"
 
-function _findLastIndex(iterable, predicate=x => x) {
+function __findLastIndex(iterable, predicate, hasDefault, defaultValue) {
     let found = false
-    let foundIdx
+    let foundIndex
     for (const [idx, item] of enumerate(iterable)) {
         if (predicate(item, idx)) {
             found = true
-            foundIdx = idx
+            foundIndex = idx
         }
     }
     if (found) {
-        return foundIdx
+        return foundIndex
+    } else if (hasDefault) {
+        return defaultValue
     } else {
-        throw new Error(`No item matching predicate found`)
+        throw new Error(`[findLastIndex] No item found with no default provided`)
     }
 }
 
-function findLastIndex(iterable, predicate=x => x, ...rest) {
-    assert.function(predicate, `Expected findLastIndex predicate to be a function`)
-    assert.empty(rest, `Unexpected additional arguments to function`)
-    return _findLastIndex(iterable, predicate)
+function _findLastIndex(iterable, ...args) {
+    /* eslint-disable indent */
+    const [hasDefault, defaultValue, predicate]
+        = args.length === 0 ?
+            [false, undefined, x => x]
+        : args.length === 1 ?
+            [false, undefined, ...args]
+        :
+            [true, ...args]
+
+    /* eslint-enable indent */
+    return __findLastIndex(iterable, predicate, hasDefault, defaultValue)
+}
+
+function findLastIndex(iterable, ...args) {
+    const unexpectedArgs = _ => {
+        throw new Error(`[findIndex] Unexpected additional arguments to find`)
+    }
+    /* eslint-disable indent */
+    const [hasDefault, defaultValue, predicate]
+        = args.length === 0 ?
+            [false, undefined, x => x]
+        : args.length === 1 ?
+            [false, undefined, ...args]
+        : args.length === 2 ?
+            [true, ...args]
+        :
+            unexpectedArgs()
+    /* eslint-enable indent */
+    assert.function(predicate, `[findIndex] Expected find predicate to be a function`)
+    return __findLastIndex(iterable, predicate, hasDefault, defaultValue)
 }
 
 export default create(findLastIndex)

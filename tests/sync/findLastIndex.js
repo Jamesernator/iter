@@ -1,65 +1,63 @@
 import test from "ava"
-import findLastIndex from "../../src/sync/findLastIndex.js"
+import findLastIndex from "../../src/sync/findLastIndex.mjs"
 
 test('findLastIndex basic functionality', t => {
-    const data = [1,2,3,4,5,1]
+    const data = [1, 2, 3, 4, 5, 1]
 
     t.is(
-        data::findLastIndex(x => x === 2),
-        1
+        findLastIndex(data, x => x === 2),
+        1,
     )
 
     t.is(
-        data::findLastIndex(x => x === 1),
-        5
+        findLastIndex(data, x => x === 1),
+        5,
     )
 })
 
 test('findLastIndex throws when no value is found matching predicate', t => {
-    const data = [1,2,3,4]
-    try {
-        data::findLastIndex(x => x === 42)
-        t.fail()
-    } catch (e) {
-        t.pass()
-    }
+    const data = [1, 2, 3, 4]
+    t.throws(_ => findLastIndex(data, x => x === 42))
 })
 
 test('findLastIndex defaults to index of last truthy value', t => {
-    const data = [1, 0, undefined, false, null, '', NaN, 1]
+    const data = [1, 0, undefined, false, null, '', NaN, 1, false]
     t.is(
-        data::findLastIndex(),
-        7
+        findLastIndex(data),
+        7,
     )
 })
 
-test('findLastIndex with fromIndex only considers values after the given index', t => {
-    const data = [1,2,3,4,1,2,1,2,1]
+test('findLastIndex with default returns default is not found', t => {
+    const data = [1, 2, 3, 4, 3, 12]
 
     t.is(
-        data::findLastIndex(2, x => x === 1),
-        8
+        findLastIndex(data, null, x => x === 42),
+        null,
     )
 
-    try {
-        data::findLastIndex(6, x => x === 4)
-        t.fail()
-    } catch (e) {
-        t.pass()
-    }
+    t.is(
+        findLastIndex(data, 'banana', x => x === 42),
+        'banana',
+    )
+
+    t.is(
+        findLastIndex(data, null, x => x === 3),
+        4,
+    )
 })
 
 test('findLastIndex throws early on bad arguments', t => {
     const data = []
     t.throws(_ => {
-        data::findLastIndex(x => x === 42, 2)
+        findLastIndex(data, x => x === 42, 2)
     })
 
     t.throws(_ => {
-        data::findLastIndex(2, x => x === 42, 'banana')
+        findLastIndex(data, 2, x => x === 42, 'banana')
     })
 
     t.throws(_ => {
-        data::findLastIndex(4)
+        findLastIndex(data, 4)
     })
 })
