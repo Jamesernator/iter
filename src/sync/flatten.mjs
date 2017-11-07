@@ -6,7 +6,7 @@ import assert from "../--assert.mjs"
 const _flatten = iterableGenerator(function* _flatten(iterable) {
     for (const item of iterable) {
         if (!isIterable(item)) {
-            throw new Error(`Can't flatten ${ item }`)
+            throw new Error(`[flatten] Can't flatten ${ item }`)
         }
         yield* item
     }

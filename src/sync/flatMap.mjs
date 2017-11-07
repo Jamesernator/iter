@@ -13,7 +13,7 @@ const __flatMap = iterableGenerator(function* flatMap(iterable, allowNonIterable
             yield value
         } else {
             throw new Error(
-                `Can't flatten non-iterable in flatMap. Consider passing true as first arugment to flatMap.`
+                `[flatMap] Can't flatten non-iterable in flatMap. Consider passing true as first arugment to flatMap.`,
             )
         }
     }
@@ -32,9 +32,9 @@ function _flatMap(iterable, ...args) {
     return __flatMap(iterable, allowNonIterable, iteratee)
 }
 
-function flatMap(...args) {
+function flatMap(iterable, ...args) {
     const unexpectedArgs = _ => {
-        throw new Error(`Unexpected additional arguments to flatMap`)
+        throw new Error(`[flatMap] Unexpected additional arguments to flatMap`)
     }
 
     /* eslint-disable indent */
@@ -49,8 +49,8 @@ function flatMap(...args) {
             unexpectedArgs()
     /* eslint-enable indent */
 
-    assert.function(iteratee, `Expected flatMap iteratee to be a function`)
-    return __flatMap(allowNonIterable, iteratee)
+    assert.function(iteratee, `[flatMap] Expected flatMap iteratee to be a function`)
+    return __flatMap(iterable, allowNonIterable, iteratee)
 }
 
 export default create(flatMap)

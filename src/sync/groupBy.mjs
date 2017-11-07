@@ -29,7 +29,7 @@ function _groupBy(iterable, ...args) {
 
 function groupBy(iterable, ...args) {
     const unexpectedArgs = _ => {
-        throw new Error(`Unexpected additional arguments to groupBy`)
+        throw new Error(`[groupBy] Unexpected additional arguments to groupBy`)
     }
 
     /* eslint-disable indent */
@@ -43,10 +43,10 @@ function groupBy(iterable, ...args) {
         :
             unexpectedArgs()
     /* eslint-enable indent */
-    assert(typeof map.get === 'function', `map object doesn't have a get method`)
-    assert(typeof map.has === 'function', `map object doesn't have a has method`)
-    assert(typeof map.set === 'function', `map object doesn't have a set method`)
-    assert.function(iteratee, `Expected iteratee to be a function`)
+    assert(typeof map.get === 'function', `[groupBy] map object doesn't have a get method`)
+    assert(typeof map.has === 'function', `[groupBy] map object doesn't have a has method`)
+    assert(typeof map.set === 'function', `[groupBy] map object doesn't have a set method`)
+    assert.function(iteratee, `[groupBy] Expected iteratee to be a function`)
     return __groupBy(iterable, map, iteratee)
 }
 

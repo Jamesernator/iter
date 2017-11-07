@@ -14,7 +14,7 @@ function _lastIndexOf(iterable, searchItem, equality=Object.is) {
     if (foundSet) {
         return foundIdx
     } else {
-        throw new Error(`[lastIndexOf] matching item not found`)
+        return null
     }
 }
 

@@ -45,7 +45,7 @@ test("findLast returns the default when provided and it can't find any such elem
 
     const empty = []
     t.is(
-        empty::findLast(0, x => x === 42),
+        findLast(empty, 0, x => x === 42),
         0,
     )
 

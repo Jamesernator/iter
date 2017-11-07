@@ -1,76 +1,56 @@
 import test from "ava"
-import flatMap from "../../src/sync/flatMap.js"
-import array from "../../src/sync/array.js"
-import final from "../../src/sync/final.js"
+import flatMap from "../../src/sync/flatMap.mjs"
+import toArray from "../../src/sync/toArray.mjs"
 
 test('flatMap basic functionality', t => {
-    const data = [1,2,3,4]
-    console.log(data::flatMap(x => [x,x])::array())
+    const data = [1, 2, 3, 4]
+
     t.deepEqual(
-        data::flatMap(x => [x, x])::array(),
-        [1,1,2,2,3,3,4,4]
+        toArray(flatMap(data, x => [x, x])),
+        [1, 1, 2, 2, 3, 3, 4, 4],
     )
     t.deepEqual(
-        data::flatMap(x => [[x,x]])::array(),
-        [[1,1], [2,2], [3,3], [4,4]]
+        toArray(flatMap(data, x => [[x, x]])),
+        [[1, 1], [2, 2], [3, 3], [4, 4]],
     )
 })
 
-test('flatMap with depth', t => {
-    const data = [1,2,3,4]
-    t.deepEqual(
-        data::flatMap(2, x => [[x,x]])::array(),
-        [1,1,2,2,3,3,4,4]
-    )
+test("flatMap doesn't flatten non-iterables", t => {
+    const data = [1, 2, 3, 4]
+
+    t.throws(_ => toArray(flatMap(data, x => x)))
+
+    t.throws(_ => toArray(flatMap(data, x => x % 2 === 0 ? [] : x)))
 })
 
-test('flatMap with predicate', t => {
-    const data = [1,2,3,4]
-    t.deepEqual(
-        data::flatMap((_, idx) => idx % 2 === 0, x => [x, x])::array(),
-        [1,1, [2,2], 3, 3, [4,4]]
-    )
-})
+test("flatMap can ignore non-iterables if requested", t => {
+    const data = [1, 2, 3, 4]
 
-test('flatMap with depth and predicate', t => {
-    const data = [1,2,3,4]
     t.deepEqual(
-        data::flatMap(2, (_, idx) => idx % 2 === 0, x => [[x, x]])::array(),
-        [1,1, [[2,2]], 3,3, [[4,4]]]
+        toArray(flatMap(data, true, x => x)),
+        [1, 2, 3, 4],
     )
-})
 
-test('flatMap preserves return value', t => {
-    const seq = function*() {
-        yield 1
-        yield 2
-        yield 3
-        return 'hello'
-    }
-    t.is(
-        seq()::flatMap(x => [x,x])::final(),
-        'hello'
+    t.deepEqual(
+        toArray(flatMap(data, true, x => x % 2 === 0 ? [] : x)),
+        [1, 3],
     )
 })
 
 test('flatMap throws early on bad arguments', t => {
     t.throws(_ => {
-        []::flatMap('banana')
+        flatMap([], 'banana')
     })
 
     t.throws(_ => {
-        []::flatMap(2, 'fishBiscuit')
+        flatMap([], 2, 'fishBiscuit')
     })
 
     t.throws(_ => {
-        []::flatMap('foo', x => x)
+        flatMap()
     })
 
     t.throws(_ => {
-        []::flatMap(-3, x => x**2)
-    })
-
-    t.throws(_ => {
-        []::flatMap(null, x => x)
+        flatMap([], x => x**2, -3)
     })
 })

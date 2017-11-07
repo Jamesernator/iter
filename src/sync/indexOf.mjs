@@ -8,7 +8,7 @@ function _indexOf(iterable, searchItem, equality=Object.is) {
             return idx
         }
     }
-    throw new Error(`[indexOf] matching item not found`)
+    return null
 }
 
 function indexOf(iterable, searchItem, equality=Object.is, ...rest) {
