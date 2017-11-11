@@ -1,38 +1,40 @@
 import test from "ava"
-import map from "../../src/sync/map.js"
-import final from "../../src/sync/final.js"
-import array from "../../src/sync/array.js"
+import map from "../../src/sync/map.mjs"
+import toArray from "../../src/sync/toArray.mjs"
 
-test('map', t => {
-    const target = [1,2,3]
+test('map basic functionality', t => {
+    const data = [1, 2, 3]
+
     t.deepEqual(
-        target::map((item, idx, _target) => [item**2, idx, _target])::array(),
-        [
-            [1, 0, target],
-            [4, 1, target],
-            [9, 2, target]
-        ]
+        toArray(map(data, x => x**2)),
+        [1, 4, 9],
     )
 })
 
-test('map without argument returns equivalent sequence', t => {
-    const target = [{}, 1, []]
+test('map iteratee receives second argument', t => {
+    const data = [11, 22, 33]
+
     t.deepEqual(
-        target::map()::array(),
-        target
+        toArray(map(data, (x, i) => [x, i])),
+        [[11, 0], [22, 1], [33, 2]],
     )
 })
 
-test('map preserves done value', t => {
-    const seq = function*() {
-        yield 1
-        yield 2
-        yield 3
-        return "Hello"
-    }
+test('map iteratee receives no additional arguments', t => {
+    const data = [11, 22, 33]
 
-    t.is(
-        seq()::final(),
-        "Hello"
-    )
+    toArray(map(data, (_1, _2, ...rest) => t.is(0, rest.length)))
+})
+
+test('map iteratee defaults to identity', t => {
+    const data = [11, 22, 33]
+
+    t.deepEqual(toArray(map(data)), [11, 22, 33])
+})
+
+test('map throws early on invalid arguments', t => {
+    const data = [11, 22, 33]
+
+    t.throws(_ => map(data, 12))
+    t.throws(_ => map(data, x => x**2, 12))
 })
