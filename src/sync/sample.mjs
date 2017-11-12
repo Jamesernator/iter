@@ -46,13 +46,14 @@ function _sample(iterable, n='single', ...args) {
 
 function sample(iterable, n='single', ...args) {
     assert(n === 'single' || typeof n === 'number',
-        `[sample] Expected n to be either a Number or the literal 'single'`
+        `[sample] Expected n to be either a Number or the literal 'single'`,
     )
     if (n === 'single') {
         assert.empty(args, `[sample] Unexpected additional arguments`)
         return sampleOne(iterable)
     } else {
         const [allowShorter, ...rest] = args
+        assert(typeof n === 'number', `[sample] Count must be number or the literal "single" (default)`)
         assert(n >= 0, `[sample] Expected a non-negative integer`)
         assert.empty(rest, `[sample] Unexpected additional arguments to first`)
         return sampleN(iterable, n, allowShorter)
