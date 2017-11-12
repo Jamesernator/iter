@@ -1,10 +1,10 @@
 import { raw as create } from "./createMethod.mjs"
 import { raw as iterableGenerator } from "./iterableGenerator.mjs"
-import { raw as array } from "./toArray.mjs"
+import { raw as toArray } from "./toArray.mjs"
 import assert from "../--assert.mjs"
 
 const _reverse = iterableGenerator(function* reverse(iterable) {
-    const arr = array(iterable)
+    const arr = toArray(iterable)
     yield* arr.reverse()
 })
 
