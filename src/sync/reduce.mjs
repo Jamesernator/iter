@@ -17,7 +17,7 @@ function __reduce(iterable, reducer, seeded, seedValue) {
         idx += 1
     }
 
-    for (const item of iterator) {
+    for (const item of iter) {
         acc = reducer(acc, item, idx)
         idx += 1
     }
