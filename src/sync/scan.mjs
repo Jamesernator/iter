@@ -20,7 +20,7 @@ const __scan = iterableGenerator(function* scan(iterable, reducer, seeded, seedV
 
     yield acc
 
-    for (const item of iterator) {
+    for (const item of iter) {
         acc = reducer(acc, item, idx)
         yield acc
         idx += 1
