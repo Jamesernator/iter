@@ -13,8 +13,6 @@
   "license": "MIT",
   "devDependencies": {
     "ava": "^0.23.0",
-    "babel-core": "latest",
-    "babel-preset-stage-3": "latest",
     "es6-array-map": "latest",
     "es6-array-set": "latest",
     "folder-module": "^2.0.4"
@@ -32,7 +30,7 @@
   },
   "@std": {
     "esm": {
-        "cjs": true
+      "cjs": true
     }
   },
   "dependencies": {
