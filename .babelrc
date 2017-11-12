@@ -1,8 +1,0 @@
-{
-    "presets": [
-        "stage-3",
-        ["@ava/stage-4", {
-            "modules": false
-        }]
-    ]
-}
