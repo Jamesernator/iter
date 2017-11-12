@@ -3,15 +3,11 @@ import { raw as iterableGenerator } from "./iterableGenerator.mjs"
 import assert from "../--assert.mjs"
 
 const _replaceError = iterableGenerator(
-    function* replaceError(iterable, replacer, recursive=false) {
+    function* replaceError(iterable, replacer) {
         try {
             yield* iterable
         } catch (err) {
-            if (recursive) {
-                yield* _replaceError(replacer(err), replacer, recursive)
-            } else {
-                yield* replacer()
-            }
+            yield* replacer(err)
         }
     },
 )
