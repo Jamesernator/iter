@@ -4,12 +4,14 @@ import assert from "../--assert.mjs"
 
 function _iterator(iterable) {
     const iter = iterable[Symbol.iterator]()
-    return Object.freeze({
+    const nextMethod = iter.next
+
+    const result = Object.freeze({
         [Symbol.iterator]() {
-            return iter
+            return result
         },
         next(...args) {
-            return iter.next(...args)
+            return Reflect.apply(nextMethod, iter, args)
         },
 
         get throw() {
@@ -26,6 +28,8 @@ function _iterator(iterable) {
             return iter.return
         },
     })
+
+    return result
 }
 
 function iterator(iterable, ...rest) {

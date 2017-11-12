@@ -41,13 +41,14 @@ function _last(iterable, n='single', ...args) {
 
 function last(iterable, n='single', ...args) {
     assert(n === 'single' || typeof n === 'number',
-        `[last] Expected n to be either a Number or the literal 'single'`
+        `[last] Expected n to be either a Number or the literal 'single'`,
     )
     if (n === 'single') {
         assert.empty(args, `[last] Unexpected additional arguments`)
         return lastOne(iterable)
     } else {
         const [allowShorter, ...rest] = args
+        assert(typeof n === 'number', `[last] Expected argument to first to be number or "single" (default)`)
         assert(n >= 0, `[last] Expected a non-negative integer`)
         assert.empty(rest, `[last] Unexpected additional arguments to last`)
         return lastN(iterable, n, allowShorter)

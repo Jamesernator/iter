@@ -36,13 +36,14 @@ function _first(iterable, n='single', ...args) {
 
 function first(iterable, n='single', ...args) {
     assert(n === 'single' || typeof n === 'number',
-        `[first] Expected n to be either a Number or the literal 'single'`
+        `[first] Expected n to be either a Number or the literal 'single'`,
     )
     if (n === 'single') {
         assert.empty(args, `[first] Unexpected additional arguments`)
         return firstOne(iterable)
     } else {
         const [allowShorter, ...rest] = args
+        assert(typeof n === 'number', `[first] Expected argument to first to be number or "single" (default)`)
         assert(n >= 0, `[first] Expected a non-negative integer`)
         assert.empty(rest, `[first] Unexpected additional arguments to first`)
         return firstN(iterable, n, allowShorter)
