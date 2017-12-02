@@ -23,8 +23,8 @@ function sampleN(iterable, n, allowLess=false) {
     for (const [idx, item] of enumerate(iterable)) {
         if (idx < n) {
             chosenList.push(item)
-        } else if (Math.sample() < n/(idx + 1)) {
-            chosenList[Math.floor(Math.sample()*n)] = item
+        } else if (Math.random() < n/(idx + 1)) {
+            chosenList[Math.floor(Math.random()*n)] = item
         }
     }
     if (chosenList.length === n) {
