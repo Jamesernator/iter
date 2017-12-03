@@ -1,6 +1,6 @@
 import test from "ava"
-import filter from "../../filter.mjs"
-import toArray from "../../toArray.mjs"
+import filter from "../../sync/filter.mjs"
+import toArray from "../../sync/toArray.mjs"
 
 test('filter basic functionality', t => {
     const data = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
