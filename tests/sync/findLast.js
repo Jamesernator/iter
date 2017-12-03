@@ -1,5 +1,5 @@
 import test from "ava"
-import findLast from "../../src/sync/findLast.mjs"
+import findLast from "../../sync/findLast.mjs"
 
 test('findLast basic functionality', t => {
     const val = { x: 20, y: 20 }

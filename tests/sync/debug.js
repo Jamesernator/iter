@@ -1,5 +1,5 @@
 import test from "ava"
-import debug from "../../src/sync/debug.mjs"
+import debug from "../../sync/debug.mjs"
 
 function* seq() {
     yield 1

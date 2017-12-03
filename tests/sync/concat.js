@@ -1,6 +1,6 @@
 import test from "ava"
-import concat from "../../src/sync/concat.mjs"
-import toArray from "../../src/sync/toArray.mjs"
+import concat from "../../sync/concat.mjs"
+import toArray from "../../sync/toArray.mjs"
 
 test("concat works with single concatentation", t => {
     t.deepEqual(

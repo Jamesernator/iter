@@ -1,6 +1,6 @@
 import test from "ava"
-import countBy from "../../src/sync/countBy.mjs"
-import toArray from "../../src/sync/toArray.mjs"
+import countBy from "../../sync/countBy.mjs"
+import toArray from "../../sync/toArray.mjs"
 import ArrayMap from "es6-array-map"
 
 test("countBy no arguments", t => {

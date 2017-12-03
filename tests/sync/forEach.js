@@ -1,5 +1,5 @@
 import test from "ava"
-import forEach from "../../src/sync/forEach.mjs"
+import forEach from "../../sync/forEach.mjs"
 
 test('each', t => {
     const seq = (function* () {

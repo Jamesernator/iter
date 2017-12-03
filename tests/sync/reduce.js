@@ -1,5 +1,5 @@
 import test from "ava"
-import reduce from "../../src/sync/reduce.mjs"
+import reduce from "../../sync/reduce.mjs"
 
 test('reduce without arguments joins sequence using +', t => {
     const target = ['Cat', 'Hat', 'Bat']

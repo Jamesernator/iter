@@ -1,6 +1,6 @@
 import test from "ava"
-import flatMap from "../../src/sync/flatMap.mjs"
-import toArray from "../../src/sync/toArray.mjs"
+import flatMap from "../../sync/flatMap.mjs"
+import toArray from "../../sync/toArray.mjs"
 
 test('flatMap basic functionality', t => {
     const data = [1, 2, 3, 4]

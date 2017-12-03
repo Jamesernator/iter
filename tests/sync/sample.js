@@ -1,5 +1,5 @@
 import test from "ava"
-import sample from "../../src/sync/sample.mjs"
+import sample from "../../sync/sample.mjs"
 
 test("sample with no additional argument returns a number", t => {
     const data = [1, 2, 3, 4, 5, 6]

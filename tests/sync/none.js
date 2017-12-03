@@ -1,5 +1,5 @@
 import test from "ava"
-import none from "../../src/sync/none.mjs"
+import none from "../../sync/none.mjs"
 
 test("none basic functionality", t => {
     const isEven = i => i % 2 === 0

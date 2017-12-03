@@ -1,6 +1,6 @@
 import test from "ava"
-import enumerate from "../../src/sync/enumerate.mjs"
-import toArray from "../../src/sync/toArray.mjs"
+import enumerate from "../../sync/enumerate.mjs"
+import toArray from "../../sync/toArray.mjs"
 
 test('enumerate gives pairs of values', t => {
     t.deepEqual(

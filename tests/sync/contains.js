@@ -1,5 +1,5 @@
 import test from "ava"
-import contains from "../../src/sync/contains.mjs"
+import contains from "../../sync/contains.mjs"
 
 test("contains default Object.is", t => {
     t.true(

@@ -1,5 +1,5 @@
 import test from "ava"
-import first from "../../src/sync/first.mjs"
+import first from "../../sync/first.mjs"
 
 test('first with no arguments returns the first element of the sequence', t => {
     t.is(

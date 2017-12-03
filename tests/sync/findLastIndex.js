@@ -1,5 +1,5 @@
 import test from "ava"
-import findLastIndex from "../../src/sync/findLastIndex.mjs"
+import findLastIndex from "../../sync/findLastIndex.mjs"
 
 test('findLastIndex basic functionality', t => {
     const data = [1, 2, 3, 4, 5, 1]

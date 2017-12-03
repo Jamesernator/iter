@@ -1,5 +1,5 @@
 import test from "ava"
-import find from "../../src/sync/find.mjs"
+import find from "../../sync/find.mjs"
 
 test('find basic functionality', t => {
     const val = { x: 10, y: 20 }

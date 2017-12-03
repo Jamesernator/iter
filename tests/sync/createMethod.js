@@ -1,5 +1,5 @@
 import test from "ava"
-import createMethod from "../../src/sync/createMethod.mjs"
+import createMethod from "../../sync/createMethod.mjs"
 
 test('createMethod creates a function which expects an iterable', t => {
     const method = createMethod(function foo(iterable) {

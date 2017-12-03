@@ -1,6 +1,6 @@
 import test from "ava"
-import pairs from "../../src/sync/pairs.mjs"
-import toArray from "../../src/sync/toArray.mjs"
+import pairs from "../../sync/pairs.mjs"
+import toArray from "../../sync/toArray.mjs"
 
 test("pairs basic functionality", t => {
     const data = [1, 2, 3, 4, 5, 6, 7]

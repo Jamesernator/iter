@@ -1,6 +1,6 @@
 import test from "ava"
-import reject from "../../src/sync/reject.mjs"
-import toArray from "../../src/sync/toArray.mjs"
+import reject from "../../sync/reject.mjs"
+import toArray from "../../sync/toArray.mjs"
 
 test('reject basic functionality', t => {
     const data = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]

@@ -1,6 +1,6 @@
 import test from "ava"
-import flatten from "../../src/sync/flatten.mjs"
-import toArray from "../../src/sync/toArray.mjs"
+import flatten from "../../sync/flatten.mjs"
+import toArray from "../../sync/toArray.mjs"
 
 test('flatten basic functionality', t => {
     const data = [[1], [2, 3], [4, 5], [6], [7], [8, 9, 10]]

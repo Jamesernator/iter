@@ -1,5 +1,5 @@
 import test from "ava"
-import isIterable from "../../src/sync/isIterable.mjs"
+import isIterable from "../../sync/isIterable.mjs"
 
 test('isIterable basic functionality', t => {
     const a = [1, 2, 3, 4]

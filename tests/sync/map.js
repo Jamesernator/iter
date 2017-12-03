@@ -1,6 +1,6 @@
 import test from "ava"
-import map from "../../src/sync/map.mjs"
-import toArray from "../../src/sync/toArray.mjs"
+import map from "../../sync/map.mjs"
+import toArray from "../../sync/toArray.mjs"
 
 test('map basic functionality', t => {
     const data = [1, 2, 3]

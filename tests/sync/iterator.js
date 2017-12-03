@@ -1,5 +1,5 @@
 import test from "ava"
-import iterator from "../../src/sync/iterator.mjs"
+import iterator from "../../sync/iterator.mjs"
 
 test("iterator returns an iterator for a given iterable", t => {
     const iter = iterator([1, 2])

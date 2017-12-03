@@ -1,5 +1,5 @@
 import test from "ava"
-import length from "../../src/sync/length.mjs"
+import length from "../../sync/length.mjs"
 
 test("length returns the length of an iterable", t => {
     const a = [1, 2, 3, 4]

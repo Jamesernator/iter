@@ -1,5 +1,5 @@
 import test from "ava"
-import any from "../../src/sync/any.mjs"
+import any from "../../sync/any.mjs"
 
 test('any without argument returns true if a value is truthy', t => {
     const target1 = [true, 'cats', {}, 1]

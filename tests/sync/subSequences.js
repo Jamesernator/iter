@@ -1,6 +1,6 @@
 import test from "ava"
-import subSequences from "../../src/sync/subSequences.mjs"
-import toArray from "../../src/sync/toArray.mjs"
+import subSequences from "../../sync/subSequences.mjs"
+import toArray from "../../sync/toArray.mjs"
 
 test("subSequences emits small subSequencess of elements", t => {
     const seq = [1, 2, 3, 4, 5, 6]

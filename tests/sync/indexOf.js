@@ -1,5 +1,5 @@
 import test from "ava"
-import indexOf from "../../src/sync/indexOf.mjs"
+import indexOf from "../../sync/indexOf.mjs"
 
 test('indexOf returns the correct index for a given value', t => {
     const data = [1, 2, 3, 4, 5, 42, 11]

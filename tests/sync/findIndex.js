@@ -1,5 +1,5 @@
 import test from "ava"
-import findIndex from "../../src/sync/findIndex.mjs"
+import findIndex from "../../sync/findIndex.mjs"
 
 test('findIndex finds item if it exists', t => {
     const data = [1, 2, 3, 4]

@@ -1,5 +1,5 @@
 import test from "ava"
-import groupBy from "../../src/sync/groupBy.mjs"
+import groupBy from "../../sync/groupBy.mjs"
 import ArrayMap from "es6-array-map"
 
 test('groupBy basic functionality', t => {

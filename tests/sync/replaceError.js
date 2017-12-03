@@ -1,6 +1,6 @@
 import test from "ava"
-import replaceError from "../../src/sync/replaceError.mjs"
-import toArray from "../../src/sync/toArray.mjs"
+import replaceError from "../../sync/replaceError.mjs"
+import toArray from "../../sync/toArray.mjs"
 
 test("replaceError can replace an error with another sequence", t => {
     function* seq() {

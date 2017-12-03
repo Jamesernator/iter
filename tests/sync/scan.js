@@ -1,6 +1,6 @@
 import test from "ava"
-import scan from "../../src/sync/scan.mjs"
-import toArray from "../../src/sync/toArray.mjs"
+import scan from "../../sync/scan.mjs"
+import toArray from "../../sync/toArray.mjs"
 
 test("scan acts like reduce but emits the intermediate stages", t => {
     const data = [1, 2, 3, 4, 5]
