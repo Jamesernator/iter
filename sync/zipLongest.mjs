@@ -1,7 +1,7 @@
 import { raw as create } from "./createMethod.mjs"
 import { raw as iterableGenerator } from "./iterableGenerator.mjs"
 import { raw as iterator } from "./iterator.mjs"
-import { raw as isIterable } from "./isIterable.mjs"
+import { raw as snapshotIterable } from "./snapshotIterable.mjs"
 import assert from "../--assert.mjs"
 
 const _zipLongest = iterableGenerator(function* zipLongest(...iterables) {
@@ -16,10 +16,11 @@ const _zipLongest = iterableGenerator(function* zipLongest(...iterables) {
 })
 
 function zipLongest(iterable, ...others) {
-    assert.every(others, isIterable,
-        `[zipLongest] Can't zipLongest with non-iterable`
+    const snapshots = others.map(otherIterable => snapshotIterable(otherIterable))
+    assert.every(others, iter => iter,
+        `[zipLongest] Can't zipLongest with non-iterable`,
     )
-    return _zipLongest(iterable, ...others)
+    return _zipLongest(iterable, ...snapshots)
 }
 
 export default create(zipLongest)

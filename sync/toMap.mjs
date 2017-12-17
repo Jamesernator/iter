@@ -1,14 +1,15 @@
 import assert from "../--assert.mjs"
 import { raw as create } from "./createMethod.mjs"
-import { raw as isIterable } from "./isIterable.mjs"
+import { raw as snapshotIterable } from "./snapshotIterable.mjs"
 
 function _toMap(iterable) {
     const m = new Map()
     for (const item of iterable) {
-        if (!isIterable(item)) {
+        const snapshot = snapshotIterable(item)
+        if (!snapshot) {
             throw new Error(`[toMap] Expected iterable pair not ${ item }`)
         }
-        const [key, value] = item
+        const [key, value] = snapshot
         m.set(key, value)
     }
     return m

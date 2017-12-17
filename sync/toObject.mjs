@@ -1,14 +1,15 @@
 import assert from "../--assert.mjs"
 import { raw as create } from "./createMethod.mjs"
-import { raw as isIterable } from "./isIterable.mjs"
+import { raw as snapshotIterable } from "./snapshotIterable.mjs"
 
 function _toObject(iterable, proto=null) {
     const o = Object.create(proto)
     for (const item of iterable) {
-        if (!isIterable(item)) {
+        const snapshot = snapshotIterable(item)
+        if (!snapshot) {
             throw new Error(`[toObject] Expected iterable pair not ${ item }`)
         }
-        const [key, value] = item
+        const [key, value] = snapshot
         o[key] = value
     }
     return o

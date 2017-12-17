@@ -1,42 +1,56 @@
-import { raw as create } from "./createMethod.mjs"
-import { raw as isIterable } from "./isIterable.mjs"
 import assert from "../--assert.mjs"
 
+/* this implements a function like ECMA262's getIterator abstract operation
+    with the hint "normal" it returns an iterator record with properties
+    nextMethod and iterator, it also provides methods for next/return
+    corresponding to IteratorNext/IteratorClose respectively, the object is also
+    self-iterable
+*/
+
+const isObject = item => item && (typeof item === 'object' || typeof item === 'function')
+
 function _iterator(iterable) {
-    const iter = iterable[Symbol.iterator]()
-    const nextMethod = iter.next
+    const method = iterable[Symbol.iterator]
+    if (typeof method !== 'function') {
+        throw new Error(`[iterator] Given value is not iterable`)
+    }
+    const iterator = Reflect.apply(method, iterable, [])
+    const nextMethod = iterator.next
 
-    const result = Object.freeze({
+    const iter = Object.freeze({
+        iterator,
+
         [Symbol.iterator]() {
-            return result
+            return iter
         },
+
         next(...args) {
-            return Reflect.apply(nextMethod, iter, args)
+            const iteratorResult = Reflect.apply(nextMethod, iterator, args)
+            if (!isObject(iteratorResult)) {
+                throw new TypeError("Expected iteratorResult to be an object")
+            }
+            return iteratorResult
         },
 
-        get throw() {
-            if (typeof iter.throw === 'function') {
-                return (...args) => iter.throw(...args)
+        return(...args) {
+            const returnMethod = iterator.return
+            if (typeof returnMethod !== 'undefined') {
+                const result = Reflect.apply(returnMethod, iterator, args)
+                if (!isObject(result)) {
+                    throw new TypeError("Iteration result is not an object")
+                }
+                return result
             }
-            return iter.throw
-        },
-
-        get return() {
-            if (typeof iter.return === 'function') {
-                return (...args) => iter.return(...args)
-            }
-            return iter.return
+            return args[0]
         },
     })
 
-    return result
+    return iter
 }
 
-function iterator(iterable, ...rest) {
-    assert.empty(rest, `[iterator] Unexpected additional arguments to iterator`)
-    assert(isIterable(iterable), `[iterator] Trying to get iterator from non-iterable`)
-    return _iterator(iterable)
+export default function iterator(maybeIterable, ...args) {
+    assert.empty(args, `[iterator] Unexpected additional arguments to iterator`)
+    return _iterator(maybeIterable)
 }
 
-export default create(iterator)
 export { _iterator as raw }

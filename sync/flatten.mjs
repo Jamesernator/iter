@@ -1,11 +1,12 @@
 import { raw as create } from "./createMethod.mjs"
 import { raw as iterableGenerator } from "./iterableGenerator.mjs"
-import { raw as isIterable } from "./isIterable.mjs"
+import { raw as snapshotIterable } from "./snapshotIterable.mjs"
 import assert from "../--assert.mjs"
 
 const _flatten = iterableGenerator(function* _flatten(iterable) {
     for (const item of iterable) {
-        if (!isIterable(item)) {
+        const snapshot = snapshotIterable(item)
+        if (!snapshot) {
             throw new Error(`[flatten] Can't flatten ${ item }`)
         }
         yield* item

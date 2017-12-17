@@ -1,13 +1,14 @@
 import { raw as create } from "./createMethod.mjs"
 import { raw as iterableGenerator } from "./iterableGenerator.mjs"
 import { raw as enumerate } from "./enumerate.mjs"
-import { raw as isIterable } from "./isIterable.mjs"
+import { raw as snapshotIterable } from "./snapshotIterable.mjs"
 import assert from "../--assert.mjs"
 
 const __flatMap = iterableGenerator(function* flatMap(iterable, allowNonIterable, iteratee) {
     for (const [idx, item] of enumerate(iterable)) {
         const value = iteratee(item, idx)
-        if (isIterable(value)) {
+        const snapshot = snapshotIterable(value)
+        if (snapshot) {
             yield* value
         } else if (allowNonIterable) {
             yield value

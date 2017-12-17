@@ -3,11 +3,11 @@ import assert from "../--assert.mjs"
 
 function _iterableGenerator(genFunc) {
     return named(genFunc.name, function(...args) {
-        return {
+        return Object.freeze({
             [Symbol.iterator]: _ => {
                 return Reflect.apply(genFunc, this, args)
             },
-        }
+        })
     })
 }
 

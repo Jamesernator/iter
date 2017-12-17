@@ -7,7 +7,7 @@ test('createMethod creates a function which expects an iterable', t => {
     })
 
     const sequence = [1, 2, 3, 4]
-    t.is(sequence, method(sequence))
+    t.true(typeof method(sequence)[Symbol.iterator] === 'function')
 
     const method2 = createMethod(function bar(iterable) {
         return Array.from(iterable)[0]
@@ -22,7 +22,7 @@ test('createMethod can use this value as iterable instead', t => {
     })
 
     const sequence = [1, 2, 3, 4]
-    t.is(sequence, Reflect.apply(method, sequence, []))
+    t.deepEqual(sequence, Array.from(Reflect.apply(method, sequence, [])))
 
     const method2 = createMethod(function bar(iterable) {
         return Array.from(iterable)[0]

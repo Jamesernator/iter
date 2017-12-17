@@ -1,17 +1,19 @@
 import portable from "../--portable.mjs"
-import { raw as isIterable } from "./isIterable.mjs"
+import { raw as snapshotIterable } from "./snapshotIterable.mjs"
 import assert from "../--assert.mjs"
+import named from "../--named.mjs"
 
 function _createMethod(func) {
     if (typeof func !== 'function') {
-        throw new Error(`Can't create a method from non-function`)
+        throw new Error(`[createMethod] Can't create a method from non-function`)
     }
-    return portable(function(iterable, ...args) {
-        if (!isIterable(iterable)) {
-            throw new Error(`Can't iteratee non-iterable`)
+    return portable(named(func.name, function(iterable, ...args) {
+        const snapshot = snapshotIterable(iterable)
+        if (!snapshot) {
+            throw new Error(`[${ func.name }] Can't iteratee non-iterable`)
         }
-        return Reflect.apply(func, this, [iterable, ...args])
-    })
+        return Reflect.apply(func, this, [snapshot, ...args])
+    }))
 }
 
 function createMethod(func, ...rest) {

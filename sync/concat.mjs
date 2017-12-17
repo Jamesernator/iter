@@ -1,6 +1,6 @@
 import { raw as create } from "./createMethod.mjs"
 import { raw as iterableGenerator } from "./iterableGenerator.mjs"
-import { raw as isIterable } from "./isIterable.mjs"
+import { raw as snapshotIterable } from "./snapshotIterable.mjs"
 import assert from "../--assert.mjs"
 
 const _concat = iterableGenerator(function* concat(...iterables) {
@@ -10,8 +10,9 @@ const _concat = iterableGenerator(function* concat(...iterables) {
 })
 
 function concat(iterable, ...others) {
-    assert.every(others, isIterable, `[concat] Expected iterables to concat`)
-    return _concat(iterable, ...others)
+    const snapshots = others.map(other => snapshotIterable(other))
+    assert.every(others, iter => iter, `[concat] Expected iterables to concat`)
+    return _concat(iterable, ...snapshots)
 }
 
 export default create(concat)
