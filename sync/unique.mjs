@@ -13,10 +13,10 @@ const _unique = iterableGenerator(function* unique(iterable, set=new Set()) {
 
 function unique(iterable, set=new Set(), ...rest) {
     assert(typeof set.has === 'function',
-        `[unique] Expected set object to have a has method`
+        `[unique] Expected set object to have a has method`,
     )
     assert(typeof set.add === 'function',
-        `[unique] Expected set object to have an ass method`
+        `[unique] Expected set object to have an add method`,
     )
     assert.empty(rest, `[unique] Unexpected additional arguments`)
     return _unique(iterable, set)

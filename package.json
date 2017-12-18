@@ -7,7 +7,7 @@
     "test": "tests"
   },
   "scripts": {
-    "test": "ava --verbose"
+    "test": "ava"
   },
   "author": "James \"The Jamesernator\" Browning",
   "license": "MIT",

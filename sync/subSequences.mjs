@@ -5,21 +5,25 @@ import assert from "../--assert.mjs"
 
 const _subSequences = iterableGenerator(function* subSequences(iterable, subSequenceSize=2) {
     const iter = iterator(iterable)
-    const buff = []
-    for (let i = 0; i < subSequenceSize; i++) {
-        const { value, done } = iter.next()
-        if (done) {
-            return
+    try {
+        const buff = []
+        for (let i = 0; i < subSequenceSize; i++) {
+            const { value, done } = iter.next()
+            if (done) {
+                return
+            }
+            buff.push(value)
         }
-        buff.push(value)
-    }
 
-    for (const item of iter) {
+        for (const item of iter) {
+            yield [...buff]
+            buff.shift()
+            buff.push(item)
+        }
         yield [...buff]
-        buff.shift()
-        buff.push(item)
+    } finally {
+        iter.close()
     }
-    yield [...buff]
 })
 
 function subSequences(iterable, subSequenceSize=1, ...rest) {

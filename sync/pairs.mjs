@@ -5,15 +5,19 @@ import assert from "../--assert.mjs"
 
 const _pairs = iterableGenerator(function* pairs(iterable) {
     const iter = iterator(iterable)
-    const { value, done } = iter.next()
-    if (done) {
-        return
-    }
+    try {
+        const { value, done } = iter.next()
+        if (done) {
+            return
+        }
 
-    let last = value
-    for (const item of iter) {
-        yield [last, item]
-        last = item
+        let last = value
+        for (const item of iter) {
+            yield [last, item]
+            last = item
+        }
+    } finally {
+        iter.close()
     }
 })
 

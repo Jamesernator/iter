@@ -5,25 +5,29 @@ import assert from "../--assert.mjs"
 
 const __scan = iterableGenerator(function* scan(iterable, reducer, seeded, seedValue) {
     const iter = iterator(iterable)
-    let acc
-    let idx = 0
-    if (seeded) {
-        acc = seedValue
-    } else {
-        const { value, done } = iter.next()
-        if (done) {
-            throw new Error(`[scan] Can't scan empty sequence with no initial value`)
+    try {
+        let acc
+        let idx = 0
+        if (seeded) {
+            acc = seedValue
+        } else {
+            const { value, done } = iter.next()
+            if (done) {
+                throw new Error(`[scan] Can't scan empty sequence with no initial value`)
+            }
+            acc = value
+            idx += 1
         }
-        acc = value
-        idx += 1
-    }
 
-    yield acc
-
-    for (const item of iter) {
-        acc = reducer(acc, item, idx)
         yield acc
-        idx += 1
+
+        for (const item of iter) {
+            acc = reducer(acc, item, idx)
+            yield acc
+            idx += 1
+        }
+    } finally {
+        iter.close()
     }
 })
 

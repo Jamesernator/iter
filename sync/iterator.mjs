@@ -17,6 +17,8 @@ function _iterator(iterable) {
     const iterator = Reflect.apply(method, iterable, [])
     const nextMethod = iterator.next
 
+    let done = false
+
     const iter = Object.freeze({
         iterator,
 
@@ -24,12 +26,26 @@ function _iterator(iterable) {
             return iter
         },
 
+        get done() {
+            return done
+        },
+
         next(...args) {
-            const iteratorResult = Reflect.apply(nextMethod, iterator, args)
+            let iteratorResult
+            try {
+                iteratorResult = Reflect.apply(nextMethod, iterator, args)
+            } catch (err) {
+                done = true
+                throw err
+            }
             if (!isObject(iteratorResult)) {
                 throw new TypeError("Expected iteratorResult to be an object")
             }
-            return iteratorResult
+            const { done: isDone, value } = iteratorResult
+            if (isDone) {
+                done = true
+            }
+            return { done: isDone, value }
         },
 
         return(...args) {
@@ -42,6 +58,15 @@ function _iterator(iterable) {
                 return result
             }
             return args[0]
+        },
+
+        close() {
+            if (!done) {
+                done = true
+                return iter.return()
+            } else {
+                return { done: true, value: undefined }
+            }
         },
     })
 
