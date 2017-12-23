@@ -1,4 +1,4 @@
-import { raw as create } from "./createMethod.mjs"
+import { raw as create } from "./createOperator.mjs"
 import { raw as iterableGenerator } from "./iterableGenerator.mjs"
 import { raw as enumerate } from "./enumerate.mjs"
 import assert from "../--assert.mjs"

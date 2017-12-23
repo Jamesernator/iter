@@ -1,5 +1,5 @@
 import assert from "../--assert.mjs"
-import { raw as create } from "./createMethod.mjs"
+import { raw as create } from "./createOperator.mjs"
 import { raw as snapshotIterable } from "./snapshotIterable.mjs"
 
 function _toObject(iterable, proto=null) {

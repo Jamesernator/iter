@@ -1,4 +1,4 @@
-import { raw as create } from "./createMethod.mjs"
+import { raw as create } from "./createOperator.mjs"
 import assert from "../--assert.mjs"
 
 function _toSet(iterable) {

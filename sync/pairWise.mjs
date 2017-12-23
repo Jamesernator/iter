@@ -1,4 +1,4 @@
-import { raw as create } from "./createMethod.mjs"
+import { raw as create } from "./createOperator.mjs"
 import { raw as iterableGenerator } from "./iterableGenerator.mjs"
 import { raw as iterator } from "./iterator.mjs"
 import assert from "../--assert.mjs"
@@ -23,8 +23,8 @@ const _pairWise = iterableGenerator(function* pairWise(iterable) {
 
 function pairWise(iterable, ...rest) {
     assert.empty(rest, `[pairWise] Unexpected additional arguments to pairs`)
-    return _pairs(iterable)
+    return _pairWise(iterable)
 }
 
-export default create(pairs)
-export { _pairs as raw }
+export default create(pairWise)
+export { _pairWise as raw }
