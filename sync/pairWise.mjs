@@ -3,7 +3,7 @@ import { raw as iterableGenerator } from "./iterableGenerator.mjs"
 import { raw as iterator } from "./iterator.mjs"
 import assert from "../--assert.mjs"
 
-const _pairs = iterableGenerator(function* pairs(iterable) {
+const _pairWise = iterableGenerator(function* pairWise(iterable) {
     const iter = iterator(iterable)
     try {
         const { value, done } = iter.next()
@@ -21,8 +21,8 @@ const _pairs = iterableGenerator(function* pairs(iterable) {
     }
 })
 
-function pairs(iterable, ...rest) {
-    assert.empty(rest, `Unexpected additional arguments to pairs`)
+function pairWise(iterable, ...rest) {
+    assert.empty(rest, `[pairWise] Unexpected additional arguments to pairs`)
     return _pairs(iterable)
 }
 
