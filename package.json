@@ -19,7 +19,8 @@
   },
   "ava": {
     "files": [
-      "tests/**/*.js"
+      "tests/sync/*.js",
+      "tests/async/*.js"
     ],
     "source": [
       "src/**/*.mjs"

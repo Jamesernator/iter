@@ -65,3 +65,15 @@ test('findLast throws on bad arguments', t => {
         findLast(data, 2)
     })
 })
+
+import countClosing from "./helpers/countClosing.mjs"
+
+test("iterator closing", t => {
+    const data = countClosing([1, 2, 3, 4])
+
+    findLast(data, 99, x => x > 5)
+    t.is(data.closed, 0)
+
+    findLast(data, 99, x => x === 2)
+    t.is(data.closed, 0)
+})

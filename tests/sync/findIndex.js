@@ -53,3 +53,15 @@ test('findIndex throws early on bad arguments', t => {
         findIndex(data, 4)
     })
 })
+
+import countClosing from "./helpers/countClosing.mjs"
+
+test("iterator closing", t => {
+    const data = countClosing([1, 2, 3, 4])
+
+    findIndex(data, 99, x => x > 5)
+    t.is(data.closed, 0)
+
+    findIndex(data, 99, x => x === 2)
+    t.is(data.closed, 1)
+})

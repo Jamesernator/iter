@@ -28,14 +28,20 @@ const _zip = iterableGenerator(function* zip(...iterables) {
         }
     } finally {
         for (const iterator of iterators) {
-            iterator.close()
+            try {
+                if (!iteratorsDone.has(iterator)) {
+                    iterator.close()
+                }
+            } catch (_) {
+                /* Ensure all iterators close */
+            }
         }
     }
 })
 
 function zip(iterable, ...others) {
     const snapshots = others.map(otherIterable => snapshotIterable(otherIterable))
-    assert.every(others, iter => iter,
+    assert.every(snapshots, iter => iter,
         `[zip] Can't zip with non-iterable`,
     )
     return _zip(iterable, ...snapshots)

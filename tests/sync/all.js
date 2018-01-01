@@ -41,3 +41,15 @@ test('all throws early with bad arguments', t => {
         t.pass()
     }
 })
+
+import countClosing from "./helpers/countClosing.mjs"
+
+test("iterator closing", t => {
+    const iter = countClosing([1, 2, 3, 4])
+
+    t.true(all(iter, x => x > 0))
+    t.is(iter.closed, 0)
+
+    t.false(all(iter, x => x === 2))
+    t.is(iter.closed, 1)
+})

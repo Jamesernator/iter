@@ -34,3 +34,22 @@ test('debug defaults to using console.log', t => {
         Object.defineProperty(console, 'log', originalLog)
     }
 })
+
+test("debug throws early on invalid arguments", t => {
+    t.throws(_ => debug())
+    t.throws(_ => debug(12))
+    t.throws(_ => debug([], 12))
+    t.throws(_ => debug([], x => x, []))
+})
+
+import countClosing from "./helpers/countClosing.mjs"
+import consumeIterator from "./helpers/consumeIterator.mjs"
+
+test("iterator closing", t => {
+    const data = countClosing([1, 2, 3, 4])
+    const seq = debug(data, _ => _)[Symbol.iterator]()
+    consumeIterator(seq, 3)
+    seq.return()
+
+    t.is(data.closed, 1)
+})

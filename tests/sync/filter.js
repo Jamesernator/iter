@@ -23,11 +23,18 @@ test('filter receives correct arguments', t => {
 })
 
 test('filter throws early on bad input', t => {
-    t.throws(_ => {
-        filter([], 2)
-    })
+    t.throws(_ => filter())
+    t.throws(_ => filter([], 2))
+    t.throws(_ => filter([], _ => true, 'banana'))
+})
 
-    t.throws(_ => {
-        filter([], _ => true, 'banana')
-    })
+import countClosing from "./helpers/countClosing.mjs"
+
+test("filter iterator closing", t => {
+    const data = countClosing([1, 2, 3, 4])
+    const seq = filter(data, x => x % 2 === 0)[Symbol.iterator]()
+
+    seq.next()
+    seq.return()
+    t.is(data.closed, 1)
 })

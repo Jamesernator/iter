@@ -48,3 +48,18 @@ test('first throws early with invalid arguments', t => {
     t.throws(_ => first([], 2, true, 12))
     t.throws(_ => first([], 'single', true))
 })
+
+import countClosing from "./helpers/countClosing.mjs"
+
+test("iterator closing", t => {
+    const data = countClosing([1, 2, 3, 4])
+
+    first(data)
+    t.is(data.closed, 1)
+
+    first(data, 3)
+    t.is(data.closed, 2)
+
+    first(data, 5, true)
+    t.is(data.closed, 2)
+})

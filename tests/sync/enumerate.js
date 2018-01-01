@@ -10,7 +10,18 @@ test('enumerate gives pairs of values', t => {
 })
 
 test('enumerate throws early on invalid arguments', t => {
-    t.throws(_ => {
-        enumerate([], 0)
-    })
+    t.throws(_ => enumerate([], 0))
+    t.throws(_ => enumerate())
+})
+
+import countClosing from "./helpers/countClosing.mjs"
+import consumeIterator from "./helpers/consumeIterator.mjs"
+
+test("iterator closing", t => {
+    const data = countClosing([1, 2, 3, 4])
+    const seq = enumerate(data)[Symbol.iterator]()
+
+    consumeIterator(seq, 2)
+    seq.return()
+    t.is(data.closed, 1)
 })

@@ -1,6 +1,6 @@
 import test from "ava"
 import iterableGenerator from "../../sync/iterableGenerator.mjs"
-import isIterable from "../../sync/isIterable.mjs"
+import snapshotIterable from "../../sync/snapshotIterable.mjs"
 import toArray from "../../sync/toArray.mjs"
 
 test('iterableGenerator returns an object that be iterated', t => {
@@ -16,7 +16,7 @@ test('iterableGenerator returns an object that be iterated', t => {
 
     const iterable = iterableGen()
 
-    t.true(isIterable(iterable))
+    t.truthy(snapshotIterable(iterable))
 
     t.deepEqual(
         toArray(iterable),

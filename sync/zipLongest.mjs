@@ -4,7 +4,6 @@ import { raw as iterator } from "./iterator.mjs"
 import { raw as snapshotIterable } from "./snapshotIterable.mjs"
 import assert from "../--assert.mjs"
 
-// TODO: IMPLEMENT ME CORRECTLY
 const _zipLongest = iterableGenerator(function* zipLongest(...iterables) {
     const iteratorsDone = new Set()
     const iterators = []
@@ -15,8 +14,8 @@ const _zipLongest = iterableGenerator(function* zipLongest(...iterables) {
 
         while (true) {
             const nexts = iterators.map(iterator => {
-                if (iterator.done) {
-                    return
+                if (iteratorsDone.has(iterator)) {
+                    return { done: true, value: undefined }
                 }
                 const result = iterator.next()
                 const done = result.done
@@ -25,21 +24,27 @@ const _zipLongest = iterableGenerator(function* zipLongest(...iterables) {
                 }
                 return { done, value: result.value }
             })
-            if (nexts.some(({ done }) => done)) {
+            if (nexts.every(({ done }) => done)) {
                 return
             }
-            yield nexts.map(({ value, done }) => value)
+            yield nexts.map(({ value }) => value)
         }
     } finally {
         for (const iterator of iterators) {
-            iterator.close()
+            try {
+                if (!iteratorsDone.has(iterator)) {
+                    iterator.close()
+                }
+            } catch (_) {
+                /* Ensure all iterators close */
+            }
         }
     }
 })
 
 function zipLongest(iterable, ...others) {
     const snapshots = others.map(otherIterable => snapshotIterable(otherIterable))
-    assert.every(others, iter => iter,
+    assert.every(snapshots, iter => iter,
         `[zipLongest] Can't zipLongest with non-iterable`,
     )
     return _zipLongest(iterable, ...snapshots)

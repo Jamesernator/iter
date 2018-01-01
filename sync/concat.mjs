@@ -11,7 +11,7 @@ const _concat = iterableGenerator(function* concat(...iterables) {
 
 function concat(iterable, ...others) {
     const snapshots = others.map(other => snapshotIterable(other))
-    assert.every(others, iter => iter, `[concat] Expected iterables to concat`)
+    assert.every(snapshots, iter => iter, `[concat] Expected iterables to concat`)
     return _concat(iterable, ...snapshots)
 }
 

@@ -44,3 +44,25 @@ test("concat can't take zero arguments'", t => {
         toArray(concat())
     })
 })
+
+test("concat throws early on invalid arguments", t => {
+    t.throws(_ => concat([1, 2, 3, 4], 12))
+    t.throws(_ => concat())
+    t.throws(_ => concat(12))
+})
+
+import countClosing from "./helpers/countClosing.mjs"
+import consumeIterator from "./helpers/consumeIterator.mjs"
+
+test("iterator closing", t => {
+    const d1 = countClosing([1, 2])
+    const d2 = countClosing([1, 2, 3])
+    const d3 = countClosing([1, 2])
+
+    const seq = concat(d1, d2, d3)[Symbol.iterator]()
+    consumeIterator(seq, 4)
+    seq.return()
+    t.is(d1.closed, 0)
+    t.is(d2.closed, 1)
+    t.is(d3.closed, 0)
+})

@@ -69,3 +69,15 @@ test("contains throws early on bad arguments", t => {
         contains([], 0, {}, 'bar')
     })
 })
+
+import countClosing from "./helpers/countClosing.mjs"
+
+test("iterator closing", t => {
+    const d1 = countClosing([1, 2, 3, 4])
+
+    contains(d1, 12)
+    t.is(d1.closed, 0)
+
+    contains(d1, 2)
+    t.is(d1.closed, 1)
+})

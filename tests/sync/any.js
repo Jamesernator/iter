@@ -48,17 +48,19 @@ test('any vacuously false', t => {
 })
 
 test('any throws early with bad arguments', t => {
-    try {
-        any([], 2)
-        t.fail()
-    } catch (_) {
-        t.pass()
-    }
+    t.throws(_ => any([], 2))
+    t.throws(_ => any())
+    t.throws(_ => any([], x => x, 'banana'))
+})
 
-    try {
-        any([], x => x, 'banana')
-        t.fail()
-    } catch (_) {
-        t.pass()
-    }
+import countClosing from "./helpers/countClosing.mjs"
+
+test("any iterator closing", t => {
+    const iter = countClosing([1, 2, 3, 4])
+
+    t.true(any(iter, x => x > 0))
+    t.is(iter.closed, 1)
+
+    t.false(any(iter, x => x === 12))
+    t.is(iter.closed, 1)
 })

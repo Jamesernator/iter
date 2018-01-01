@@ -61,3 +61,15 @@ test('find throws on bad arguments', t => {
 
     t.throws(_ => find(data, _ => 2, 12))
 })
+
+import countClosing from "./helpers/countClosing.mjs"
+
+test("iterator closing", t => {
+    const data = countClosing([1, 2, 3, 4])
+
+    find(data, 99, x => x > 5)
+    t.is(data.closed, 0)
+
+    find(data, 99, x => x === 2)
+    t.is(data.closed, 1)
+})
