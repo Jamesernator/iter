@@ -12,8 +12,8 @@ function _any(iterable, predicate=x => x) {
 }
 
 function any(iterable, predicate=x => x, ...rest) {
-    assert.function(predicate, `Expected all predicate to be a function`)
-    assert.empty(rest, `Unexpected additional arguments to all`)
+    assert.function(predicate, `[any] Expected all predicate to be a function`)
+    assert.empty(rest, `[any] Unexpected additional arguments to all`)
     return _any(iterable, predicate)
 }
 

@@ -10,8 +10,8 @@ function _forEach(iterable, iteratee=_ => {}) {
 }
 
 function forEach(iterable, iteratee=_ => {}, ...rest) {
-    assert.function(iteratee, `Expected function to forEach`)
-    assert.empty(rest, `Unexpected additional arguments to forEach`)
+    assert.function(iteratee, `[forEach] Expected function to forEach`)
+    assert.empty(rest, `[forEach] Unexpected additional arguments to forEach`)
     return _forEach(iterable, iteratee)
 }
 

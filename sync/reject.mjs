@@ -12,8 +12,8 @@ const _reject = iterableGenerator(function* reject(iterable, predicate=x => x) {
 })
 
 function reject(iterable, predicate=x => x, ...rest) {
-    assert.function(predicate, `Expected reject predicate to be a function`)
-    assert.empty(rest, `Unexpected additional arguments to map`)
+    assert.function(predicate, `[reject] Expected reject predicate to be a function`)
+    assert.empty(rest, `[reject] Unexpected additional arguments to map`)
     return _reject(iterable, predicate)
 }
 

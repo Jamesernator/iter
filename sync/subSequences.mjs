@@ -27,9 +27,9 @@ const _subSequences = iterableGenerator(function* subSequences(iterable, subSequ
 })
 
 function subSequences(iterable, subSequenceSize=1, ...rest) {
-    assert.number(subSequenceSize, `Expected subSequencesSize to be a number`)
-    assert(subSequenceSize > 0, `Expected subSequencesSize to be larger than zero`)
-    assert.empty(rest, `Unexpected additional arguments to subSequences`)
+    assert.number(subSequenceSize, `[subSequences] Expected subSequencesSize to be a number`)
+    assert(subSequenceSize > 0, `[subSequences] Expected subSequencesSize to be larger than zero`)
+    assert.empty(rest, `[subSequences] Unexpected additional arguments to subSequences`)
     return _subSequences(iterable, subSequenceSize)
 }
 

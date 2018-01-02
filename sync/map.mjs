@@ -10,8 +10,8 @@ const _map = iterableGenerator(function* map(iterable, iteratee=x => x) {
 })
 
 function map(iterable, iteratee=x => x, ...rest) {
-    assert.function(iteratee, `Expected map iteratee to be a function`)
-    assert.empty(rest, `Unexpected additional arguments to map`)
+    assert.function(iteratee, `[map] Expected map iteratee to be a function`)
+    assert.empty(rest, `[map] Unexpected additional arguments to map`)
     return _map(iterable, iteratee)
 }
 

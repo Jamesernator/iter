@@ -11,8 +11,8 @@ function _contains(iterable, value, equality=Object.is) {
 }
 
 function contains(iterable, value, equality=Object.is, ...rest) {
-    assert.function(equality, `Expected contains equality to be a function`)
-    assert.empty(rest, `Unexpected additional arguments to contains`)
+    assert.function(equality, `[contains] Expected contains equality to be a function`)
+    assert.empty(rest, `[contains] Unexpected additional arguments to contains`)
     return _contains(iterable, value, equality)
 }
 

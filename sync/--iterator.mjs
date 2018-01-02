@@ -37,7 +37,7 @@ export default function iterator(iterable) {
                 throw err
             }
             if (!isObject(iteratorResult)) {
-                throw new TypeError("Expected iteratorResult to be an object")
+                throw new TypeError("[--iterator] Expected iteratorResult to be an object")
             }
             const { done: isDone, value } = iteratorResult
             if (isDone) {
@@ -55,7 +55,7 @@ export default function iterator(iterable) {
                 if (typeof returnMethod !== 'undefined') {
                     const result = Reflect.apply(returnMethod, iterator, args)
                     if (!isObject(result)) {
-                        throw new TypeError("Iteration result is not an object")
+                        throw new TypeError("[--iterator] Iteration result is not an object")
                     }
                     return result
                 }

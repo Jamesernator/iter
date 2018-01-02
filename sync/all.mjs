@@ -12,8 +12,8 @@ function _all(iterable, predicate=x => x) {
 }
 
 function all(iterable, predicate=x => x, ...rest) {
-    assert.function(predicate, `Expected all predicate to be a function`)
-    assert.empty(rest, `Unexpected additional arguments to all`)
+    assert.function(predicate, `[all] Expected all predicate to be a function`)
+    assert.empty(rest, `[all] Unexpected additional arguments to all`)
     return _all(iterable, predicate)
 }
 

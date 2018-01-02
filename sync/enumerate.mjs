@@ -11,7 +11,7 @@ const _enumerate = iterableGenerator(function* enumerate(iterable) {
 })
 
 function enumerate(iterable, ...rest) {
-    assert.empty(rest, `Unexpected additional arguments to enumerate`)
+    assert.empty(rest, `[enumerate] Unexpected additional arguments to enumerate`)
     return _enumerate(iterable)
 }
 

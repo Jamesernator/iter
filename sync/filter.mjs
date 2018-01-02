@@ -12,8 +12,8 @@ const _filter = iterableGenerator(function* filter(iterable, predicate=x => x) {
 })
 
 function filter(iterable, predicate=x => x, ...rest) {
-    assert.function(predicate, `Expected filter predicate to be a function`)
-    assert.empty(rest, `Unexpected additional arguments to map`)
+    assert.function(predicate, `[filter] Expected filter predicate to be a function`)
+    assert.empty(rest, `[filter] Unexpected additional arguments to map`)
     return _filter(iterable, predicate)
 }
 
