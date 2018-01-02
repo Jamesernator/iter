@@ -72,7 +72,7 @@ test("iterator closing if set throws an error", t => {
         has() {
             return false
         },
-    }))
+    }, x => x))
 
     t.is(data.closed, 1)
 })
@@ -82,4 +82,5 @@ test("iterator closing if iteratee throws an error", t => {
     t.throws(_ => groupBy(data, _ => {
         throw new Error("Error")
     }))
+    t.is(data.closed, 1)
 })

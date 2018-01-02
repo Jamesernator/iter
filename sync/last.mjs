@@ -40,7 +40,8 @@ function _last(iterable, n='single', ...args) {
 }
 
 function last(iterable, n='single', ...args) {
-    assert(n === 'single' || typeof n === 'number',
+    assert(
+        n === 'single' || typeof n === 'number',
         `[last] Expected n to be either a Number or the literal 'single'`,
     )
     if (n === 'single') {

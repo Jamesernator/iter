@@ -393,6 +393,49 @@ rules:
     line-comment-position:
         - error
 
+    space-before-blocks:
+        - error
+        - always
+    max-lines:
+        - error
+        - 500
+    max-statements:
+        - error
+        - 50
+        - ignoreTopLevelFunctions: true
+    complexity:
+        - error
+        - max: 40
+    no-inline-comments:
+        - error
+    block-spacing:
+        - error
+    spaced-comment:
+        - error
+        - always
+    space-infix-ops:
+        - error
+    no-param-reassign:
+        - error
+    no-div-regex:
+        - error
+    no-new:
+        - error
+    linebreak-style:
+        - error
+    max-depth:
+        - error
+    max-nested-callbacks:
+        - error
+    max-params:
+        - error
+    no-negated-condition:
+        - error
+    no-plusplus:
+        - error
+    operator-linebreak:
+        - error
+
     # A comment should be put into the block to explain why
     no-empty:
         - error
@@ -400,7 +443,8 @@ rules:
         - error
 
     # ----- Disabled ----- #
-
+    no-nested-ternary:
+        - off
     # A lot of sequential patterns
     # will be unintentionally captured by this
     no-await-in-loop:
@@ -608,72 +652,14 @@ rules:
     # Vars on top isn't neccesary when no-vars is enabled anyway
     vars-on-top:
         - off
-
-    #########################
-    # Preferable but breaks #
-    #########################
-    # These will throw warnings for all the CA IIFE's
-    space-before-blocks:
-        - off
-        - always
-    max-lines:
-        - off
-        - 500
-    max-statements:
-        - off
-        - 50
-        - ignoreTopLevelFunctions: true
-    complexity:
-        - off
-        - max: 40
-    no-inline-comments:
-        - off
-    block-spacing:
-        - off
-    spaced-comment:
-        - off
-        - always
-    space-infix-ops:
-        - off
-
-    #####################
-    ##### Undecided #####
-    #####################
-    no-param-reassign:
-        - off
-    no-div-regex:
-        - error
-    no-new:
-        - error
-    # Might break?
-    linebreak-style:
-        - error
-    max-depth:
-        - error
-    max-nested-callbacks:
-        - error
-    max-params:
-        - off
-    no-negated-condition:
-        - off
-    no-nested-ternary:
-        - off
-    no-plusplus:
-        - off
-    no-restricted-syntax:
-        - error
-        - selector: UpdateExpression[prefix=true]
-          message: "The use of prefix ++/-- is not allowed"
-    operator-linebreak:
-        - off
     # This one is *really* complicated
     padding-line-between-statements:
-        - off
-    quotes:
-        - off
-    space-in-parens:
         - off
     # Don't understand how this rule works
     array-element-newline:
         - off
         - multiline: true
+    quotes:
+        - off
+    space-in-parens:
+        - off

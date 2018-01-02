@@ -35,7 +35,8 @@ function _first(iterable, n='single', ...args) {
 }
 
 function first(iterable, n='single', ...args) {
-    assert(n === 'single' || typeof n === 'number',
+    assert(
+        n === 'single' || typeof n === 'number',
         `[first] Expected n to be either a Number or the literal 'single'`,
     )
     if (n === 'single') {

@@ -41,7 +41,9 @@ const _zip = iterableGenerator(function* zip(...iterables) {
 
 function zip(iterable, ...others) {
     const snapshots = others.map(otherIterable => snapshotIterable(otherIterable))
-    assert.every(snapshots, iter => iter,
+    assert.every(
+        snapshots,
+        iter => iter,
         `[zip] Can't zip with non-iterable`,
     )
     return _zip(iterable, ...snapshots)

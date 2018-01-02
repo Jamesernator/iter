@@ -44,7 +44,9 @@ const _zipLongest = iterableGenerator(function* zipLongest(...iterables) {
 
 function zipLongest(iterable, ...others) {
     const snapshots = others.map(otherIterable => snapshotIterable(otherIterable))
-    assert.every(snapshots, iter => iter,
+    assert.every(
+        snapshots,
+        iter => iter,
         `[zipLongest] Can't zipLongest with non-iterable`,
     )
     return _zipLongest(iterable, ...snapshots)

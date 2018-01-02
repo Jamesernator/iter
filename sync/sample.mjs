@@ -45,7 +45,8 @@ function _sample(iterable, n='single', ...args) {
 }
 
 function sample(iterable, n='single', ...args) {
-    assert(n === 'single' || typeof n === 'number',
+    assert(
+        n === 'single' || typeof n === 'number',
         `[sample] Expected n to be either a Number or the literal 'single'`,
     )
     if (n === 'single') {

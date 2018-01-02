@@ -38,3 +38,13 @@ test("filter iterator closing", t => {
     seq.return()
     t.is(data.closed, 1)
 })
+
+test("filter iterator closing on iteratee error", t => {
+    const data = countClosing([1, 2, 3, 4])
+    const seq = filter(data, _ => {
+        throw "Error"
+    })[Symbol.iterator]()
+
+    t.throws(_ => seq.next())
+    t.is(data.closed, 1)
+})
