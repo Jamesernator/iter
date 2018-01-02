@@ -14,11 +14,7 @@ test('each', t => {
 })
 
 test('each throws early on invalid arguments', t => {
-    t.throws(_ => {
-        forEach([], 2)
-    })
-
-    t.throws(_ => {
-        forEach([], x => x, 2)
-    })
+    t.throws(_ => forEach())
+    t.throws(_ => forEach([], 2))
+    t.throws(_ => forEach([], x => x, 2))
 })

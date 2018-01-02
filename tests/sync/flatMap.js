@@ -54,3 +54,15 @@ test('flatMap throws early on bad arguments', t => {
         flatMap([], x => x**2, -3)
     })
 })
+
+import countClosing from "./helpers/countClosing.mjs"
+
+test("iterator closing", t => {
+    const data = countClosing([1, 2, 3, 4])
+    const inner = countClosing([1, 2])
+    const seq = flatMap(data, _ => inner)[Symbol.iterator]()
+    seq.next()
+    seq.return()
+    t.is(data.closed, 1)
+    t.is(inner.closed, 1)
+})

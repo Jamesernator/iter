@@ -47,7 +47,7 @@ function countBy(iterable, ...args) {
     /* eslint-enable indent */
     assert(map && typeof map.get === 'function', `[countBy] map object doesn't have a get method`)
     assert(map && typeof map.set === 'function', `[countBy] map object doesn't have a set method`)
-    assert.function(iteratee, `Expected iteratee to be a function`)
+    assert.function(iteratee, `[countBy] Expected iteratee to be a function`)
     return __countBy(iterable, map, iteratee)
 }
 

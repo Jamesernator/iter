@@ -44,22 +44,42 @@ test('groupBy defaults to identity', t => {
 })
 
 test('groupBy throws early on bad arguments', t => {
-    t.throws(_ => {
-        groupBy([], 2)
-    })
+    t.throws(_ => groupBy())
+    t.throws(_ => groupBy([], 2))
+    // eslint-disable-next-line no-empty-function
+    t.throws(_ => groupBy([], undefined, { set() {}, get() {} }))
+    // eslint-disable-next-line no-empty-function
+    t.throws(_ => groupBy([], { get() {}, set() {}, has() {} }, x => x, []))
+    // eslint-disable-next-line no-empty-function
+    t.notThrows(_ => groupBy([], { set() {}, get() {}, has() {} }, x => x))
+})
 
-    t.throws(_ => {
-        // eslint-disable-next-line no-empty-function
-        groupBy([], undefined, { set() {}, get() {} })
-    })
+import countClosing from "./helpers/countClosing.mjs"
 
-    t.throws(_ => {
-        // eslint-disable-next-line no-empty-function
-        groupBy([], { get() {}, set() {}, has() {} }, x => x, [])
-    })
+test("iterator closing if set throws an error", t => {
+    const data = countClosing([1, 2, 3, 'fizzbuzz', 5, 6, 7])
+    t.throws(_ => groupBy(data, {
+        get() {
+            return undefined
+        },
 
-    t.notThrows(_ => {
-        // eslint-disable-next-line no-empty-function
-        groupBy([], { set() {}, get() {}, has() {} }, x => x)
-    })
+        set(val) {
+            if (typeof val !== 'number') {
+                throw new Error("NaN")
+            }
+        },
+
+        has() {
+            return false
+        },
+    }))
+
+    t.is(data.closed, 1)
+})
+
+test("iterator closing if iteratee throws an error", t => {
+    const data = countClosing([1, 2, 3, 4])
+    t.throws(_ => groupBy(data, _ => {
+        throw new Error("Error")
+    }))
 })

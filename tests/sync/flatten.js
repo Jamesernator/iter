@@ -35,3 +35,17 @@ test('flatten throws early on bad arguments', t => {
         flatten([], 2)
     })
 })
+
+import countClosing from "./helpers/countClosing.mjs"
+
+test("iterator closing", t => {
+    const inner = countClosing([1, 2])
+    const data = countClosing([[1], inner])
+    const seq = flatten(data)[Symbol.iterator]()
+
+    seq.next()
+    seq.next()
+    seq.return()
+    t.is(data.closed, 1)
+    t.is(inner.closed, 1)
+})

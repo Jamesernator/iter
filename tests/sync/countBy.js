@@ -16,7 +16,6 @@ test("countBy with key function", t => {
     const evens = data.filter(item => item % 2 === 0)
     const odds = data.filter(item => item % 2 === 1)
 
-
     const counts = countBy(
         data,
         item => item % 2 === 0 ? 'even' : 'odd',
@@ -76,25 +75,36 @@ test("countBy with custom map object and key function", t => {
 })
 
 test("countBy throws early on invalid arguments", t => {
-    t.throws(_ => {
-        countBy([], 2)
-    })
+    t.throws(_ => countBy([], 2))
 
-    t.throws(_ => {
-        countBy([], null, { x: 10 })
-    })
+    t.throws(_ => countBy([], null, { x: 10 }))
 
-    t.throws(_ => {
-        countBy([], null, {
-            get() { /**/ },
-            set() { /**/ },
-        })
-    })
+    t.throws(_ => countBy([], null, {
+        get() { /**/ },
+        set() { /**/ },
+    }))
 
-    t.notThrows(_ => {
-        countBy([], {
-            get() { /**/ },
-            set() { /**/ },
-        })
-    })
+    t.notThrows(_ => countBy([], {
+        get() { /**/ },
+        set() { /**/ },
+    }))
+})
+
+import countClosing from "./helpers/countClosing.mjs"
+
+test("iterator closing when an error is thrown in a set method", t => {
+    const data = countClosing([1, 2, 3, 'foo', 12, 13])
+    t.throws(_ => countBy(data, {
+        get() {
+            return undefined
+        },
+
+        set(val) {
+            if (typeof val !== 'number') {
+                throw new Error("Not a number")
+            }
+        },
+    }))
+
+    t.is(data.closed, 1)
 })
