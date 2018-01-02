@@ -202,6 +202,8 @@ rules:
         - error
     brace-style:
         - error
+        - 1tbs
+        - allowSingleLine: true
     camelcase:
         - error
         - properties: never
