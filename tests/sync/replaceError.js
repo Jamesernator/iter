@@ -48,3 +48,34 @@ test("replaceError throws early on invalid arguments", t => {
     t.throws(_ => replaceError([1, 2], [3, 4]))
     t.throws(_ => replaceError([], _ => [3, 4], 'banana'))
 })
+
+import countClosing from "./helpers/countClosing.mjs"
+
+test("replaceError iterator closing early", t => {
+    let closed = 0
+    function* seq() {
+        try {
+            yield 1
+            yield 2
+        } finally {
+            closed += 1
+        }
+        closed -= 1
+        throw new Error("Foo")
+    }
+
+    const data = countClosing([1, 2, 3])
+
+    const s = replaceError(seq(), _ => data)[Symbol.iterator]()
+    s.next()
+    s.return()
+    t.is(closed, 1)
+
+    const s2 = replaceError(seq(), _ => data)[Symbol.iterator]()
+    s2.next()
+    s2.next()
+    s2.next()
+    s2.return()
+    t.is(closed, 1)
+    t.is(data.closed, 1)
+})

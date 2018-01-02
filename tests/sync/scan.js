@@ -48,3 +48,31 @@ test("scan throws early on invalid arguments", t => {
     t.throws(_ => scan(data, {}, 'banana'))
     t.throws(_ => scan(data, {}, _ => _, 'extra'))
 })
+
+import countClosing from "./helpers/countClosing.mjs"
+
+test("scan iterator closing on early end", t => {
+    const data = countClosing([1, 2, 3, 4])
+    const seq = scan(data)[Symbol.iterator]()
+
+    seq.next()
+    seq.return()
+    t.is(data.closed, 1)
+})
+
+test("scan iterator closing on early end with seed", t => {
+    const data = countClosing([1, 2, 3, 4])
+    const seq = scan(data, 0, _ => _)[Symbol.iterator]()
+
+    seq.next()
+    seq.return()
+    t.is(data.closed, 1)
+})
+
+test("scan iterator closing on reducer error", t => {
+    const data = countClosing([1, 2, 3, 4])
+    const seq = scan(data, _ => { throw "Error" })
+
+    t.throws(_ => [...seq])
+    t.is(data.closed, 1)
+})

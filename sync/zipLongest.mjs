@@ -1,8 +1,8 @@
 import { raw as create } from "./createOperator.mjs"
 import { raw as iterableGenerator } from "./iterableGenerator.mjs"
-import { raw as iterator } from "./iterator.mjs"
-import { raw as snapshotIterable } from "./snapshotIterable.mjs"
+import snapshotIterable from "./--snapshotIterable.mjs"
 import assert from "../--assert.mjs"
+import iterator from "./--iterator.mjs"
 
 const _zipLongest = iterableGenerator(function* zipLongest(...iterables) {
     const iteratorsDone = new Set()

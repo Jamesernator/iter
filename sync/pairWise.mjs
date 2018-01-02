@@ -1,7 +1,7 @@
 import { raw as create } from "./createOperator.mjs"
 import { raw as iterableGenerator } from "./iterableGenerator.mjs"
-import { raw as iterator } from "./iterator.mjs"
 import assert from "../--assert.mjs"
+import iterator from "./--iterator.mjs"
 
 const _pairWise = iterableGenerator(function* pairWise(iterable) {
     const iter = iterator(iterable)

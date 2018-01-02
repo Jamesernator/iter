@@ -1,5 +1,3 @@
-import assert from "../--assert.mjs"
-
 /* this implements a function like ECMA262's getIterator abstract operation
     with the hint "normal" it returns an iterator record with properties
     nextMethod and iterator, it also provides methods for next/return
@@ -9,7 +7,7 @@ import assert from "../--assert.mjs"
 
 const isObject = item => item && (typeof item === 'object' || typeof item === 'function')
 
-function _iterator(iterable) {
+export default function iterator(iterable) {
     const method = iterable[Symbol.iterator]
     if (typeof method !== 'function') {
         throw new Error(`[iterator] Given value is not iterable`)
@@ -49,33 +47,30 @@ function _iterator(iterable) {
         },
 
         return(...args) {
-            const returnMethod = iterator.return
-            if (typeof returnMethod !== 'undefined') {
-                const result = Reflect.apply(returnMethod, iterator, args)
-                if (!isObject(result)) {
-                    throw new TypeError("Iteration result is not an object")
+            if (done) {
+                return { done: true, value: undefined }
+            } else {
+                done = true
+                const returnMethod = iterator.return
+                if (typeof returnMethod !== 'undefined') {
+                    const result = Reflect.apply(returnMethod, iterator, args)
+                    if (!isObject(result)) {
+                        throw new TypeError("Iteration result is not an object")
+                    }
+                    return result
                 }
-                return result
+                return args[0]
             }
-            return args[0]
         },
 
         close() {
-            if (!done) {
-                done = true
-                return iter.return()
-            } else {
+            if (done) {
                 return { done: true, value: undefined }
+            } else {
+                return iter.return()
             }
         },
     })
 
     return iter
 }
-
-export default function iterator(maybeIterable, ...args) {
-    assert.empty(args, `[iterator] Unexpected additional arguments to iterator`)
-    return _iterator(maybeIterable)
-}
-
-export { _iterator as raw }

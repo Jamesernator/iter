@@ -1,7 +1,7 @@
 import { raw as create } from "./createOperator.mjs"
 import { raw as iterableGenerator } from "./iterableGenerator.mjs"
 import { raw as enumerate } from "./enumerate.mjs"
-import { raw as snapshotIterable } from "./snapshotIterable.mjs"
+import snapshotIterable from "./--snapshotIterable.mjs"
 import assert from "../--assert.mjs"
 
 const __flatMap = iterableGenerator(function* flatMap(iterable, allowNonIterable, iteratee) {

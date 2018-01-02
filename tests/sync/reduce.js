@@ -59,3 +59,11 @@ test("reduce throws early on invalid arguments", t => {
     t.throws(_ => reduce([], i => i, 12))
     t.throws(_ => reduce([], 11, 'banana'))
 })
+
+import countClosing from "./helpers/countClosing.mjs"
+
+test("reduce closing on iteratee error", t => {
+    const data = countClosing([1, 2, 3, 4])
+    t.throws(_ => reduce(data, _ => { throw "Error" }))
+    t.is(data.closed, 1)
+})

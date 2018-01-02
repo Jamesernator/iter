@@ -51,3 +51,14 @@ test("subSequences throws early on bad arguments", t => {
         subSequences([], 10, '12')
     })
 })
+
+import countClosing from "./helpers/countClosing.mjs"
+
+test("subSequences iterator closing", t => {
+    const data = countClosing([1, 2, 3, 4])
+    const seq = subSequences(data, 3)[Symbol.iterator]()
+
+    seq.next()
+    seq.return()
+    t.is(data.closed, 1)
+})

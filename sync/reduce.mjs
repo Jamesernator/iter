@@ -1,5 +1,5 @@
 import { raw as create } from "./createOperator.mjs"
-import { raw as iterator } from "./iterator.mjs"
+import iterator from "./--iterator.mjs"
 import assert from "../--assert.mjs"
 
 function __reduce(iterable, reducer, seeded, seedValue) {

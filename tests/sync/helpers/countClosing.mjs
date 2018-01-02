@@ -18,7 +18,7 @@ export default function countClosing(iterable, throwError=false) {
                 },
                 return() {
                     if (throwError) {
-                        throw new Error("[closingIterable] Iterator closing error")
+                        throw new Error("[countClosing] Iterator closing error")
                     }
                     closed += 1
                     return { done: true, value: undefined }

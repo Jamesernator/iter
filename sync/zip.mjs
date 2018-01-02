@@ -1,8 +1,8 @@
 import { raw as create } from "./createOperator.mjs"
 import { raw as iterableGenerator } from "./iterableGenerator.mjs"
-import { raw as iterator } from "./iterator.mjs"
-import { raw as snapshotIterable } from "./snapshotIterable.mjs"
+import snapshotIterable from "./--snapshotIterable.mjs"
 import assert from "../--assert.mjs"
+import iterator from "./--iterator.mjs"
 
 const _zip = iterableGenerator(function* zip(...iterables) {
     const iteratorsDone = new Set()
@@ -14,6 +14,9 @@ const _zip = iterableGenerator(function* zip(...iterables) {
 
         while (true) {
             const nexts = iterators.map(iterator => {
+                if (iteratorsDone.has(iterator)) {
+                    return { done: true, value: undefined }
+                }
                 const result = iterator.next()
                 const done = result.done
                 if (done) {

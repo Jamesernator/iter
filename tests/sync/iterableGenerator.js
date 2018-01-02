@@ -1,6 +1,6 @@
 import test from "ava"
 import iterableGenerator from "../../sync/iterableGenerator.mjs"
-import snapshotIterable from "../../sync/snapshotIterable.mjs"
+import snapshotIterable from "../../sync/--snapshotIterable.mjs"
 import toArray from "../../sync/toArray.mjs"
 
 test('iterableGenerator returns an object that be iterated', t => {
@@ -53,7 +53,7 @@ test('iterableGenerator function returns an object that can be reiterated', t =>
 
 test('iterableGenerator has arguments forwarded to created iterator', t => {
     const gen = function* (start) {
-        for (let i = start; i < start + 3; i++) {
+        for (let i = start; i < start + 3; i += 1) {
             yield i
         }
     }

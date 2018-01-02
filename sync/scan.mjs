@@ -1,7 +1,7 @@
 import { raw as create } from "./createOperator.mjs"
 import { raw as iterableGenerator } from "./iterableGenerator.mjs"
-import { raw as iterator } from "./iterator.mjs"
 import assert from "../--assert.mjs"
+import iterator from "./--iterator.mjs"
 
 const __scan = iterableGenerator(function* scan(iterable, reducer, seeded, seedValue) {
     const iter = iterator(iterable)
@@ -20,7 +20,6 @@ const __scan = iterableGenerator(function* scan(iterable, reducer, seeded, seedV
         }
 
         yield acc
-
         for (const item of iter) {
             acc = reducer(acc, item, idx)
             yield acc

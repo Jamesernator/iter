@@ -23,7 +23,26 @@ test('reject receives correct arguments', t => {
 })
 
 test('reject throws early on bad input', t => {
+    t.throws(_ => reject())
     t.throws(_ => reject([], 2))
-
     t.throws(_ => reject([], _ => true, 'banana'))
+})
+
+import countClosing from "./helpers/countClosing.mjs"
+
+test("reject iterator closing on early close", t => {
+    const data = countClosing([1, 2, 3, 4])
+    const seq = reject(data, x => x % 2 === 0)[Symbol.iterator]()
+
+    seq.next()
+    seq.return()
+    t.is(data.closed, 1)
+})
+
+test("reject iterator closing on predicate error", t => {
+    const data = countClosing([1, 2, 3, 4])
+    const seq = reject(data, _ => { throw "Error" })[Symbol.iterator]()
+
+    t.throws(_ => seq.next())
+    t.is(data.closed, 1)
 })

@@ -1,6 +1,6 @@
 import { raw as create } from "./createOperator.mjs"
 import { raw as iterableGenerator } from "./iterableGenerator.mjs"
-import { raw as snapshotIterable } from "./snapshotIterable.mjs"
+import snapshotIterable from "./--snapshotIterable.mjs"
 import assert from "../--assert.mjs"
 
 const _flatten = iterableGenerator(function* _flatten(iterable) {

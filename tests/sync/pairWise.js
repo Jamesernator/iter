@@ -33,3 +33,14 @@ test("pairWise throws early on invalid arguments", t => {
     t.throws(_ => pairWise())
     t.throws(_ => pairWise(null))
 })
+
+import countClosing from "./helpers/countClosing.mjs"
+
+test("pairWise iterator closing", t => {
+    const data = countClosing([1, 2, 3, 4])
+    const pairs = pairWise(data)[Symbol.iterator]()
+
+    pairs.next()
+    pairs.return()
+    t.is(data.closed, 1)
+})

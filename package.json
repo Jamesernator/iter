@@ -12,7 +12,7 @@
   "author": "James \"The Jamesernator\" Browning",
   "license": "MIT",
   "devDependencies": {
-    "ava": "^0.23.0",
+    "ava": "^0.24.0",
     "es6-array-map": "latest",
     "es6-array-set": "latest",
     "folder-module": "^2.0.4"
@@ -35,6 +35,6 @@
     }
   },
   "dependencies": {
-    "@std/esm": "^0.13.0"
+    "@std/esm": "^0.18.0"
   }
 }

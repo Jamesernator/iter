@@ -35,6 +35,24 @@ test('map iteratee defaults to identity', t => {
 test('map throws early on invalid arguments', t => {
     const data = [11, 22, 33]
 
+    t.throws(_ => map())
     t.throws(_ => map(data, 12))
     t.throws(_ => map(data, x => x**2, 12))
+})
+
+import countClosing from "./helpers/countClosing.mjs"
+
+test("iterator closing on early map close", t => {
+    const data = countClosing([1, 2, 3, 4])
+    const seq = map(data, x => x**2)[Symbol.iterator]()
+
+    seq.next()
+    seq.return()
+    t.is(data.closed, 1)
+})
+
+test("iterator closing on error in iteratee", t => {
+    const data = countClosing([1, 2, 3, 4])
+    t.throws(_ => [...map(data, _ => { throw "Error" })])
+    t.is(data.closed, 1)
 })

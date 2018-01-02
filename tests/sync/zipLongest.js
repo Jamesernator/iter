@@ -43,3 +43,16 @@ test("zipLongest throws early on invalid arguments", t => {
     t.throws(_ => zipLongest(1, 2))
     t.throws(_ => zipLongest([1, 2, 3, 4], 12))
 })
+
+import countClosing from "./helpers/countClosing.mjs"
+
+test("zipLongest iterator closing all if early", t => {
+    const data1 = countClosing([1, 2])
+    const data2 = countClosing([3, 4])
+
+    const seq = zipLongest(data1, data2)[Symbol.iterator]()
+    seq.next()
+    seq.return()
+    t.is(data1.closed, 1)
+    t.is(data2.closed, 1)
+})

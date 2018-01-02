@@ -66,3 +66,20 @@ test("toObject throws early on invalid arguments", t => {
     t.throws(_ => toObject(...data))
     t.throws(_ => toObject(data, {}, 'bar'))
 })
+
+import countClosing from "./helpers/countClosing.mjs"
+
+test("toObject iterator closing on setter error", t => {
+    const data = countClosing([[1, 2], [3, 4]])
+
+    t.throws(_ => toObject(data, {
+        get 1() {
+            throw "Error"
+        },
+
+        set 1(_) {
+            throw "Error"
+        },
+    }))
+    t.is(data.closed, 1)
+})

@@ -41,3 +41,29 @@ test("zip throws early on invalid arguments", t => {
     t.throws(_ => zip(1, 2))
     t.throws(_ => zip([1, 2, 3, 4], 12))
 })
+
+import countClosing from "./helpers/countClosing.mjs"
+
+test("zip iterator closing all sequences", t => {
+    const data1 = countClosing([1, 2])
+    const data2 = countClosing([3, 4])
+
+    const seq = zip(data1, data2)[Symbol.iterator]()
+    seq.next()
+    seq.return()
+    t.is(data1.closed, 1)
+    t.is(data2.closed, 1)
+})
+
+test("zip iterator closing only as needed on completion", t => {
+    const data1 = countClosing([1, 2])
+    const data2 = countClosing([1, 2, 3])
+
+    const seq = zip(data1, data2)[Symbol.iterator]()
+    seq.next()
+    seq.next()
+    seq.next()
+    seq.return()
+    t.is(data1.closed, 0)
+    t.is(data2.closed, 1)
+})

@@ -30,3 +30,17 @@ test("none throws early on invalid arguments", t => {
     t.throws(_ => none())
     t.throws(_ => none([], x => x**2, 'foobar'))
 })
+
+import countClosing from "./helpers/countClosing.mjs"
+
+test("none iterator closing on early find", t => {
+    const data = countClosing([1, 2, 3, 4])
+    none(data, x => x === 2)
+    t.is(data.closed, 1)
+})
+
+test("none iterator closing on predicate error", t => {
+    const data = countClosing([1, 2, 3, 4])
+    t.throws(_ => none(data, _ => { throw "Error" }))
+    t.is(data.closed, 1)
+})

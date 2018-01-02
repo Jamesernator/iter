@@ -415,8 +415,6 @@ rules:
     spaced-comment:
         - error
         - always
-    space-infix-ops:
-        - error
     no-param-reassign:
         - error
     no-div-regex:
@@ -431,11 +429,10 @@ rules:
         - error
     max-params:
         - error
+        - 4
     no-negated-condition:
         - error
     no-plusplus:
-        - error
-    operator-linebreak:
         - error
 
     # A comment should be put into the block to explain why
@@ -664,4 +661,8 @@ rules:
     quotes:
         - off
     space-in-parens:
+        - off
+    space-infix-ops:
+        - off
+    operator-linebreak:
         - off

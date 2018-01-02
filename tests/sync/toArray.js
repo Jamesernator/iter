@@ -14,10 +14,7 @@ test('array converts iterable to array', t => {
 })
 
 test('array throws early on invalid arguments', t => {
-    try {
-        toArray([1, 2, 3], 2)
-        t.fail()
-    } catch (_) {
-        t.pass()
-    }
+    t.throws(_ => toArray())
+    t.throws(_ => toArray(12))
+    t.throws(_ => toArray([1, 2, 3], 2))
 })

@@ -1,13 +1,13 @@
 import { raw as create } from "./createOperator.mjs"
 import { raw as iterableGenerator } from "./iterableGenerator.mjs"
-import { raw as iterator } from "./iterator.mjs"
 import assert from "../--assert.mjs"
+import iterator from "./--iterator.mjs"
 
 const _subSequences = iterableGenerator(function* subSequences(iterable, subSequenceSize=2) {
     const iter = iterator(iterable)
     try {
         const buff = []
-        for (let i = 0; i < subSequenceSize; i++) {
+        for (let i = 0; i < subSequenceSize; i += 1) {
             const { value, done } = iter.next()
             if (done) {
                 return

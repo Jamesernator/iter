@@ -1,5 +1,5 @@
 import test from "ava"
-import iterator from "../../sync/iterator.mjs"
+import iterator from "../../sync/--iterator.mjs"
 
 test("iterator returns an iterator for a given iterable", t => {
     const iter = iterator([1, 2])
@@ -32,10 +32,4 @@ test("iterator returned is frozen", t => {
     const iter = iterator('foobar')
 
     t.true(Object.isFrozen(iter))
-})
-
-test("iterator throws early on invalid arguments", t => {
-    t.throws(_ => iterator(12))
-    t.throws(_ => iterator())
-    t.throws(_ => iterator([1, 2, 3], 'banana'))
 })

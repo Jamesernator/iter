@@ -1,4 +1,4 @@
-import { raw as snapshotIterable } from "./snapshotIterable.mjs"
+import snapshotIterable from "./--snapshotIterable.mjs"
 import assert from "../--assert.mjs"
 import named from "../--named.mjs"
 

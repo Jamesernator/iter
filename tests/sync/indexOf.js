@@ -43,3 +43,16 @@ test("indexOf throws early on invalid arguments", t => {
     t.throws(_ => indexOf([], 2, []))
     t.throws(_ => indexOf([], 3, _ => [], 'banana'))
 })
+
+import countClosing from "./helpers/countClosing.mjs"
+
+test("iterator closing", t => {
+    const data = countClosing([1, 2, 3, 4])
+    indexOf(data, 12)
+    t.is(data.closed, 0)
+    indexOf(data, 2)
+    t.is(data.closed, 1)
+
+    t.throws(_ => indexOf(data, 'foo', _ => { throw "Error" }))
+    t.is(data.closed, 2)
+})

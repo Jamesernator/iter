@@ -15,7 +15,9 @@ test('debug invokes the function for each value in the sequence', t => {
 })
 
 test('debug mirrors the original sequence', t => {
-    const newSeq = debug(seq(), _ => { /* Do Nothing */ })
+    const newSeq = debug(seq(), _ => {
+        /* Do Nothing */
+    })
     t.deepEqual(Array.from(newSeq), [1, 2, 3])
 })
 
