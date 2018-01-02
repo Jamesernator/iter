@@ -4,14 +4,18 @@ root: true
 parser: "babel-eslint"
 
 parserOptions:
-    ecmaVersion: 2017
-    sourceType: 'module'
+    ecmaVersion: 8
+    sourceType: script
 
+overrides:
+    -
+        files:
+            - "**/*.mjs"
+        parserOptions:
+            ecmaVersion: 8
+            sourceType: module
 env:
     browser: true
-    node: true
-    commonjs: true
-    worker: true
     serviceworker: true
     es6: true
 
@@ -130,10 +134,9 @@ rules:
         - warn
     radix:
         - warn
-    vars-on-top:
-        - error
     strict:
         - error
+        - global
     no-delete-var:
         - error
     no-shadow-restricted-names:
@@ -195,14 +198,10 @@ rules:
         - error
     no-label-var:
         - error
-    array-bracket-newline:
-        - off
     array-bracket-spacing:
         - error
     brace-style:
         - error
-        - 1tbs
-        - allowSingleLine: true
     camelcase:
         - error
         - properties: never
@@ -227,7 +226,8 @@ rules:
     func-call-spacing:
         - error
     function-paren-newline:
-        - off
+        - error
+        - consistent
     indent:
         - error
         - 4
@@ -254,7 +254,7 @@ rules:
           ignoreComments: true
 
     max-statements-per-line:
-        - error
+        - off
     new-cap:
         - error
         - properties: false
@@ -304,15 +304,18 @@ rules:
         - error
         - as-needed
     semi:
-        - off
-        - always
+        - error
+        - never
     semi-spacing:
         - error
     semi-style:
         - error
     space-before-function-paren:
         - error
-        - never
+        -
+            anonymous: never
+            named: never
+            asyncArrow: always
     space-unary-ops:
         - error
         - nonwords: false
@@ -594,9 +597,16 @@ rules:
     # Too many special cases
     id-length:
         - off
-    # These should be handled by another tool as the lint watcher
-    # will be adding these in
+    # These should be handled by another tool as otherwise the watcher
+    # would be added these into the files
     no-warning-comments:
+        - off
+    # Forces single items into one line which makes it harder to
+    # extends arrays
+    array-bracket-newline:
+        - off
+    # Vars on top isn't neccesary when no-vars is enabled anyway
+    vars-on-top:
         - off
 
     #########################
@@ -629,6 +639,8 @@ rules:
     #####################
     ##### Undecided #####
     #####################
+    no-param-reassign:
+        - off
     no-div-regex:
         - error
     no-new:
