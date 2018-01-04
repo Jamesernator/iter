@@ -4,10 +4,13 @@ import snapshotIterable from "./--snapshotIterable.mjs"
 import assert from "../--assert.mjs"
 import iterator from "./--iterator.mjs"
 
-// TODO: Complete me
-
 function racePromises(object) {
-
+    const promises = Object.entries(object).map(([key, promise]) => {
+        return Promise.resolve(promise).then(value => {
+            return { key, value }
+        })
+    })
+    return Promise.race(promises)
 }
 
 function mapObject(object, iteratee) {
@@ -20,7 +23,16 @@ function mapObject(object, iteratee) {
 
 const _merge = iterableGenerator(async function* _merge(...iterables) {
     const iterators = { ...iterables.map(iterator) }
-
+    const waiting = mapObject(iterators, i => i.next())
+    while (Object.keys(iterators).length > 0) {
+        const { key, value: { value, done } } = await racePromises(waiting)
+        if (done) {
+            delete iterators[key]
+        } else {
+            yield value
+            waiting[key] = iterators[key].next()
+        }
+    }
 })
 
 function merge(iterable, ...otherIterables) {
