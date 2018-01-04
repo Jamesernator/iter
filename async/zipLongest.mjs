@@ -32,9 +32,7 @@ const _zipLongest = iterableGenerator(async function* zipLongest(...iterables) {
     } finally {
         for (const iterator of iterators) {
             try {
-                if (!iteratorsDone.has(iterator)) {
-                    iterator.return()
-                }
+                await iterator.return()
             } catch (_) {
                 /* Ensure all iterators close */
             }
