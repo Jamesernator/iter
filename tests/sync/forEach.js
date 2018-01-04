@@ -1,7 +1,7 @@
 import test from "ava"
 import forEach from "../../sync/forEach.mjs"
 
-test('each', t => {
+test('each basic functionality', t => {
     const seq = (function* () {
         yield 1
         yield 2
@@ -24,4 +24,5 @@ import countClosing from "./helpers/countClosing.mjs"
 test("iterator closing on iteratee error", t => {
     const data = countClosing([1, 2, 3, 4])
     t.throws(_ => forEach(data, _ => { throw "Error" }))
+    t.is(data.closed, 1)
 })

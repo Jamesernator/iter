@@ -23,17 +23,10 @@ test('flatten throws on non-iterables in sequences', t => {
 })
 
 test('flatten throws early on bad arguments', t => {
-    t.throws(_ => {
-        flatten([], 'banana')
-    })
-
-    t.throws(_ => {
-        flatten([], 2, 'fishBiscuit')
-    })
-
-    t.throws(_ => {
-        flatten([], 2)
-    })
+    t.throws(_ => flatten())
+    t.throws(_ => flatten([], 'banana'))
+    t.throws(_ => flatten([], 2, 'fishBiscuit'))
+    t.throws(_ => flatten([], 2))
 })
 
 import countClosing from "./helpers/countClosing.mjs"

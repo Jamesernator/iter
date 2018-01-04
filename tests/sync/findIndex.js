@@ -41,17 +41,10 @@ test('findIndex returns default value if not found', t => {
 
 test('findIndex throws early on bad arguments', t => {
     const data = []
-    t.throws(_ => {
-        findIndex(data, x => x === 42, 2)
-    })
-
-    t.throws(_ => {
-        findIndex(data, x => x === 42, 'banana')
-    })
-
-    t.throws(_ => {
-        findIndex(data, 4)
-    })
+    t.throws(_ => findIndex())
+    t.throws(_ => findIndex(data, x => x === 42, 2))
+    t.throws(_ => findIndex(data, x => x === 42, 'banana'))
+    t.throws(_ => findIndex(data, 4))
 })
 
 import countClosing from "./helpers/countClosing.mjs"

@@ -19,7 +19,7 @@ test('filter receives correct arguments', t => {
         [4, 2],
     )
 
-    filter(data, (_, __, ...rest) => t.deepEqual(rest, []))
+    toArray(filter(data, (_, __, ...rest) => t.deepEqual(rest, [])))
 })
 
 test('filter throws early on bad input', t => {

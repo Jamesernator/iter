@@ -40,6 +40,7 @@ test("indexOf with custom equality", t => {
 })
 
 test("indexOf throws early on invalid arguments", t => {
+    t.throws(_ => indexOf())
     t.throws(_ => indexOf([], 2, []))
     t.throws(_ => indexOf([], 3, _ => [], 'banana'))
 })

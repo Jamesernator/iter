@@ -19,7 +19,7 @@ test('reject receives correct arguments', t => {
         [3, 1],
     )
 
-    reject(data, (_, __, ...rest) => t.deepEqual(rest, []))
+    toArray(reject(data, (_, __, ...rest) => t.deepEqual(rest, [])))
 })
 
 test('reject throws early on bad input', t => {

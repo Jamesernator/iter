@@ -1,40 +1,51 @@
 {
-  "name": "@jx/iter",
-  "version": "0.0.1",
-  "description": "train.js is a library of iterator helper methods (for both sync and async iterators)",
-  "main": "index.js",
-  "directories": {
-    "test": "tests"
-  },
-  "scripts": {
-    "test": "ava"
-  },
-  "author": "James \"The Jamesernator\" Browning",
-  "license": "MIT",
-  "devDependencies": {
-    "ava": "^0.24.0",
-    "es6-array-map": "latest",
-    "es6-array-set": "latest",
-    "folder-module": "^2.0.4"
-  },
-  "ava": {
-    "files": [
-      "tests/sync/*.js",
-      "tests/async/*.js"
-    ],
-    "source": [
-      "src/**/*.mjs"
-    ],
-    "powerAssert": true,
-    "require": "@std/esm",
-    "modules": false
-  },
-  "@std": {
-    "esm": {
-      "cjs": true
+    "name": "@jx/iter",
+    "version": "0.0.1",
+    "description": "train.js is a library of iterator helper methods (for both sync and async iterators)",
+    "main": "index.js",
+    "directories": {
+        "test": "tests"
+    },
+    "scripts": {
+        "test": "node --harmony-async-iteration test.js"
+    },
+    "author": "James \"The Jamesernator\" Browning",
+    "license": "MIT",
+    "devDependencies": {
+        "ava": "^0.24.0",
+        "es6-array-map": "latest",
+        "es6-array-set": "latest",
+        "folder-module": "^2.0.4"
+    },
+    "ava": {
+        "files": [
+            "tests/sync/*.js",
+            "tests/async/*.js"
+        ],
+        "source": [
+            "src/**/*.mjs"
+        ],
+        "powerAssert": true,
+        "require": "@std/esm",
+        "modules": false,
+        "babel": {
+            "presets": [
+                "@ava/stage-4"
+            ],
+            "parserOpts": {
+                "plugins": [
+                    "asyncGenerators"
+                ]
+            },
+            "sourceType": "module"
+        }
+    },
+    "@std": {
+        "esm": {
+            "cjs": true
+        }
+    },
+    "dependencies": {
+        "@std/esm": "^0.18.0"
     }
-  },
-  "dependencies": {
-    "@std/esm": "^0.18.0"
-  }
 }

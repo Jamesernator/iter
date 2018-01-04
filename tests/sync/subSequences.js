@@ -35,21 +35,11 @@ test("subSequences emits nothing when sequence is too short", t => {
 })
 
 test("subSequences throws early on bad arguments", t => {
-    t.throws(_ => {
-        subSequences([], 'banana')
-    })
-
-    t.throws(_ => {
-        subSequences([], -20)
-    })
-
-    t.throws(_ => {
-        subSequences([], 0)
-    })
-
-    t.throws(_ => {
-        subSequences([], 10, '12')
-    })
+    t.throws(_ => subSequences())
+    t.throws(_ => subSequences([], 'banana'))
+    t.throws(_ => subSequences([], -20))
+    t.throws(_ => subSequences([], 0))
+    t.throws(_ => subSequences([], 10, '12'))
 })
 
 import countClosing from "./helpers/countClosing.mjs"

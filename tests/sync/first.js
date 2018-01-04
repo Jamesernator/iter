@@ -44,6 +44,7 @@ test('first with count that is too short can be supressed by passing true', t =>
 })
 
 test('first throws early with invalid arguments', t => {
+    t.throws(_ => first())
     t.throws(_ => first([1, 2, 3], 'banana'))
     t.throws(_ => first([], 2, true, 12))
     t.throws(_ => first([], 'single', true))

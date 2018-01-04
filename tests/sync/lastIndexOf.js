@@ -41,6 +41,7 @@ test("lastIndexOf with custom equality", t => {
 })
 
 test("lastIndexOf throws early on invalid arguments", t => {
+    t.throws(_ => lastIndexOf())
     t.throws(_ => lastIndexOf([], 2, []))
     t.throws(_ => lastIndexOf([], 3, _ => [], 'banana'))
 })

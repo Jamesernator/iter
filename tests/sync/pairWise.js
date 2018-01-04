@@ -29,8 +29,8 @@ test("pairWise emits nothing on arrays of insufficient length", t => {
 })
 
 test("pairWise throws early on invalid arguments", t => {
-    t.throws(_ => pairWise([], 'foo'))
     t.throws(_ => pairWise())
+    t.throws(_ => pairWise([], 'foo'))
     t.throws(_ => pairWise(null))
 })
 

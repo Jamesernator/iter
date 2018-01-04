@@ -57,17 +57,10 @@ test("contains custom equality doesn't throw if value found before throwing case
 })
 
 test("contains throws early on bad arguments", t => {
-    t.throws(_ => {
-        contains([], 0, 'fishBiscuit')
-    })
-
-    t.throws(_ => {
-        contains([], 0, null)
-    })
-
-    t.throws(_ => {
-        contains([], 0, {}, 'bar')
-    })
+    t.throws(_ => contains())
+    t.throws(_ => contains([], 0, 'fishBiscuit'))
+    t.throws(_ => contains([], 0, null))
+    t.throws(_ => contains([], 0, {}, 'bar'))
 })
 
 import countClosing from "./helpers/countClosing.mjs"

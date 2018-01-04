@@ -46,8 +46,8 @@ test("concat can't take zero arguments'", t => {
 })
 
 test("concat throws early on invalid arguments", t => {
-    t.throws(_ => concat([1, 2, 3, 4], 12))
     t.throws(_ => concat())
+    t.throws(_ => concat([1, 2, 3, 4], 12))
     t.throws(_ => concat(12))
 })
 

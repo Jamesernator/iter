@@ -76,8 +76,8 @@ test("countBy with custom map object and key function", t => {
 
 /* eslint-disable no-empty-function */
 test("countBy throws early on invalid arguments", t => {
+    t.throws(_ => countBy())
     t.throws(_ => countBy([], 2))
-
     t.throws(_ => countBy([], null, { x: 10 }))
 
     t.throws(_ => countBy([], null, {

@@ -38,21 +38,10 @@ test("flatMap can ignore non-iterables if requested", t => {
 })
 
 test('flatMap throws early on bad arguments', t => {
-    t.throws(_ => {
-        flatMap([], 'banana')
-    })
-
-    t.throws(_ => {
-        flatMap([], 2, 'fishBiscuit')
-    })
-
-    t.throws(_ => {
-        flatMap()
-    })
-
-    t.throws(_ => {
-        flatMap([], x => x**2, -3)
-    })
+    t.throws(_ => flatMap())
+    t.throws(_ => flatMap([], 'banana'))
+    t.throws(_ => flatMap([], 2, 'fishBiscuit'))
+    t.throws(_ => flatMap([], x => x**2, -3))
 })
 
 import countClosing from "./helpers/countClosing.mjs"

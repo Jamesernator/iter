@@ -49,17 +49,10 @@ test('findLastIndex with default returns default is not found', t => {
 
 test('findLastIndex throws early on bad arguments', t => {
     const data = []
-    t.throws(_ => {
-        findLastIndex(data, x => x === 42, 2)
-    })
-
-    t.throws(_ => {
-        findLastIndex(data, 2, x => x === 42, 'banana')
-    })
-
-    t.throws(_ => {
-        findLastIndex(data, 4)
-    })
+    t.throws(_ => findLastIndex())
+    t.throws(_ => findLastIndex(data, x => x === 42, 2))
+    t.throws(_ => findLastIndex(data, 2, x => x === 42, 'banana'))
+    t.throws(_ => findLastIndex(data, 4))
 })
 
 import countClosing from "./helpers/countClosing.mjs"

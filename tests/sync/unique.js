@@ -34,3 +34,34 @@ test("unique can use a custom set type for comparing equality", t => {
         toArray(unique(data, new ArraySet())),
     )
 })
+
+test("unique throws early on invalid arguments", t => {
+    t.throws(_ => unique())
+    t.throws(_ => unique(12))
+    t.throws(_ => unique([1, 2, 3], {}))
+    // eslint-disable-next-line no-empty-function
+    t.throws(_ => unique([1, 2, 3], { get() {}, set() {}, has() {} }, 'foobar'))
+})
+
+import countClosing from "./helpers/countClosing.mjs"
+
+test("unique iterator closing", t => {
+    const data = countClosing([1, 2, 3, 4])
+    const seq = unique(data)[Symbol.iterator]()
+
+    seq.next()
+    seq.return()
+    t.is(data.closed, 1)
+})
+
+test("unique iterator closing on set method error", t => {
+    const data = countClosing([1, 2, 3, 4])
+    const set = {
+        add() { throw "Error" },
+        has() { throw "Error" },
+    }
+    const seq = unique(data, set)[Symbol.iterator]()
+
+    t.throws(_ => seq.next())
+    t.is(data.closed, 1)
+})

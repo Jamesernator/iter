@@ -26,8 +26,8 @@ test("none defaults to identity for truthiness", t => {
 })
 
 test("none throws early on invalid arguments", t => {
-    t.throws(_ => none([], 12))
     t.throws(_ => none())
+    t.throws(_ => none([], 12))
     t.throws(_ => none([], x => x**2, 'foobar'))
 })
 

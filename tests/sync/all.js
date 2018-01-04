@@ -27,19 +27,9 @@ test('all vacuously true', t => {
 })
 
 test('all throws early with bad arguments', t => {
-    try {
-        all([], 2)
-        t.fail()
-    } catch (_) {
-        t.pass()
-    }
-
-    try {
-        all([], x => x, 'banana')
-        t.fail()
-    } catch (_) {
-        t.pass()
-    }
+    t.throws(_ => all())
+    t.throws(_ => all([], 2))
+    t.throws(_ => all([], x => x, 'banana'))
 })
 
 import countClosing from "./helpers/countClosing.mjs"

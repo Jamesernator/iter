@@ -51,14 +51,9 @@ test("find returns the default value when it can't find the given element", t =>
 
 test('find throws on bad arguments', t => {
     const data = []
-    t.throws(_ => {
-        find(data, _ => 2, x => x, 3)
-    })
-
-    t.throws(_ => {
-        find(data, 2)
-    })
-
+    t.throws(_ => find())
+    t.throws(_ => find(data, _ => 2, x => x, 3))
+    t.throws(_ => find(data, 2))
     t.throws(_ => find(data, _ => 2, 12))
 })
 

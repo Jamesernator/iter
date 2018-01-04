@@ -48,8 +48,8 @@ test('any vacuously false', t => {
 })
 
 test('any throws early with bad arguments', t => {
-    t.throws(_ => any([], 2))
     t.throws(_ => any())
+    t.throws(_ => any([], 2))
     t.throws(_ => any([], x => x, 'banana'))
 })
 

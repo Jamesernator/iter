@@ -82,8 +82,8 @@ test('iterableGenerator has arguments forwarded to created iterator', t => {
 })
 
 test('iterableGenerator throws early on invalid arguments', t => {
-    t.throws(_ => iterableGenerator('foo'))
     t.throws(_ => iterableGenerator())
+    t.throws(_ => iterableGenerator('foo'))
     // eslint-disable-next-line no-empty-function
     t.throws(_ => iterableGenerator(function* foo() {}, 12))
 })

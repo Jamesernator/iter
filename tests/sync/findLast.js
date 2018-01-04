@@ -55,15 +55,11 @@ test("findLast returns the default when provided and it can't find any such elem
     )
 })
 
-test('findLast throws on bad arguments', t => {
+test('findLast throws early on bad arguments', t => {
     const data = []
-    t.throws(_ => {
-        findLast(data, _ => 2, x => x, 3)
-    })
-
-    t.throws(_ => {
-        findLast(data, 2)
-    })
+    t.throws(_ => findLast())
+    t.throws(_ => findLast(data, _ => 2, x => x, 3))
+    t.throws(_ => findLast(data, 2))
 })
 
 import countClosing from "./helpers/countClosing.mjs"

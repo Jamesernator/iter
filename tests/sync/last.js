@@ -44,6 +44,7 @@ test('last with count that is too short can be supressed by passing true', t => 
 })
 
 test('last throws early with invalid arguments', t => {
+    t.throws(_ => last())
     t.throws(_ => last([1, 2, 3], 'banana'))
     t.throws(_ => last([], 2, true, 12))
     t.throws(_ => last([], 'single', true))
