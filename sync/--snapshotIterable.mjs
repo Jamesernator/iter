@@ -4,7 +4,7 @@
 */
 export default function snapshotIterable(maybeIterable) {
     if (maybeIterable == null) {
-        return false
+        return null
     }
     const iteratorMethod = maybeIterable[Symbol.iterator]
     if (typeof iteratorMethod === 'function') {
@@ -16,6 +16,6 @@ export default function snapshotIterable(maybeIterable) {
             iterable: maybeIterable,
         })
     } else {
-        return false
+        return null
     }
 }

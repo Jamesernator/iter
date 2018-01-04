@@ -4,7 +4,7 @@ import snapshotIterable from "./--snapshotIterable.mjs"
 import assert from "../--assert.mjs"
 import iterator from "./--iterator.mjs"
 
-const _zip = iterableGenerator(function* zip(...iterables) {
+const _zipLongest = iterableGenerator(async function* zipLongest(...iterables) {
     const iteratorsDone = new Set()
     const iterators = []
     try {
@@ -13,18 +13,18 @@ const _zip = iterableGenerator(function* zip(...iterables) {
         }
 
         while (true) {
-            const nexts = iterators.map(iterator => {
+            const nexts = await Promise.all(iterators.map(async iterator => {
                 if (iteratorsDone.has(iterator)) {
                     return { done: true, value: undefined }
                 }
-                const result = iterator.next()
+                const result = await iterator.next()
                 const done = result.done
                 if (done) {
                     iteratorsDone.add(iterator)
                 }
                 return { done, value: result.value }
-            })
-            if (nexts.some(({ done }) => done)) {
+            }))
+            if (nexts.every(({ done }) => done)) {
                 return
             }
             yield nexts.map(({ value }) => value)
@@ -32,7 +32,9 @@ const _zip = iterableGenerator(function* zip(...iterables) {
     } finally {
         for (const iterator of iterators) {
             try {
-                iterator.return()
+                if (!iteratorsDone.has(iterator)) {
+                    iterator.return()
+                }
             } catch (_) {
                 /* Ensure all iterators close */
             }
@@ -40,15 +42,15 @@ const _zip = iterableGenerator(function* zip(...iterables) {
     }
 })
 
-function zip(iterable, ...others) {
+function zipLongest(iterable, ...others) {
     const snapshots = others.map(otherIterable => snapshotIterable(otherIterable))
     assert.every(
         snapshots,
         iter => iter,
-        `[zip] Can't zip with non-iterable`,
+        `[zipLongest] Can't zipLongest with non-iterable`,
     )
-    return _zip(iterable, ...snapshots)
+    return _zipLongest(iterable, ...snapshots)
 }
 
-export default create(zip)
-export { _zip as raw }
+export default create(zipLongest)
+export { _zipLongest as raw }

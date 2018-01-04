@@ -10,7 +10,7 @@ test("iterator returns an iterator for a given iterable", t => {
     t.deepEqual(iter.next(), { done: true, value: undefined })
 })
 
-test("iterator reuses the initial value of nextMethod", t => {
+test.failing("iterator reuses the initial value of nextMethod", t => {
     const iter = iterator({
         [Symbol.iterator]() {
             return {
@@ -28,8 +28,18 @@ test("iterator reuses the initial value of nextMethod", t => {
     t.deepEqual(iter.next(), { done: false, value: 1 })
 })
 
-test("iterator returned is frozen", t => {
-    const iter = iterator('foobar')
+import countClosing from "./helpers/countClosing.mjs"
 
-    t.true(Object.isFrozen(iter))
+
+test("calling return is idempotent when the sequence is already closed", t => {
+    const data = countClosing([1, 2, 3, 4, 5])
+    const seq = iterator(data)
+
+    seq.next()
+    seq.next()
+    t.is(data.closed, 0)
+    seq.return()
+    t.is(data.closed, 1)
+    seq.return()
+    t.is(data.closed, 1)
 })

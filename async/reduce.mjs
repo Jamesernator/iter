@@ -2,7 +2,7 @@ import { raw as create } from "./createOperator.mjs"
 import iterator from "./--iterator.mjs"
 import assert from "../--assert.mjs"
 
-function __reduce(iterable, reducer, seeded, seedValue) {
+async function __reduce(iterable, reducer, seeded, seedValue) {
     const iter = iterator(iterable)
     try {
         let acc
@@ -10,7 +10,7 @@ function __reduce(iterable, reducer, seeded, seedValue) {
         if (seeded) {
             acc = seedValue
         } else {
-            const { value, done } = iter.next()
+            const { value, done } = await iter.next()
             if (done) {
                 throw new Error(`[reduce] Can't reduce empty sequence with no initial value`)
             }
@@ -18,13 +18,13 @@ function __reduce(iterable, reducer, seeded, seedValue) {
             idx += 1
         }
 
-        for (const item of iter) {
-            acc = reducer(acc, item, idx)
+        for await (const item of iter) {
+            acc = await reducer(acc, item, idx)
             idx += 1
         }
         return acc
     } finally {
-        iter.return()
+        await iter.return()
     }
 }
 

@@ -4,7 +4,7 @@ import snapshotIterable from "./--snapshotIterable.mjs"
 import assert from "../--assert.mjs"
 import iterator from "./--iterator.mjs"
 
-const _zip = iterableGenerator(function* zip(...iterables) {
+const _zip = iterableGenerator(async function* zip(...iterables) {
     const iteratorsDone = new Set()
     const iterators = []
     try {
@@ -13,17 +13,17 @@ const _zip = iterableGenerator(function* zip(...iterables) {
         }
 
         while (true) {
-            const nexts = iterators.map(iterator => {
+            const nexts = await Promise.all(iterators.map(async iterator => {
                 if (iteratorsDone.has(iterator)) {
                     return { done: true, value: undefined }
                 }
-                const result = iterator.next()
+                const result = await iterator.next()
                 const done = result.done
                 if (done) {
                     iteratorsDone.add(iterator)
                 }
                 return { done, value: result.value }
-            })
+            }))
             if (nexts.some(({ done }) => done)) {
                 return
             }
@@ -32,7 +32,7 @@ const _zip = iterableGenerator(function* zip(...iterables) {
     } finally {
         for (const iterator of iterators) {
             try {
-                iterator.return()
+                await iterator.return()
             } catch (_) {
                 /* Ensure all iterators close */
             }

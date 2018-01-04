@@ -60,15 +60,6 @@ test("scan iterator closing on early end", t => {
     t.is(data.closed, 1)
 })
 
-test("scan iterator closing on early end with seed", t => {
-    const data = countClosing([1, 2, 3, 4])
-    const seq = scan(data, 0, _ => _)[Symbol.iterator]()
-
-    seq.next()
-    seq.return()
-    t.is(data.closed, 1)
-})
-
 test("scan iterator closing on reducer error", t => {
     const data = countClosing([1, 2, 3, 4])
     const seq = scan(data, _ => { throw "Error" })

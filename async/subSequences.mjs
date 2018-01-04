@@ -3,26 +3,26 @@ import { raw as iterableGenerator } from "./iterableGenerator.mjs"
 import assert from "../--assert.mjs"
 import iterator from "./--iterator.mjs"
 
-const _subSequences = iterableGenerator(function* subSequences(iterable, subSequenceSize=2) {
+const _subSequences = iterableGenerator(async function* subSequences(iterable, subSequenceSize=2) {
     const iter = iterator(iterable)
     try {
         const buff = []
         for (let i = 0; i < subSequenceSize; i += 1) {
-            const { value, done } = iter.next()
+            const { value, done } = await iter.next()
             if (done) {
                 return
             }
             buff.push(value)
         }
 
-        for (const item of iter) {
+        for await (const item of iter) {
             yield [...buff]
             buff.shift()
             buff.push(item)
         }
         yield [...buff]
     } finally {
-        iter.return()
+        await iter.return()
     }
 })
 

@@ -3,21 +3,21 @@ import { raw as iterableGenerator } from "./iterableGenerator.mjs"
 import assert from "../--assert.mjs"
 import iterator from "./--iterator.mjs"
 
-const _pairWise = iterableGenerator(function* pairWise(iterable) {
+const _pairWise = iterableGenerator(async function* pairWise(iterable) {
     const iter = iterator(iterable)
     try {
-        const { value, done } = iter.next()
+        const { value, done } = await iter.next()
         if (done) {
             return
         }
 
         let last = value
-        for (const item of iter) {
+        for await (const item of iter) {
             yield [last, item]
             last = item
         }
     } finally {
-        iter.return()
+        await iter.return()
     }
 })
 

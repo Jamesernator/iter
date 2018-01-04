@@ -1,15 +1,19 @@
-import assert from "../--assert.mjs"
-
-function _snapshotIterable(maybeIterable) {
+/* snapshotIterable takes a snapshot of the iterable at the given time
+    returning a new object that when iterated will call the original
+    [Symbol.iterator] method
+*/
+export default function snapshotIterable(maybeIterable) {
     if (maybeIterable == null) {
-        return false
+        return null
     }
     const asyncIteratorMethod = maybeIterable[Symbol.asyncIterator]
-    if (typeof iteratorMethod === 'function') {
+    if (typeof asyncIteratorMethod === 'function') {
         return Object.freeze({
             [Symbol.asyncIterator](...args) {
                 return Reflect.apply(asyncIteratorMethod, maybeIterable, args)
             },
+
+            iterable: maybeIterable,
         })
     } else {
         const syncIteratorMethod = maybeIterable[Symbol.iterator]
@@ -18,20 +22,11 @@ function _snapshotIterable(maybeIterable) {
                 [Symbol.iterator](...args) {
                     return Reflect.apply(syncIteratorMethod, maybeIterable, args)
                 },
+
+                iterable: maybeIterable,
             })
         } else {
-            return false
+            return null
         }
     }
 }
-
-/* snapshotIterable takes a snapshot of the iterable at the given time
-    returning a new object that when iterated will call the original
-    [Symbol.asyncIterator]/[Symbol.iterator]
-*/
-export default function snapshotIterable(maybeIterable, ...args) {
-    assert.empty(args, `[snapshotIterable] Unexpected additional arguments to snapshotIterable`)
-    return _snapshotIterable(maybeIterable)
-}
-
-export { _snapshotIterable as raw }

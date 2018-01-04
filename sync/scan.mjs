@@ -26,7 +26,7 @@ const __scan = iterableGenerator(function* scan(iterable, reducer, seeded, seedV
             idx += 1
         }
     } finally {
-        iter.close()
+        iter.return()
     }
 })
 

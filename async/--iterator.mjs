@@ -3,6 +3,6 @@
     once
 */
 
-export default function* iterator(iterable) {
+export default async function* iterator(iterable) {
     yield* iterable
 }

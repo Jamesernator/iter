@@ -1,8 +1,9 @@
 import { raw as create } from "./createOperator.mjs"
-import iterator from "./--iterator.mjs"
+import { raw as iterableGenerator } from "./iterableGenerator.mjs"
 import assert from "../--assert.mjs"
+import iterator from "./--iterator.mjs"
 
-function __reduce(iterable, reducer, seeded, seedValue) {
+const __scan = iterableGenerator(async function* scan(iterable, reducer, seeded, seedValue) {
     const iter = iterator(iterable)
     try {
         let acc
@@ -10,25 +11,26 @@ function __reduce(iterable, reducer, seeded, seedValue) {
         if (seeded) {
             acc = seedValue
         } else {
-            const { value, done } = iter.next()
+            const { value, done } = await iter.next()
             if (done) {
-                throw new Error(`[reduce] Can't reduce empty sequence with no initial value`)
+                throw new Error(`[scan] Can't scan empty sequence with no initial value`)
             }
             acc = value
             idx += 1
         }
 
-        for (const item of iter) {
-            acc = reducer(acc, item, idx)
+        yield acc
+        for await (const item of iter) {
+            acc = await reducer(acc, item, idx)
+            yield acc
             idx += 1
         }
-        return acc
     } finally {
-        iter.return()
+        await iter.return()
     }
-}
+})
 
-function _reduce(iterable, ...args) {
+function _scan(iterable, ...args) {
     /* eslint-disable indent */
     const [seeded, seedValue, reducer]
         = args.length === 0 ?
@@ -38,13 +40,13 @@ function _reduce(iterable, ...args) {
         :
             [true, ...args]
     /* eslint-enable indent */
-    return __reduce(iterable, reducer, seeded, seedValue)
+    return __scan(iterable, reducer, seeded, seedValue)
 }
 
-function reduce(iterable, ...args) {
+function scan(iterable, ...args) {
     /* eslint-disable indent */
     const unexpectedArgs = _ => {
-        throw new Error(`[reduce] Unexpected additional arguments`)
+        throw new Error(`[scan] Unexpected additional arguments`)
     }
 
     const [seeded, seedValue, reducer]
@@ -58,9 +60,9 @@ function reduce(iterable, ...args) {
             unexpectedArgs()
     /* eslint-enable indent */
 
-    assert.function(reducer, `[reduce] Expected reducer to be a function`)
-    return __reduce(iterable, reducer, seeded, seedValue)
+    assert.function(reducer, `[scan] Expected scanr to be a function`)
+    return __scan(iterable, reducer, seeded, seedValue)
 }
 
-export default create(reduce)
-export { _reduce as raw }
+export default create(scan)
+export { _scan as raw }
