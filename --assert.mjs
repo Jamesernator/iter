@@ -24,6 +24,10 @@ assert.number = function(number, message) {
 }
 
 assert.type = function(types, value, message) {
+    if (typeof types === 'string') {
+        // eslint-disable-next-line no-param-reassign
+        types = [types]
+    }
     if (!types.includes(typeof value)) {
         throw new Error(message)
     }
