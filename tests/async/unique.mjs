@@ -57,8 +57,8 @@ test("unique iterator closing", async t => {
 test("unique iterator closing on set method error", async t => {
     const data = countClosing([1, 2, 3, 4])
     const set = {
-        add() { throw "Error" },
-        has() { throw "Error" },
+        add() { throw new Error("Error") },
+        has() { throw new Error("Error") },
     }
     const seq = unique(data, set)[Symbol.asyncIterator]()
 

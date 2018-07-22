@@ -1,52 +1,52 @@
 import test from "ava"
-import reduce from "../../async/reduce.mjs"
+import reduce from "../../sync/reduce.mjs"
 
-test('reduce without arguments joins sequence using +', async t => {
+test('reduce without arguments joins sequence using +', t => {
     const target = ['Cat', 'Hat', 'Bat']
     t.is(
-        await reduce(target),
+        reduce(target),
         'CatHatBat',
     )
 })
 
-test('reduce without initial value', async t => {
+test('reduce without initial value', t => {
     const target = ['Cat', 'Hat', 'Bat']
     t.is(
-        await reduce(target, (acc, item) => acc + item.repeat(2)),
+        reduce(target, (acc, item) => acc + item.repeat(2)),
         'CatHatHatBatBat',
     )
     t.is(
-        await reduce(target, (acc, item, idx) => acc + item.repeat(idx)),
+        reduce(target, (acc, item, idx) => acc + item.repeat(idx)),
         'CatHatBatBat',
     )
 })
 
-test('reduce without initial value throws on empty sequence', async t => {
+test('reduce without initial value throws on empty sequence', t => {
     const target = []
     try {
-        await reduce(target, (x, y) => x + y)
+        reduce(target, (x, y) => x + y)
         t.fail("reduce didn't throw")
     } catch (_) {
         t.pass()
     }
 })
 
-test('reduce with initial value', async t => {
+test('reduce with initial value', t => {
     const target = ['Cat', 'Hat', 'Bat']
     t.is(
-        await reduce(target, 'Tat', (acc, item) => acc + item),
+        reduce(target, 'Tat', (acc, item) => acc + item),
         'TatCatHatBat',
     )
     t.is(
-        await reduce(target, 'Tat', (acc, item, idx) => acc + item.repeat(idx)),
+        reduce(target, 'Tat', (acc, item, idx) => acc + item.repeat(idx)),
         'TatHatBatBat',
     )
 })
 
-test("reduce with initial value does not throw on empty sequence", async t => {
+test("reduce with initial value does not throw on empty sequence", t => {
     const target = []
     try {
-        await reduce(target, '', (x, y) => x + y)
+        reduce(target, '', (x, y) => x + y)
         t.pass()
     } catch (_) {
         t.fail("reduce threw error on empty sequence with initial value")
@@ -62,8 +62,8 @@ test("reduce throws early on invalid arguments", t => {
 
 import countClosing from "./helpers/countClosing.mjs"
 
-test("reduce closing on iteratee error", async t => {
+test("reduce closing on iteratee error", t => {
     const data = countClosing([1, 2, 3, 4])
-    await t.throws(reduce(data, _ => { throw "Error" }))
+    t.throws(_ => reduce(data, _ => { throw new Error("Error") }))
     t.is(data.closed, 1)
 })

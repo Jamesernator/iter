@@ -29,12 +29,12 @@ test("sample with numeric argument and boolean true doesn't throw", async t => {
     t.deepEqual([1, 2, 3], await sample(data, 10, true))
 })
 
-test("sample throws on invalid arguments", t => {
+test("sample throws on invalid arguments", async t => {
     const data = [1, 2, 3, 4]
     t.throws(_ => sample())
     t.throws(_ => sample(data, 'fizzbuzz'))
     t.throws(_ => sample(data, [1, 2, 3, 4]))
     t.throws(_ => sample(data, 3, true, 'banana'))
 
-    t.notThrows(_ => sample(data, 'single'))
+    await t.notThrows(_ => sample(data, 'single'))
 })

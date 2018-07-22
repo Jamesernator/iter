@@ -75,7 +75,7 @@ test("countBy with custom map object and key function", async t => {
 })
 
 /* eslint-disable no-empty-function */
-test("countBy throws early on invalid arguments", t => {
+test("countBy throws early on invalid arguments", async t => {
     t.throws(_ => countBy([], 2))
     t.throws(_ => countBy([], null, { x: 10 }))
 
@@ -84,7 +84,7 @@ test("countBy throws early on invalid arguments", t => {
         set() { },
     }))
 
-    t.notThrows(_ => countBy([], {
+    await t.notThrows(_ => countBy([], {
         get() { },
         set() { },
     }))

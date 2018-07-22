@@ -43,7 +43,7 @@ test('groupBy defaults to identity', async t => {
     )
 })
 
-test('groupBy throws early on bad arguments', t => {
+test('groupBy throws early on bad arguments', async t => {
     t.throws(_ => groupBy())
     t.throws(_ => groupBy([], 2))
     // eslint-disable-next-line no-empty-function
@@ -51,7 +51,7 @@ test('groupBy throws early on bad arguments', t => {
     // eslint-disable-next-line no-empty-function
     t.throws(_ => groupBy([], { get() {}, set() {}, has() {} }, x => x, []))
     // eslint-disable-next-line no-empty-function
-    t.notThrows(_ => groupBy([], { set() {}, get() {}, has() {} }, x => x))
+    await t.notThrows(_ => groupBy([], { set() {}, get() {}, has() {} }, x => x))
 })
 
 import countClosing from "./helpers/countClosing.mjs"

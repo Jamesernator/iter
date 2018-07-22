@@ -10,7 +10,7 @@ test("iterator returns an iterator for a given iterable", t => {
     t.deepEqual(iter.next(), { done: true, value: undefined })
 })
 
-test.failing("iterator reuses the initial value of nextMethod", t => {
+test("iterator reuses the initial value of nextMethod", t => {
     const iter = iterator({
         [Symbol.iterator]() {
             return {

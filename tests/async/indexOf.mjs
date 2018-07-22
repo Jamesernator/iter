@@ -54,6 +54,6 @@ test("iterator closing", async t => {
     await indexOf(data, 2)
     t.is(data.closed, 1)
 
-    await t.throws(indexOf(data, 'foo', _ => { throw "Error" }))
+    await t.throws(indexOf(data, 'foo', _ => { throw new Error("Error") }))
     t.is(data.closed, 2)
 })

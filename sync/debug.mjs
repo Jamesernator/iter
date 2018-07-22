@@ -10,6 +10,7 @@ const _debug = iterableGenerator(function* debug(iterable, iteratee=console.log)
     }
 })
 
+
 function debug(iterable, iteratee=console.log, ...rest) {
     assert.function(iteratee, `[debug] Expected iteratee to be a function`)
     assert.empty(rest, `[debug] Unexpected additional arguments`)

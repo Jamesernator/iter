@@ -23,6 +23,6 @@ import countClosing from "./helpers/countClosing.mjs"
 
 test("iterator closing on iteratee error", t => {
     const data = countClosing([1, 2, 3, 4])
-    t.throws(_ => forEach(data, _ => { throw "Error" }))
+    t.throws(_ => forEach(data, _ => { throw new Error("Error") }))
     t.is(data.closed, 1)
 })

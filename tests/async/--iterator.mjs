@@ -10,7 +10,7 @@ test("iterator returns an iterator for a given iterable", async t => {
     t.deepEqual(await iter.next(), { done: true, value: undefined })
 })
 
-test.failing("iterator reuses the initial value of nextMethod", async t => {
+test("iterator reuses the initial value of nextMethod", async t => {
     const iter = iterator({
         [Symbol.asyncIterator]() {
             return {

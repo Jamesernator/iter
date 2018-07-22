@@ -53,6 +53,6 @@ test("iterator closing on early map close", async t => {
 
 test("iterator closing on error in iteratee", async t => {
     const data = countClosing([1, 2, 3, 4])
-    await t.throws(toArray(map(data, _ => { throw "Error" })))
+    await t.throws(toArray(map(data, _ => { throw new Error("Error") })))
     t.is(data.closed, 1)
 })

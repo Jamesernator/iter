@@ -54,6 +54,6 @@ test("iterator closing", t => {
     indexOf(data, 2)
     t.is(data.closed, 1)
 
-    t.throws(_ => indexOf(data, 'foo', _ => { throw "Error" }))
+    t.throws(_ => indexOf(data, 'foo', _ => { throw new Error("Error") }))
     t.is(data.closed, 2)
 })

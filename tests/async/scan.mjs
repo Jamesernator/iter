@@ -62,7 +62,7 @@ test("scan iterator closing on early end", async t => {
 
 test("scan iterator closing on reducer error", async t => {
     const data = countClosing([1, 2, 3, 4])
-    const seq = scan(data, _ => { throw "Error" })
+    const seq = scan(data, _ => { throw new Error("Error") })
 
     await t.throws(toArray(seq))
     t.is(data.closed, 1)

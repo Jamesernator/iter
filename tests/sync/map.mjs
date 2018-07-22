@@ -53,6 +53,6 @@ test("iterator closing on early map close", t => {
 
 test("iterator closing on error in iteratee", t => {
     const data = countClosing([1, 2, 3, 4])
-    t.throws(_ => [...map(data, _ => { throw "Error" })])
+    t.throws(_ => [...map(data, _ => { throw new Error("Error") })])
     t.is(data.closed, 1)
 })

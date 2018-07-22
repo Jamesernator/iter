@@ -41,6 +41,6 @@ test("none iterator closing on early find", t => {
 
 test("none iterator closing on predicate error", t => {
     const data = countClosing([1, 2, 3, 4])
-    t.throws(_ => none(data, _ => { throw "Error" }))
+    t.throws(_ => none(data, _ => { throw new Error("Error") }))
     t.is(data.closed, 1)
 })

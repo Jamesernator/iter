@@ -41,7 +41,7 @@ test("reject iterator closing on early close", t => {
 
 test("reject iterator closing on predicate error", t => {
     const data = countClosing([1, 2, 3, 4])
-    const seq = reject(data, _ => { throw "Error" })[Symbol.iterator]()
+    const seq = reject(data, _ => { throw new Error("Error") })[Symbol.iterator]()
 
     t.throws(_ => seq.next())
     t.is(data.closed, 1)
