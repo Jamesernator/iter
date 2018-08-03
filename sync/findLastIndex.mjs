@@ -36,7 +36,7 @@ function _findLastIndex(iterable, ...args) {
 
 function findLastIndex(iterable, ...args) {
     const unexpectedArgs = _ => {
-        throw new Error(`[findIndex] Unexpected additional arguments to find`)
+        throw new Error(`[findLastIndex] Unexpected additional arguments to find`)
     }
     /* eslint-disable indent */
     const [hasDefault, defaultValue, predicate]
@@ -49,7 +49,7 @@ function findLastIndex(iterable, ...args) {
         :
             unexpectedArgs()
     /* eslint-enable indent */
-    assert.function(predicate, `[findIndex] Expected find predicate to be a function`)
+    assert.function(predicate, `[findLastIndex] Expected find predicate to be a function`)
     return __findLastIndex(iterable, predicate, hasDefault, defaultValue)
 }
 

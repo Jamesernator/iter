@@ -34,6 +34,10 @@ function _flatMap(iterable, ...args) {
 }
 
 function flatMap(iterable, ...args) {
+    const tooFewArgs = _ => {
+        throw new Error(`[flatMap] Expected flatMapper function as argument to flatMap`)
+    }
+
     const unexpectedArgs = _ => {
         throw new Error(`[flatMap] Unexpected additional arguments to flatMap`)
     }
@@ -41,7 +45,7 @@ function flatMap(iterable, ...args) {
     /* eslint-disable indent */
     const [allowNonIterable, iteratee] =
         args.length === 0 ?
-            [false, x => [x]]
+            tooFewArgs()
         : args.length === 1 ?
             [false, ...args]
         : args.length === 2 ?

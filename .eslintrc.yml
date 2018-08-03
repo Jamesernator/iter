@@ -15,13 +15,7 @@ overrides:
             ecmaVersion: 8
             sourceType: module
 env:
-    browser: true
-    serviceworker: true
     es6: true
-
-globals:
-    ai: true
-    $: true
 
 rules:
     # ----- Error Detection ----- #
@@ -431,7 +425,7 @@ rules:
         - error
         - 4
     no-negated-condition:
-        - error
+        - off
     no-plusplus:
         - error
 

@@ -3,20 +3,20 @@ import { raw as iterableGenerator } from "./iterableGenerator.mjs"
 import snapshotIterable from "./--snapshotIterable.mjs"
 import assert from "../--assert.mjs"
 
-const _flatten = iterableGenerator(function* _flatten(iterable) {
+const _flat = iterableGenerator(function* _flat(iterable) {
     for (const item of iterable) {
         const snapshot = snapshotIterable(item)
         if (!snapshot) {
-            throw new Error(`[flatten] Can't flatten ${ item }`)
+            throw new Error(`[flat] Can't flat ${ item }`)
         }
         yield* item
     }
 })
 
-function flatten(iterable, ...rest) {
-    assert.empty(rest, `[flatten] Unexpected additional arguments to flatten`)
-    return _flatten(iterable)
+function flat(iterable, ...rest) {
+    assert.empty(rest, `[flat] Unexpected additional arguments to flat`)
+    return _flat(iterable)
 }
 
-export default create(flatten)
-export { _flatten as raw }
+export default create(flat)
+export { _flat as raw }
