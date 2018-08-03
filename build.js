@@ -33,7 +33,7 @@ function createCommonjs(type) {
             'use strict'
             const esm = require('esm')
             const loadModuleSync = esm(module, { mode: 'strict' })
-            module.exports = loadModuleSync('../../${ type }/${ name }.mjs')
+            module.exports = loadModuleSync('../../${ type }/${ name }.mjs').default
         `
         const outPath = path.join('cjs', type, `${ name }.js`)
         fs.writeFileSync(outPath, sourceText)
