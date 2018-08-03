@@ -16,7 +16,8 @@
         "dedent": "^0.7.0",
         "es6-array-map": "latest",
         "es6-array-set": "latest",
-        "folder-module": "latest"
+        "folder-module": "latest",
+        "typescript": "^3.1.0-dev.20180802"
     },
     "ava": {
         "files": [
