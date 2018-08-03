@@ -3,7 +3,8 @@ import { raw as iterableGenerator } from "./iterableGenerator.mjs"
 import iterator from "./--iterator.mjs"
 import assert from "../--assert.mjs"
 
-const _takeUntil = iterableGenerator(async function* takeUntil(iterable, promise) {
+const _takeUntil = iterableGenerator(async function* takeUntil(iterable, promiseOrFunc) {
+    const promise = typeof promiseOrFunc === 'function' ? promiseOrFunc() : promiseOrFunc 
     const terminated = Promise.resolve(promise).then(value => ({
         type: 'interrupt',
         value,
