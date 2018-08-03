@@ -5,7 +5,10 @@ import assert from "../--assert.mjs"
 async function __countBy(iterable, map, iteratee) {
     for await (const [idx, item] of enumerate(iterable)) {
         const key = await iteratee(item, idx)
-        map.set(key, (map.get(key) || 0) + 1)
+        if (!map.has(key)) {
+            map.set(key, 0)
+        }
+        map.set(key, map.get(key) + 1)
     }
     return map
 }
@@ -47,6 +50,7 @@ function countBy(iterable, ...args) {
     /* eslint-enable indent */
     assert(map && typeof map.get === 'function', `[countBy] map object doesn't have a get method`)
     assert(map && typeof map.set === 'function', `[countBy] map object doesn't have a set method`)
+    assert(map && typeof map.has === 'function', `[countBy] map object doesn't have a has method`)
     assert.function(iteratee, `[countBy] Expected iteratee to be a function`)
     return __countBy(iterable, map, iteratee)
 }
