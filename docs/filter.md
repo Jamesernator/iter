@@ -4,23 +4,29 @@
 ###### sync
 
 ```ts
+function filter<T, K extends T>(
+    iterable: Iterable<T>,
+    predicate?: (item: T, index: number) => item is K,
+): Iterable<K>
+
 function filter<T>(
     iterable: Iterable<T>,
-    predicate: (item: T, index: number) => any,
+    predicate?: (item: T, index: number) => any,
 ): Iterable<T>
-
-function filter(iterable, predicate = x => x)
 ```
 
 ###### async
 
 ```ts
+function filter<T, K extends T>(
+    asyncIterable: AsyncOrSyncIterable<T>,
+    predicate?: (item: T, index: number) => item is K,
+): AsyncIterable<K>
+
 function filter<T>(
     asyncIterable: AsyncOrSyncIterable<T>,
-    predicate: (item: T, index: number) => Promise<any> | any,
+    predicate?: (item: T, index: number) => any | Promise<any>,
 ): AsyncIterable<T>
-
-function filter(iterable, predicate = x => x)
 ```
 
 The `filter` function creates a new iterable that emits all items for which the predicate function returns `true`. The predicate function will be passed both the item and index.

@@ -3,17 +3,17 @@
 ###### sync
 
 ```ts
-function iterableGenerator<T, FuncArgs extends any[]>(
-    func: (...args: FuncArgs) => Iterator<T>,
-): (...args: FuncArgs) => Iterable<T>
+function iterableGenerator<T, Args extends any[]>(
+    genFunc: (...args: Args) => Iterator<T>
+): (...args: Args) => Iterable<T>
 ```
 
 ###### async
 
 ```ts
-function iterableGenerator<T, FuncArgs extends any[]>(
-    func: (...args: FuncArgs) => AsyncOrSyncIterator<T>,
-): (...args: FuncArgs) => AsyncIterable<T>
+function iterableGenerator<T, Args extends any[]>(
+    genFunc: (...args: Args) => AsyncIterator<T>
+): (...args: Args) => AsyncIterable<T>
 ```
 
 The `iterableGenerator` function is designed for wrapping generator functions so that they can be re-used as iterables multiple times.

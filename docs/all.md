@@ -6,10 +6,8 @@
 ```ts
 function all<T>(
     iterable: Iterable<T>,
-    predicate: (value: T, index: Number) => any,
+    predicate?: (item: T, index: number) => any ,
 ): boolean
-
-function all(iterable, predicate = x => x)
 ```
 
 ###### async
@@ -17,14 +15,9 @@ function all(iterable, predicate = x => x)
 ```ts
 function all<T>(
     asyncIterable: AsyncOrSyncIterable<T>,
-    predicate: (value: T, index: Number) => Promise<any> | any,
+    predicate?: (item: T, index: number) => any | Promise<any>,
 ): Promise<boolean>
-
-function all(asyncIterable, predicate = x => x)
 ```
-
-##### `sync.all(iterable, predicate=x => x)`
-##### `async.all(asyncIterable, predicate=x => x)`
 
 The `all` function will return `true` if and only if the predicate function passed returns a truthy value for all items in the iterable. Otherwise it returns `false`.
 

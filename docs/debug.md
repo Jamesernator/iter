@@ -6,10 +6,8 @@
 ```ts
 function debug<T>(
     iterable: Iterable<T>,
-    debuggerFunction: (item: T, index: number) => any,
+    iteratee?: (item: T, index: number) => void,
 ): Iterable<T>
-
-function debug(iterable, debuggerFunction=console.log)
 ```
 
 ###### async
@@ -17,10 +15,8 @@ function debug(iterable, debuggerFunction=console.log)
 ```ts
 function debug<T>(
     asyncIterable: AsyncOrSyncIterable<T>,
-    debuggerFunction: (item: T, index: number) => Promise<any> | any,
+    iteratee?: (item: T, index: number) => void | Promise<void>,
 ): AsyncIterable<T>
-
-function debug(asyncIterable, debuggerFunction=console.log)
 ```
 
 The `debug` function invokes the debuggerFunction on each item and index in the given iterable. In the async version we also `await` the result of calling the debug function.

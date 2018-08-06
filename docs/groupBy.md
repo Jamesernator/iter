@@ -3,71 +3,61 @@
 ###### sync
 
 ```ts
-interface GroupMap<Key, Value> {
-    get(key: Key): Value,
-    set(key: Key, value: Value): any,
-    has(key: Key): any,
+interface MapLike<Key, Value> {
+    get(key: Key): Value | undefined
+    set(key: Key, value: Value): void
+    has(key: Key): any
 }
 
 function groupBy<T>(
-    iterable: Iterable<T>
+    iterable: Iterable<T>,
 ): Map<T, Array<T>>
 
 function groupBy<T, Key>(
     iterable: Iterable<T>,
-    keyFunction: (item: T, index: number) => Key,
+    keyFunc: (item: T, index: number) => Key,
 ): Map<Key, Array<T>>
 
 function groupBy<T>(
     iterable: Iterable<T>,
-    customMap: CountMap<T, number>,
-): GroupMap<T, Array<T>>
+    mapLike: MapLike<T, Array<T>>,
+): MapLike<T, Array<T>>
 
 function groupBy<T, Key>(
     iterable: Iterable<T>,
-    customMap: CountMap<Key, number>,
-    keyFunction: (item: T, index: number) => Key,
-): GroupMap<Key, Array<T>>
-
-function groupBy(iterable)
-function groupBy(iterable, keyFunction)
-function groupBy(iterable, customMap)
-function groupBy(iterable, customMap = new Map(), keyFunction = x => x)
+    mapLike: MapLike<Key, Array<T>>,
+    keyFunc: (item: T, index: number) => Key,
+): MapLike<Key, Array<T>>
 ```
 
 ###### async
 
 ```ts
-interface GroupMap<Key, Value> {
-    get(key: Key): Value,
-    set(key: Key, value: Value): any,
-    has(key: Key): any,
+interface MapLike<Key, Value> {
+    get(key: Key): Value | undefined
+    set(key: Key, value: Value): void
+    has(key: Key): any
 }
 
 function groupBy<T>(
-    asyncIterable: AsyncOrSyncIterable<T>
-): Promise< Map<T, Array<T>> >
+    asyncIterable: AsyncOrSyncIterable<T>,
+): Promise<Map<T, Array<T>>>
 
 function groupBy<T, Key>(
-    asyncIterable: Iterable<T>,
-    keyFunction: (item: T, index: number) => Key,
-): Promise< Map<Key, Array<T>> >
+    asyncIterable: AsyncOrSyncIterable<T>,
+    keyFunc: (item: T, index: number) => Key | Promise<Key>,
+): Promise<Map<Key, Array<T>>>
 
 function groupBy<T>(
-    asyncIterable: Iterable<T>,
-    customMap: CountMap<T, number>,
-): Promise< GroupMap<T, Array<T>> >
+    asyncIterable: AsyncOrSyncIterable<T>,
+    mapLike: MapLike<T, Array<T>>,
+): Promise<MapLike<T, Array<T>>>
 
 function groupBy<T, Key>(
-    asyncIterable: Iterable<T>,
-    customMap: CountMap<Key, number>,
-    keyFunction: (item: T, index: number) => Key,
-): Promise< GroupMap<Key, Array<T>> >
-
-function groupBy(asyncIterable)
-function groupBy(asyncIterable, keyFunction)
-function groupBy(asyncIterable, customMap)
-function groupBy(asyncIterable, customMap = new Map(), keyFunction = x => x)
+    asyncIterable: AsyncOrSyncIterable<T>,
+    mapLike: MapLike<Key, Array<T>>,
+    keyFunc: (item: T, index: number) => Key | Promise<Key>,
+): Promise<MapLike<Key, Array<T>>>
 ```
 
 The `groupBy` function groups items from the asyncIterable into a map that has keys which are returned from passing each item in the iterable

@@ -10,11 +10,9 @@ There is no sync `debounce`.
 ```ts
 function debounce<T>(
     asyncIterable: AsyncOrSyncIterable<T>,
-    time: number, // milliseconds
-    trailing: boolean,
+    time: number,
+    trailing?: boolean
 ): AsyncIterable<T>
-
-function debouce(asyncIterable, time, trailing=false)
 ```
 
 The `debounce` function filters a stream so that it only emits an item if the amount of time passed is greater than the `time` parameter.

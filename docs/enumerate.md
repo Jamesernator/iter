@@ -7,8 +7,6 @@
 function enumerate<T>(
     iterable: Iterable<T>,
 ): Iterable<[number, T]>
-
-function enumerate(iterable)
 ```
 
 ###### async
@@ -17,8 +15,6 @@ function enumerate(iterable)
 function enumerate<T>(
     asyncIterable: AsyncOrSyncIterable<T>,
 ): AsyncIterable<[number, T]>
-
-function enumerate(asyncIterable)
 ```
 
 The enumerate function emits pairs of `[index, item]` for each item in the source iterable.

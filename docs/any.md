@@ -5,10 +5,8 @@
 ```ts
 function any<T>(
     iterable: Iterable<T>,
-    predicate: (value: T, index: Number) => any,
+    predicate?: (item: T, index: number) => any,
 ): boolean
-
-function any(iterable, predicate = x => x)
 ```
 
 ###### async
@@ -16,10 +14,8 @@ function any(iterable, predicate = x => x)
 ```ts
 function any<T>(
     asyncIterable: AsyncOrSyncIterable<T>,
-    predicate: (value: T, index: Number) => Promise<any> | any,
+    predicate?: (item: T, index: number) => any | Promise<any>,
 ): Promise<boolean>
-
-function any(asyncIterable, predicate = x => x)
 ```
 
 

@@ -5,28 +5,17 @@
 ```ts
 function forEach<T>(
     iterable: Iterable<T>,
+    iteratee?: (item: T, index: number) => void,
 ): void
-
-function forEach<T>(
-    iterable: Iterable<T>,
-    func: (item: T, index: number) => any,
-): void
-
-function forEach(iterable)
-function forEach(iterable, func)
 ```
 
 ###### async
 
 ```ts
 function forEach<T>(
-    iterable: Iterable<T>,
+    asyncIterable: AsyncOrSyncIterable<T>,
+    iteratee?: (item: T, index: number) => void | Promise<void>,
 ): Promise<void>
-
-function forEach<T>(
-    iterable: Iterable<T>,
-    func: (item: T, index: number) => Promise<any> | any,
-): void
 ```
 
 The `forEach` function invokes the given function for each item in the iterable (`await`-ing the result in case of async before proceeding).

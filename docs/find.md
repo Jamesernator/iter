@@ -13,14 +13,11 @@ function find<T>(
     predicate: (item: T, index: number) => any,
 ): T
 
-function find<T>(
+function find<T, K>(
     iterable: Iterable<T>,
-    defaultValue: T,
+    defaultValue: K,
     predicate: (item: T, index: number) => any,
-): T
-
-function find(iterable, predicate = x => x)
-function find(iterable, defaultValue, predicate = x => x)
+): T | K
 ```
 
 ###### async
@@ -32,17 +29,14 @@ function find<T>(
 
 function find<T>(
     asyncIterable: AsyncOrSyncIterable<T>,
-    predicate: (item: T, index: number) => any,
+    predicate: (item: T, index: number) => any | Promise<any>,
 ): Promise<T>
 
-function find<T>(
+function find<T, K>(
     asyncIterable: AsyncOrSyncIterable<T>,
-    defaultValue: Promise<T> | T,
-    predicate: (item: T, index: number) => any,
-): Promise<T>
-
-function find(asyncIterable, predicate = x => x)
-function find(asyncIterable, defaultValue, predicate = x => x)
+    defaultValue: K,
+    predicate: (item: T, index: number) => any | Promise<any>,
+): Promise<T | K>
 ```
 
 The `find` function returns the first value in the iterable for which the predicate function returns a truthy value.

@@ -4,12 +4,11 @@
 
 ```ts
 function lastIndexOf<T>(
-    iterable: Iterable<T>,
-    searchItem: T,
-    equality: (item: T, testItem: T) => any,
+    asyncIterable: Iterable<T>,
+    item: T,
+    equality?: (item: T, otherItem: T) => any, 
 ): number | null
 
-function lastIndexOf(iterable, searchItem, equality=Object.is)
 ```
 
 ###### async
@@ -17,9 +16,9 @@ function lastIndexOf(iterable, searchItem, equality=Object.is)
 ```ts
 function lastIndexOf<T>(
     asyncIterable: AsyncOrSyncIterable<T>,
-    searchItem: T,
-    equality: (item: T, testItem: T) => any,
-): Promise< number | null >
+    item: T,
+    equality?: (item: T, otherItem: T) => any, 
+): Promise<number | null>
 ```
 
 The `lastIndexOf` method returns the last index at which the item appears in the iterable if it's found, otherwise it returns `null`.

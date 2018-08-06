@@ -5,11 +5,9 @@
 ```ts
 function indexOf<T>(
     iterable: Iterable<T>,
-    searchItem: T,
-    equality: (item: T, testItem: T) => any,
+    item: T,
+    equality?: (item: T, otherItem: T) => any, 
 ): number | null
-
-function indexOf(iterable, searchItem, equality=Object.is)
 ```
 
 ###### async
@@ -17,9 +15,9 @@ function indexOf(iterable, searchItem, equality=Object.is)
 ```ts
 function indexOf<T>(
     asyncIterable: AsyncOrSyncIterable<T>,
-    searchItem: T,
-    equality: (item: T, testItem: T) => any,
-): Promise< number | null >
+    item: T,
+    equality?: (item: T, otherItem: T) => any, 
+): Promise<number | null>
 ```
 
 The `indexOf` method returns the index at which the item first appears in the iterable if it's found, otherwise it returns `null`.

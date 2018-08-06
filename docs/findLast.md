@@ -13,14 +13,11 @@ function findLast<T>(
     predicate: (item: T, index: number) => any,
 ): T
 
-function findLast<T>(
+function findLast<T, K>(
     iterable: Iterable<T>,
-    defaultValue: T,
+    defaultValue: K,
     predicate: (item: T, index: number) => any,
-): T
-
-function findLast(iterable, predicate = x => x)
-function findLast(iterable, defaultValue, predicate = x => x)
+): T | K
 ```
 
 ###### async
@@ -32,17 +29,14 @@ function findLast<T>(
 
 function findLast<T>(
     asyncIterable: AsyncOrSyncIterable<T>,
-    predicate: (item: T, index: number) => any,
+    predicate: (item: T, index: number) => any | Promise<any>,
 ): Promise<T>
 
-function findLast<T>(
+function findLast<T, K>(
     asyncIterable: AsyncOrSyncIterable<T>,
-    defaultValue: Promise<T> | T,
-    predicate: (item: T, index: number) => any,
-): Promise<T>
-
-function findLast(asyncIterable, predicate = x => x)
-function findLast(asyncIterable, defaultValue, predicate = x => x)
+    defaultValue: K,
+    predicate: (item: T, index: number) => any | Promise<any>,
+): Promise<T | K>
 ```
 
 The `findLast` function returns the last value in the iterable for which the predicate function returns a truthy value.

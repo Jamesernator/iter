@@ -12,14 +12,11 @@ function findIndex<T>(
     predicate: (item: T, index: number) => any,
 ): number
 
-function findIndex<T>(
+function findIndex<T, Default>(
     iterable: Iterable<T>,
-    defaultValue: number,
+    defaultValue: Default,
     predicate: (item: T, index: number) => any,
-): number
-
-function findIndex(iterable, predicate = x => x)
-function findIndex(iterable, defaultValue, predicate = x => x)
+): number | Default
 ```
 
 ###### async
@@ -30,14 +27,14 @@ function findIndex<T>(
 
 function findIndex<T>(
     asyncIterable: AsyncOrSyncIterable<T>,
-    predicate: (item: T, index: number) => any,
+    predicate: (item: T, index: number) => any | Promise<any>,
 ): Promise<number>
 
-function findIndex<T>(
+function findIndex<T, Default>(
     asyncIterable: AsyncOrSyncIterable<T>,
-    defaultValue: number,
-    predicate: (item: T, index: number) => any,
-): Promise<number>
+    defaultValue: Default,
+    predicate: (item: T, index: number) => any | Promise<any>,
+): Promise<number | Default>
 ```
 
 The `findIndex` function returns the first index in the iterable for which the predicate function returns a truthy value.

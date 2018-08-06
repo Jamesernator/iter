@@ -5,22 +5,14 @@
 ```ts
 function last<T>(
     iterable: Iterable<T>,
+    n?: 'single'
 ): T
 
 function last<T>(
     iterable: Iterable<T>,
-    count: number,
+    n: number,
+    allowLessThanN?: boolean,
 ): Array<T>
-
-function last<T>(
-    iterable: Iterable<T>,
-    count: number,
-    allowLess: boolean,
-): Array<T>
-
-function last(iterable)
-function last(iterable, count)
-function last(iterable, count, allowLess)
 ```
 
 ###### async
@@ -28,17 +20,13 @@ function last(iterable, count, allowLess)
 ```ts
 function last<T>(
     asyncIterable: AsyncOrSyncIterable<T>,
+    n?: 'single'
 ): Promise<T>
 
 function last<T>(
     asyncIterable: AsyncOrSyncIterable<T>,
-    count: number,
-): Promise<Array<T>>
-
-function last<T>(
-    asyncIterable: AsyncOrSyncIterable<T>,
-    count: number,
-    allowLess: boolean,
+    n: number,
+    allowLessThanN?: boolean,
 ): Promise<Array<T>>
 ```
 

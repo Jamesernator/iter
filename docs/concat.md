@@ -1,4 +1,3 @@
-
 ### `concat`
 
 ###### sync
@@ -6,10 +5,8 @@
 ```ts
 function concat<T>(
     iterable: Iterable<T>,
-    ...others: Array<Iterable<T>>,
+    ...otherIterables: Array<Iterable<T>>,
 ): Iterable<T>
-
-function concat(iterable, ...others)
 ```
 
 ###### async
@@ -17,10 +14,8 @@ function concat(iterable, ...others)
 ```ts
 function concat<T>(
     asyncIterable: AsyncOrSyncIterable<T>,
-    ...others: Array<AsyncOrSyncIterable<T>>,
+    ...otherAsyncIterables: Array<AsyncOrSyncIterable<T>>,
 ): AsyncIterable<T>
-
-function concat(asyncIterable, ...others)
 ```
 
 The `concat` function takes 1 or more iterables and returns a new iterable that when iterated will emit all items from the first iterable, then all items from the second iterable, etc.

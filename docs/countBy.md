@@ -3,71 +3,61 @@
 ###### sync
 
 ```ts
-interface CountMap<Key, Value> {
-    get(key: Key): Value,
-    set(key: Key, value: Value): any,
-    has(key: Key): any,
+interface MapLike<Key, Value> {
+    get(key: Key): Value | undefined
+    set(key: Key, value: Value): void
+    has(key: Key): any
 }
 
 function countBy<T>(
-    iterable: Iterable<T>
+    iterable: Iterable<T>,
 ): Map<T, number>
 
 function countBy<T, Key>(
     iterable: Iterable<T>,
-    keyFunction: (item: T, index: number) => Key,
+    keyFunc: (item: T, index: number) => Key,
 ): Map<Key, number>
 
 function countBy<T>(
     iterable: Iterable<T>,
-    customMap: CountMap<T, number>,
-): CountMap<T, number>
+    mapLike: MapLike<T, number>,
+): MapLike<T, number>
 
 function countBy<T, Key>(
     iterable: Iterable<T>,
-    customMap: CountMap<Key, number>,
-    keyFunction: (item: T, index: number) => Key,
-): CountMap<Key, number>
-
-function countBy(iterable)
-function countBy(iterable, keyFunction)
-function countBy(iterable, customMap)
-function countBy(iterable, customMap = new Map(), keyFunction = x => x)
+    mapLike: MapLike<Key, number>,
+    keyFunc: (item: T, index: number) => Key,
+): MapLike<Key, number>
 ```
 
 ###### async
 
 ```ts
-interface CountMap<Key, Value> {
-    get(key: Key): Value,
-    set(key: Key, value: Value): any,
-    has(key: Key): any,
+interface MapLike<Key, Value> {
+    get(key: Key): Value | undefined
+    set(key: Key, value: Value): void
+    has(key: Key): any
 }
 
 function countBy<T>(
-    asyncIterable: AsyncOrSyncIterable<T>
-): Map<T, number>
+    asyncIterable: AsyncOrSyncIterable<T>,
+): Promise<Map<T, number>>
 
 function countBy<T, Key>(
     asyncIterable: AsyncOrSyncIterable<T>,
-    keyFunction: (item: T, index: number) => Promise<Key> | Key,
-): Map<Key, number>
+    keyFunc: (item: T, index: number) => Key | Promise<Key>,
+): Promise<Map<Key, number>>
 
 function countBy<T>(
     asyncIterable: AsyncOrSyncIterable<T>,
-    customMap: CountMap<T, number>,
-): CountMap<T, number>
+    mapLike: MapLike<T, number>,
+): Promise<MapLike<T, number>>
 
 function countBy<T, Key>(
     asyncIterable: AsyncOrSyncIterable<T>,
-    customMap: CountMap<Key, number>,
-    keyFunction: (item: T, index: number) => Promise<Key> | Key,
-): CountMap<Key, number>
-
-function countBy(iterable)
-function countBy(iterable, keyFunction)
-function countBy(iterable, customMap)
-function countBy(iterable, customMap = new Map(), keyFunction = x => x)
+    mapLike: MapLike<Key, number>,
+    keyFunc: (item: T, index: number) => Key | Promise<Key>,
+): Promise<MapLike<Key, number>>
 ```
 
 The `countBy` counts the number of instances of each item in the iterable. If a keyFunction is passed it will use the return value of the keyFunction as the key for the Map instead. If a custom map is used it will instead use the custom map class.

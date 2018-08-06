@@ -12,14 +12,11 @@ function findLastIndex<T>(
     predicate: (item: T, index: number) => any,
 ): number
 
-function findLastIndex<T>(
+function findLastIndex<T, Default>(
     iterable: Iterable<T>,
-    defaultValue: number,
+    defaultValue: Default,
     predicate: (item: T, index: number) => any,
-): number
-
-function findLastIndex(iterable, predicate = x => x)
-function findLastIndex(iterable, defaultValue, predicate = x => x)
+): number | Default
 ```
 
 ###### async

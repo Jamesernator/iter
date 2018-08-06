@@ -4,22 +4,17 @@
 ###### sync
 
 ```ts
-function createOperator<T, ExtraArgs, Out>(
-    operatorFunction: (iterable: Iterable<T>, ...args: ExtraArgs) => Out,
-): (iterable: Iterable<T>, ...args: ExtraArgs) => Out
-
-function createOperator(operatorFunction)
+function createOperator<T, Rest extends any[], Return>(
+    operator: (iterable: Iterable<T>, ...rest: Rest) => Return
+): (iterable: Iterable<T>, ...rest: Rest) => Return
 ```
 
 ###### async
 ```ts
-function createOperator<T, Other>(
-    operatorFunction: (asyncIterable: AsyncOrSyncIterable<T>, ...args: ExtraArgs) => Out,
-): (asyncIterable: AsyncOrSyncIterable<T>, ...args: ExtraArgs) => Out
-
-function createOperator(operatorFunction)
+function createOperator<T, Rest extends any[], Return>(
+    operator: (iterable: AsyncOrSyncIterable<T>, ...rest: Rest) => Return
+): (asyncIterable: AsyncOrSyncIterable<T>, ...rest: Rest) => Return
 ```
-
 
 The `createOperator` function takes a function and will return new function that behaves the same as the original function except instead of receiving the iterable directly it will be given an object that only has the required `Symbol.iterator`/`Symbol.asyncIterator` methods. This can be used to ensure that the first argument is always treated purely as an (async) iterable.
 

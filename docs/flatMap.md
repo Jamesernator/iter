@@ -3,37 +3,43 @@
 ###### sync
 
 ```ts
-function flatMap<In, Out>(
-    iterable: Iterable<In>,
-    mapper: (item: In, index: number) =>  Iterable<Out>,
-): Iterable<Out>
+function flatMap<T, S>(
+    iterable: Iterable<T>,
+    mapper: (item: T, index: number) => Iterable<S>,
+): Iterable<S>
 
-function flatMap<In, Out>(
-    iterable: Iterable<In>,
-    allowNonIterableReturn: boolean,
-    mapper: (item: In, index: number) => Iterable<Out> | Out,
-): Iterable<Out>
+function flatMap<T, S>(
+    iterable: Iterable<T>,
+    allowNonIterableReturn: false,
+    mapper: (item: T, index: number) => Iterable<S>,
+): Iterable<S>
 
-function flatMap(iterable, mapper)
-function flatMap(iterable, allowNonIterableReturn, mapper)
+function flatMap<T, S>(
+    iterable: Iterable<T>,
+    allowNonIterableReturn: true,
+    mapper: (item: T, index: number) => S | Iterable<S>,
+): Iterable<S>
 ```
 
 ###### async
 
 ```ts
-function flatMap<In, Out>(
-    asyncIterable: AsyncOrSyncIterable<In>,
-    mapper: (item: In, index: number) => Promise<AsyncOrSyncIterable<Out>> | AsyncOrSyncIterable<Out>,
-): AsyncIterable<Out>
+function flatMap<T, S>(
+    asyncIterable: AsyncOrSyncIterable<T>,
+    mapper: (item: T, index: number) => AsyncOrSyncIterable<S> | Promise<AsyncOrSyncIterable<S>>,
+): AsyncIterable<S>
 
-function flatMap<In, Out>(
-    asyncIterable: AsyncOrSyncIterable<In>,
-    allowNonIterableReturn: boolean,
-    mapper: (item: In, index: number) => Promise<AsyncOrSyncIterable<Out>|Out> | AsyncOrSyncIterable<Out> | Out,
-): Iterable<Out>
+function flatMap<T, S>(
+    asyncIterable: AsyncOrSyncIterable<T>,
+    allowNonIterableReturn: false,
+    mapper: (item: T, index: number) => AsyncOrSyncIterable<S> | Promise<AsyncOrSyncIterable<S>>,
+): AsyncIterable<S>
 
-function flatMap(asyncIterable, mapper)
-function flatMap(asyncIterable, allowNonIterableReturn, mapper)
+function flatMap<T, S>(
+    asyncIterable: AsyncOrSyncIterable<T>,
+    allowNonIterableReturn: true,
+    mapper: (item: T, index: number) => S | AsyncOrSyncIterable<S> | Promise<AsyncOrSyncIterable<S>>
+): AsyncIterable<S>
 ```
 
 The `flatMap` function takes an iterable of any items and passes each item to the `mapper` function.

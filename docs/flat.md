@@ -7,8 +7,6 @@
 function flat<T>(
     iterable: Iterable<Iterable<T>>,
 ): Iterable<T>
-
-function flat(iterable)
 ```
 
 ###### async
@@ -17,8 +15,6 @@ function flat(iterable)
 function flat<T>(
     asyncIterable: AsyncOrSyncIterable<AsyncOrSyncIterable<T>>,
 ): AsyncIterable<T>
-
-function flat(asyncIterable)
 ```
 
 The `flat` function takes in an iterable of iterables and returns a new iterable

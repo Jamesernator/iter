@@ -6,11 +6,9 @@
 ```ts
 function contains<T>(
     iterable: Iterable<T>,
-    value: T,
-    equalityTest: (value: T, item: T) => any,
+    item: T,
+    equality?: (item: T, otherItem: T) => any,
 ): boolean
-
-function contains(iterable, equalityTest = Object.is)
 ```
 
 ###### async
@@ -18,11 +16,9 @@ function contains(iterable, equalityTest = Object.is)
 ```ts
 function contains<T>(
     asyncIterable: AsyncOrSyncIterable<T>,
-    value: T,
-    equalityTest: (value: T, item: T) => any,
+    item: T,
+    equality?: (item: T, otherItem: T) => any,
 ): Promise<boolean>
-
-function contains(asyncIterable, equalityTest = Object.is)
 ```
 
 The `contains` function returns `true` if and only if the given iterable contains the value passed. This is tested by calling the `equalityTest` function with each item in the iterable and the value we're searching for.
