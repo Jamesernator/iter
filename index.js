@@ -1,3 +1,8 @@
+'use strict'
+/* eslint-env node */
+const loader = require('esm')(module)
 
-const loader = require('@std/esm')(module)
-module.exports = loader('./src/sync.mjs')
+module.exports = {
+    sync: loader('./src/sync.mjs'),
+    async: loader('./src/async.mjs'),
+}
