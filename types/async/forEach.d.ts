@@ -1,4 +1,4 @@
-import { AsyncOrSyncIterable } from "../../cjs/AsyncOrSyncIterable";
+import { AsyncOrSyncIterable } from "../AsyncOrSyncIterable";
 
 export default
     function forEach<T>(

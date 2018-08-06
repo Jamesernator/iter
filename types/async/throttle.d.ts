@@ -1,3 +1,3 @@
-import { AsyncOrSyncIterable } from "../../types/AsyncOrSyncIterable";
+import { AsyncOrSyncIterable } from "../AsyncOrSyncIterable";
 
 // TODO

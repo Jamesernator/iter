@@ -1,4 +1,4 @@
-import { AsyncOrSyncIterable } from "../../types/AsyncOrSyncIterable";
+import { AsyncOrSyncIterable } from "../AsyncOrSyncIterable";
 
 // Just a few overloads, but more might be needed
 

@@ -1,4 +1,4 @@
-import { AsyncOrSyncIterable } from "../../types/AsyncOrSyncIterable";
+import { AsyncOrSyncIterable } from "../AsyncOrSyncIterable";
 
 export default
     function scan(

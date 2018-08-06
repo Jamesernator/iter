@@ -1,4 +1,4 @@
-import { AsyncOrSyncIterable } from "../../types/AsyncOrSyncIterable";
+import { AsyncOrSyncIterable } from "../AsyncOrSyncIterable";
 
 interface SetLike<Value> {
     add(value: Value): void

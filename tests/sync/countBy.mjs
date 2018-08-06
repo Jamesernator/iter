@@ -88,6 +88,7 @@ test("countBy throws early on invalid arguments", t => {
     t.notThrows(_ => countBy([], {
         get() { },
         set() { },
+        has() { },
     }))
 })
 
@@ -104,6 +105,10 @@ test("iterator closing when an error is thrown in a set method", t => {
             if (typeof val !== 'number') {
                 throw new Error("Not a number")
             }
+        },
+
+        has() {
+            return false
         },
     }))
 
