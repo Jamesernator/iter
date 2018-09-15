@@ -13,7 +13,7 @@ test('findIndex finds item if it exists', async t => {
 test("findIndex throws error if no item is found", async t => {
     const data = [1, 2, 3, 4]
 
-    await t.throws(findIndex(data, x => x === 42))
+    await t.throwsAsync(findIndex(data, x => x === 42))
 })
 
 test('findIndex with no argument returns the index of the first truthy', async t => {

@@ -10,28 +10,28 @@ test("subSequences emits small subSequencess of elements", t => {
     )
 })
 
-test("subSequences defaults to 1", t => {
-    const seq = [1, 2, 3, 4]
-    t.deepEqual(
-        toArray(subSequences(seq)),
-        [[1], [2], [3], [4]],
-    )
-})
-
-test("subSequences emits nothing given an Infinite subsequence", t => {
+test("subSequences emits nothing given an Infinite subsequence with allowShorter", t => {
     const seq = [1, 2, 3, 4, 5]
     t.deepEqual(
-        toArray(subSequences(seq, Infinity)),
+        toArray(subSequences(seq, Infinity, true)),
         [],
     )
 })
 
-test("subSequences emits nothing when sequence is too short", t => {
-    const seq = [1, 2]
-    t.deepEqual(
-        toArray(subSequences(seq, 3)),
-        [],
-    )
+test("subSequences throws error when sequence is too short", t => {
+    const seq1 = []
+    const seq2 = [1, 2]
+
+    t.throws(_ => toArray(subSequences(seq1, 3)))
+    t.throws(_ => toArray(subSequences(seq2, 3)))
+})
+
+test("subSequences is empty when sequeunce is too short and allowShorter is used", t => {
+    const seq1 = []
+    const seq2 = [1, 2]
+
+    t.deepEqual([], toArray(subSequences(seq1, 3, true)))
+    t.deepEqual([], toArray(subSequences(seq2, 3, true)))
 })
 
 test("subSequences throws early on bad arguments", t => {

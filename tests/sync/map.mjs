@@ -26,16 +26,11 @@ test('map iteratee receives no additional arguments', t => {
     toArray(map(data, (_1, _2, ...rest) => t.is(0, rest.length)))
 })
 
-test('map iteratee defaults to identity', t => {
-    const data = [11, 22, 33]
-
-    t.deepEqual(toArray(map(data)), [11, 22, 33])
-})
-
 test('map throws early on invalid arguments', t => {
     const data = [11, 22, 33]
 
     t.throws(_ => map())
+    t.throws(_ => map(data))
     t.throws(_ => map(data, 12))
     t.throws(_ => map(data, x => x**2, 12))
 })

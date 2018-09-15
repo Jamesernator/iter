@@ -43,6 +43,6 @@ test("filter iterator closing on iteratee error", async t => {
     const data = countClosing([1, 2, 3, 4])
     const seq = filter(data, _ => { throw new Error("Error") })[Symbol.asyncIterator]()
 
-    await t.throws(seq.next())
+    await t.throwsAsync(seq.next())
     t.is(data.closed, 1)
 })

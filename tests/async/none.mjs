@@ -41,6 +41,6 @@ test("none iterator closing on early find", async t => {
 
 test("none iterator closing on predicate error", async t => {
     const data = countClosing([1, 2, 3, 4])
-    await t.throws(none(data, _ => { throw new Error("Error") }))
+    await t.throwsAsync(none(data, _ => { throw new Error("Error") }))
     t.is(data.closed, 1)
 })

@@ -1,4 +1,3 @@
-import { raw as create } from "./createOperator.mjs"
 import { raw as iterableGenerator } from "./iterableGenerator.mjs"
 import snapshotIterable from "./--snapshotIterable.mjs"
 import assert from "../--assert.mjs"
@@ -51,5 +50,5 @@ function zipLongest(iterables, ...rest) {
     return _zipLongest(iterables)
 }
 
-export default create(zipLongest)
+export default zipLongest
 export { _zipLongest as raw }

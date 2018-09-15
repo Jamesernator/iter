@@ -14,7 +14,7 @@ test('last with no arguments returns the last element of the sequence', async t 
 })
 
 test('last with no arguments throws an error on an empty sequence', async t => {
-    await t.throws(last([]))
+    await t.throwsAsync(last([]))
 })
 
 
@@ -31,9 +31,9 @@ test('last with numeric argument returns a sequence of that length', async t => 
 })
 
 test('last with count that is too short throws an error', async t => {
-    await t.throws(last([1, 2], 3))
-    await t.throws(last([], 1))
-    await t.notThrows(last([], 0))
+    await t.throwsAsync(last([1, 2], 3))
+    await t.throwsAsync(last([], 1))
+    await t.notThrowsAsync(last([], 0))
 })
 
 test('last with count that is too short can be supressed by passing true', async t => {

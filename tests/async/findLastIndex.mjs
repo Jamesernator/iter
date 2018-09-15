@@ -17,7 +17,7 @@ test('findLastIndex basic functionality', async t => {
 
 test('findLastIndex throws when no value is found matching predicate', async t => {
     const data = [1, 2, 3, 4]
-    await t.throws(findLastIndex(data, x => x === 42))
+    await t.throwsAsync(findLastIndex(data, x => x === 42))
 })
 
 test('findLastIndex defaults to index of last truthy value', async t => {

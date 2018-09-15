@@ -21,7 +21,7 @@ test("sample with single numeric argument returns a sampling of size n", async t
 
 test("sample with a single numeric arguments throws an error on too short sequence", async t => {
     const data = [1, 2, 3]
-    await t.throws(sample(data, 5))
+    await t.throwsAsync(sample(data, 5))
 })
 
 test("sample with numeric argument and boolean true doesn't throw", async t => {

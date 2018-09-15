@@ -26,16 +26,11 @@ test('map iteratee receives no additional arguments', async t => {
     await toArray(map(data, (_1, _2, ...rest) => t.is(0, rest.length)))
 })
 
-test('map iteratee defaults to identity', async t => {
-    const data = [11, 22, 33]
-
-    t.deepEqual(await toArray(map(data)), [11, 22, 33])
-})
-
 test('map throws early on invalid arguments', t => {
     const data = [11, 22, 33]
 
     t.throws(_ => map())
+    t.throws(_ => map(data))
     t.throws(_ => map(data, 12))
     t.throws(_ => map(data, x => x**2, 12))
 })
@@ -53,6 +48,6 @@ test("iterator closing on early map close", async t => {
 
 test("iterator closing on error in iteratee", async t => {
     const data = countClosing([1, 2, 3, 4])
-    await t.throws(toArray(map(data, _ => { throw new Error("Error") })))
+    await t.throwsAsync(toArray(map(data, _ => { throw new Error("Error") })))
     t.is(data.closed, 1)
 })

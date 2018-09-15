@@ -15,17 +15,24 @@ test("pairWise basic functionality", t => {
     t.deepEqual(toArray(pairWise(data2)), [[1, 2]])
 })
 
-test("pairWise emits nothing on arrays of insufficient length", t => {
+test("pairWise throws error on arrays of insufficient length", t => {
     const data = [1]
 
-    t.deepEqual(
-        toArray(pairWise(data)),
-        [],
-    )
+    t.throws(_ => toArray(pairWise(data)))
 
     const data2 = []
 
-    t.deepEqual(toArray(pairWise(data2)), [])
+    t.throws(_ => toArray(pairWise(data2)))
+})
+
+test("pairWise doesn't throw error on array of insufficient length if allowShorter is true", t => {
+    const data = [1]
+
+    t.deepEqual([], toArray(pairWise(data, true)))
+
+    const data2 = []
+
+    t.deepEqual([], toArray(pairWise(data2, true)))
 })
 
 test("pairWise throws early on invalid arguments", t => {

@@ -26,8 +26,8 @@ test('find with no argument returns first truthy value', async t => {
 
 test("find throws when it can't find the given element", async t => {
     const data = [1, 2, 3, 4]
-    await t.throws(find(data, x => x === 42))
-    await t.throws(find([], x => x === 42))
+    await t.throwsAsync(find(data, x => x === 42))
+    await t.throwsAsync(find([], x => x === 42))
 })
 
 test("find returns the default value when it can't find the given element", async t => {

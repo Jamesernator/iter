@@ -21,8 +21,8 @@ test('scan without arguments joins sequence using +', async t => {
 
 test("scan throws an error if sequence is empty", async t => {
     const target = []
-    await t.throws(toArray(scan(target)))
-    await t.throws(scan(target)[Symbol.asyncIterator]().next())
+    await t.throwsAsync(toArray(scan(target)))
+    await t.throwsAsync(scan(target)[Symbol.asyncIterator]().next())
 })
 
 test("scan can accept an initial value to seed the sequence", async t => {
@@ -64,6 +64,6 @@ test("scan iterator closing on reducer error", async t => {
     const data = countClosing([1, 2, 3, 4])
     const seq = scan(data, _ => { throw new Error("Error") })
 
-    await t.throws(toArray(seq))
+    await t.throwsAsync(toArray(seq))
     t.is(data.closed, 1)
 })

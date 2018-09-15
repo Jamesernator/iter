@@ -6,6 +6,14 @@ test('createOperator creates a function which expects an iterable', async t => {
         return iterable
     })
 
+    const seq1 = async function* seq() {
+        yield 1
+        yield 2
+        yield 3
+    }
+
+    t.true(typeof method(seq1())[Symbol.asyncIterator] === 'function')
+
     const sequence = [1, 2, 3, 4]
     t.true(typeof method(sequence)[Symbol.iterator] === 'function')
 
@@ -34,7 +42,7 @@ test('createOperator forwards additional arguments', async t => {
 
     const sequence = [1, 2, 3, 4]
     t.is(3, await nth(sequence, 2))
-    await t.throws(nth(sequence, 11))
+    await t.throwsAsync(nth(sequence, 11))
 })
 
 test('createOperator preserves the original function name', t => {

@@ -18,9 +18,9 @@ test('flatMap basic functionality', async t => {
 test("flatMap doesn't flatten non-iterables", async t => {
     const data = [1, 2, 3, 4]
 
-    await t.throws(toArray(flatMap(data, x => x)))
+    await t.throwsAsync(toArray(flatMap(data, x => x)))
 
-    await t.throws(toArray(flatMap(data, x => x % 2 === 0 ? [] : x)))
+    await t.throwsAsync(toArray(flatMap(data, x => x % 2 === 0 ? [] : x)))
 })
 
 test("flatMap can ignore non-iterables if requested", async t => {

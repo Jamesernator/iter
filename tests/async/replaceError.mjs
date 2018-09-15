@@ -30,7 +30,7 @@ test("replaceError will throw an error from the second sequence", async t => {
     }
 
     const seen = []
-    await t.throws((async _ => {
+    await t.throwsAsync((async _ => {
         for await (const item of replaceError(seq1(), _ => seq2())) {
             seen.push(item)
         }

@@ -62,6 +62,6 @@ test("unique iterator closing on set method error", async t => {
     }
     const seq = unique(data, set)[Symbol.asyncIterator]()
 
-    await t.throws(seq.next())
+    await t.throwsAsync(seq.next())
     t.is(data.closed, 1)
 })

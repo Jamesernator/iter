@@ -51,14 +51,14 @@ test('groupBy throws early on bad arguments', async t => {
     // eslint-disable-next-line no-empty-function
     t.throws(_ => groupBy([], { get() {}, set() {}, has() {} }, x => x, []))
     // eslint-disable-next-line no-empty-function
-    await t.notThrows(_ => groupBy([], { set() {}, get() {}, has() {} }, x => x))
+    await t.notThrowsAsync(_ => groupBy([], { set() {}, get() {}, has() {} }, x => x))
 })
 
 import countClosing from "./helpers/countClosing.mjs"
 
 test("iterator closing if set throws an error", async t => {
     const data = countClosing([1, 2, 3, 'fizzbuzz', 5, 6, 7])
-    await t.throws(groupBy(data, {
+    await t.throwsAsync(groupBy(data, {
         get() {
             return undefined
         },
@@ -79,7 +79,7 @@ test("iterator closing if set throws an error", async t => {
 
 test("iterator closing if iteratee throws an error", async t => {
     const data = countClosing([1, 2, 3, 4])
-    await t.throws(groupBy(data, _ => {
+    await t.throwsAsync(groupBy(data, _ => {
         throw new Error("Error")
     }))
     t.is(data.closed, 1)

@@ -18,8 +18,8 @@ test('flat basic functionality', async t => {
 })
 
 test('flat throws on non-iterables in sequences', async t => {
-    await t.throws(toArray(flat([1])))
-    await t.throws(toArray(flat([[1, 2], 3, [4, 5]])))
+    await t.throwsAsync(toArray(flat([1])))
+    await t.throwsAsync(toArray(flat([[1, 2], 3, [4, 5]])))
 })
 
 test('flat throws early on bad arguments', t => {

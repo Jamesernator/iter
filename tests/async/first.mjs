@@ -14,7 +14,7 @@ test('first with no arguments returns the first element of the sequence', async 
 })
 
 test('first with no arguments throws an error on an empty sequence', async t => {
-    await t.throws(first([]))
+    await t.throwsAsync(first([]))
 })
 
 
@@ -31,9 +31,9 @@ test('first with numeric argument returns a sequence of that length', async t =>
 })
 
 test('first with count that is too short throws an error', async t => {
-    await t.throws(first([1, 2], 3))
-    await t.throws(first([], 1))
-    await t.notThrows(first([], 0))
+    await t.throwsAsync(first([1, 2], 3))
+    await t.throwsAsync(first([], 1))
+    await t.notThrowsAsync(first([], 0))
 })
 
 test('first with count that is too short can be supressed by passing true', async t => {

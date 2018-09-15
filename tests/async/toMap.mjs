@@ -1,16 +1,8 @@
 import test from "ava"
 import toMap from "../../async/toMap.mjs"
 
-test("toMap converts a sequence of iterables into a map", async t => {
-    const pair = (value1, value2) => ({
-        * [Symbol.iterator]() {
-            yield value1
-            yield value2
-            this.extra = true
-        },
-    })
-
-    const pairs = [pair(1, 2), pair(3, 4), pair(4, 5)]
+test("toMap converts a sequence of arrays into a map", async t => {
+    const pairs = [[1, 2, 12], [3, 4], [4, 5, 6]]
 
     async function* values() {
         yield* pairs
@@ -29,15 +21,7 @@ test("toMap converts a sequence of iterables into a map", async t => {
 })
 
 test("toMap overrides early values with later values of the same key", async t => {
-    const pair = (value1, value2) => ({
-        * [Symbol.iterator]() {
-            yield value1
-            yield value2
-            this.extra = true
-        },
-    })
-
-    const pairs = [pair(1, 2), pair(3, 4), pair(4, 5), pair(1, 3), pair(1, 7), pair(2, 1)]
+    const pairs = [[1, 2], [3, 4], [4, 5], [1, 3, 6], [1, 7], [2, 1, 3, 4]]
 
     async function* values() {
         yield* pairs
@@ -53,7 +37,7 @@ test("toMap overrides early values with later values of the same key", async t =
 test("toMap throws an error if any pairs are not iterable", async t => {
     const data = [1, 2, 3, 4]
 
-    await t.throws(toMap(data))
+    await t.throwsAsync(_ => toMap(data))
 })
 
 test("toMap throws early on invalid arguments", t => {

@@ -26,10 +26,10 @@ test('findLast with no argument returns first truthy value', async t => {
 
 test("findLast throws when it can't find any such element", async t => {
     const data = [1, 2, 3, 4]
-    await t.throws(findLast(data, x => x === 42))
+    await t.throwsAsync(findLast(data, x => x === 42))
 
     const empty = []
-    await t.throws(findLast(empty, x => x === 42))
+    await t.throwsAsync(findLast(empty, x => x === 42))
 })
 
 test("findLast returns the default when provided and it can't find any such element", async t => {

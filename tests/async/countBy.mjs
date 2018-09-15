@@ -84,7 +84,7 @@ test("countBy throws early on invalid arguments", async t => {
         set() { },
     }))
 
-    await t.notThrows(_ => countBy([], {
+    await t.notThrowsAsync(_ => countBy([], {
         get() { },
         set() { },
         has() { },
@@ -95,7 +95,7 @@ import countClosing from "./helpers/countClosing.mjs"
 
 test("iterator closing when an error is thrown in a set method", async t => {
     const data = countClosing([1, 2, 3, 'foo', 12, 13])
-    await t.throws(countBy(data, {
+    await t.throwsAsync(countBy(data, {
         get() {
             return undefined
         },

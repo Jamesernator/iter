@@ -43,6 +43,6 @@ test("reject iterator closing on predicate error", async t => {
     const data = countClosing([1, 2, 3, 4])
     const seq = reject(data, _ => { throw new Error("Error") })[Symbol.asyncIterator]()
 
-    await t.throws(seq.next())
+    await t.throwsAsync(seq.next())
     t.is(data.closed, 1)
 })

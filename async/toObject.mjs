@@ -1,12 +1,11 @@
 import assert from "../--assert.mjs"
 import { raw as create } from "./createOperator.mjs"
-import snapshotIterable from "./--snapshotIterable.mjs"
 
 async function _toObject(iterable, proto=null) {
     const o = Object.create(proto)
     for await (const item of iterable) {
         if (!Array.isArray(item) || item.length < 2) {
-            throw new Error(`[toMap] Expected array pairs of [key, value, ...anything]`)
+            throw new Error(`[toObject] Expected array pairs of [key, value, ...anything]`)
         }
         const [key, value] = item
         Object.defineProperty(o, key, {

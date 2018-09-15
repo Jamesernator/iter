@@ -36,7 +36,7 @@ test("lastIndexOf with custom equality", async t => {
 
     t.is(4, await lastIndexOf(data, [1, 2], equal))
     t.is(1, await lastIndexOf(data, [3, 4], equal))
-    await t.throws(lastIndexOf([1], [3, 4], equal))
+    await t.throwsAsync(lastIndexOf([1], [3, 4], equal))
     t.is(null, await lastIndexOf(data, [11, 12], equal))
 })
 

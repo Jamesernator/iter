@@ -35,7 +35,7 @@ test("indexOf with custom equality", async t => {
     const equal = ([x1, y1], [x2, y2]) => Object.is(x1, x2) && Object.is(y1, y2)
 
     t.is(1, await indexOf(data, [3, 4], equal))
-    await t.throws(indexOf([1], [3, 4], equal))
+    await t.throwsAsync(indexOf([1], [3, 4], equal))
     t.is(null, await indexOf(data, [11, 12], equal))
 })
 
@@ -54,6 +54,6 @@ test("iterator closing", async t => {
     await indexOf(data, 2)
     t.is(data.closed, 1)
 
-    await t.throws(indexOf(data, 'foo', _ => { throw new Error("Error") }))
+    await t.throwsAsync(indexOf(data, 'foo', _ => { throw new Error("Error") }))
     t.is(data.closed, 2)
 })

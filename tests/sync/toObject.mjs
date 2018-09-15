@@ -1,16 +1,8 @@
 import test from "ava"
 import toObject from "../../sync/toObject.mjs"
 
-test("toObject converts a sequence of iterables into a object", t => {
-    const pair = (value1, value2) => ({
-        * [Symbol.iterator]() {
-            yield value1
-            yield value2
-            this.extra = true
-        },
-    })
-
-    const pairs = [pair(1, 2), pair(3, 4), pair(4, 5)]
+test("toObject converts a sequence of arrays into a object", t => {
+    const pairs = [[1, 2, 12], [3, 4], [4, 5]]
 
     function* values() {
         yield* pairs
@@ -23,15 +15,7 @@ test("toObject converts a sequence of iterables into a object", t => {
 })
 
 test("toObject overrides early values with later values of the same key", t => {
-    const pair = (value1, value2) => ({
-        * [Symbol.iterator]() {
-            yield value1
-            yield value2
-            this.extra = true
-        },
-    })
-
-    const pairs = [pair(1, 2), pair(3, 4), pair(4, 5), pair(1, 3), pair(1, 7), pair(2, 1)]
+    const pairs = [[1, 2], [3, 4, 16], [4, 5], [1, 3], [1, 7, 12], [2, 1]]
 
     function* values() {
         yield* pairs
@@ -67,19 +51,18 @@ test("toObject throws early on invalid arguments", t => {
     t.throws(_ => toObject(data, {}, 'bar'))
 })
 
-import countClosing from "./helpers/countClosing.mjs"
+test("toObject ignores getters/setters when assigning values", t => {
+    const data = [[1, 2], [3, 4]]
 
-test("toObject iterator closing on setter error", t => {
-    const data = countClosing([[1, 2], [3, 4]])
-
-    t.throws(_ => toObject(data, {
+    const proto = {
         get 1() {
-            throw new Error("Error")
+            throw new Error("Ooops!")
         },
 
-        set 1(_) {
-            throw new Error("Error")
+        get 2() {
+            throw new Error("Ooops!")
         },
-    }))
-    t.is(data.closed, 1)
+    }
+
+    t.deepEqual({ 1: 2, 3: 4 }, toObject(data, proto))
 })
