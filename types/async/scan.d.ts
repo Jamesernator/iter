@@ -1,17 +1,6 @@
 import { AsyncOrSyncIterable } from "../AsyncOrSyncIterable";
 
 export default
-    function scan(
-        asyncIterable: AsyncOrSyncIterable<string>,
-    ): AsyncIterable<string>
-
-export default
-    function scan(
-        asyncIterable: AsyncOrSyncIterable<number>,
-    ): AsyncIterable<number>
-
-
-export default
     function scan<Item, Result>(
         asyncIterable: AsyncOrSyncIterable<Item>,
         reducer: (acc: Result, item: Item, index: number) => Result | Promise<Result>,
