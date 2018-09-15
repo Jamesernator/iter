@@ -3,34 +3,42 @@ import { raw as iterableGenerator } from "./iterableGenerator.mjs"
 import assert from "../--assert.mjs"
 import iterator from "./--iterator.mjs"
 
-const _subSequences = iterableGenerator(async function* subSequences(iterable, subSequenceSize=2) {
-    const iter = iterator(iterable)
-    try {
-        const buff = []
-        for (let i = 0; i < subSequenceSize; i += 1) {
-            const { value, done } = await iter.next()
-            if (done) {
-                return
+const _subSequences = iterableGenerator(
+    async function* subSequences(iterable, subSequenceSize, allowShorter=false) {
+        const iter = iterator(iterable)
+        try {
+            const buff = []
+            for (let i = 0; i < subSequenceSize; i += 1) {
+                const { value, done } = await iter.next()
+                if (done) {
+                    if (allowShorter) {
+                        return
+                    } else {
+                        const message = `[subSequence] Can't get a subSequence of size ${ subSequenceSize } from a sequence of length ${ i }`
+                        throw new Error(message)
+                    }
+                }
+                buff.push(value)
             }
-            buff.push(value)
-        }
 
-        for await (const item of iter) {
+            for await (const item of iter) {
+                yield [...buff]
+                buff.shift()
+                buff.push(item)
+            }
             yield [...buff]
-            buff.shift()
-            buff.push(item)
+        } finally {
+            await iter.return()
         }
-        yield [...buff]
-    } finally {
-        await iter.return()
-    }
-})
+    },
+)
 
-function subSequences(iterable, subSequenceSize=1, ...rest) {
+function subSequences(iterable, subSequenceSize, allowShorter=false, ...rest) {
     assert.number(subSequenceSize, `[subSequences] Expected subSequencesSize to be a number`)
     assert(subSequenceSize > 0, `[subSequences] Expected subSequencesSize to be larger than zero`)
+    assert.boolean(allowShorter, `[subSequences] allowShorter must be a boolean as other types are reserved for future use in overloads`)
     assert.empty(rest, `[subSequences] Unexpected additional arguments to subSequences`)
-    return _subSequences(iterable, subSequenceSize)
+    return _subSequences(iterable, subSequenceSize, allowShorter)
 }
 
 export default create(subSequences)

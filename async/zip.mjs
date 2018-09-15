@@ -40,6 +40,8 @@ const _zip = iterableGenerator(async function* zip(...iterables) {
     }
 })
 
+// TODO: Make non-variadic
+
 function zip(iterable, ...others) {
     const snapshots = others.map(otherIterable => snapshotIterable(otherIterable))
     assert.every(

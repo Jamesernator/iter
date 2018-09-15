@@ -3,6 +3,8 @@ import { raw as iterableGenerator } from "./iterableGenerator.mjs"
 import { raw as enumerate } from "./enumerate.mjs"
 import assert from "../--assert.mjs"
 
+/* global console */
+
 const _debug = iterableGenerator(async function* debug(iterable, iteratee=console.log) {
     for await (const [idx, item] of enumerate(iterable)) {
         await iteratee(item, idx)

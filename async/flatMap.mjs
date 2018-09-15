@@ -54,6 +54,7 @@ function flatMap(iterable, ...args) {
             unexpectedArgs()
     /* eslint-enable indent */
 
+    assert.boolean(allowNonIterable, `[flatMap] allowNonIterable must be a boolean as other values are reserved for future use`)
     assert.function(iteratee, `[flatMap] Expected flatMap iteratee to be a function`)
     return __flatMap(iterable, allowNonIterable, iteratee)
 }

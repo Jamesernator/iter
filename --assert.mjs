@@ -41,4 +41,16 @@ assert.every = function(values, condition, message) {
     }
 }
 
+assert.isArray = function(array, message) {
+    if (!Array.isArray(array)) {
+        throw new Error(message)
+    }
+}
+
+assert.boolean = function(boolean, message) {
+    if (typeof boolean !== 'boolean') {
+        throw new Error(message)
+    }
+}
+
 export default assert

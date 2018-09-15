@@ -40,7 +40,7 @@ test("contains custom equality", async t => {
     )
 
     const data2 = [null, '3', [1, 2]]
-    await t.throws(contains(data2, [1, 2], equals))
+    await t.throwsAsync(contains(data2, [1, 2], equals))
 })
 
 test("contains custom equality doesn't throw if value found before throwing case", async t => {

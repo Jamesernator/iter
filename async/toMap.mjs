@@ -1,15 +1,13 @@
 import assert from "../--assert.mjs"
 import { raw as create } from "./createOperator.mjs"
-import snapshotIterable from "./--snapshotIterable.mjs"
 
 async function _toMap(iterable) {
     const m = new Map()
     for await (const item of iterable) {
-        const snapshot = snapshotIterable(item)
-        if (!snapshot) {
-            throw new Error(`[toMap] Expected iterable pair not ${ item }`)
+        if (!Array.isArray(item) || item.length < 2) {
+            throw new Error(`[toMap] Expected array pairs of key-value`)
         }
-        const [key, value] = snapshot
+        const [key, value] = item
         m.set(key, value)
     }
     return m

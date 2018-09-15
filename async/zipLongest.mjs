@@ -40,6 +40,8 @@ const _zipLongest = iterableGenerator(async function* zipLongest(...iterables) {
     }
 })
 
+// TODO: Make non-variadic
+
 function zipLongest(iterable, ...others) {
     const snapshots = others.map(otherIterable => snapshotIterable(otherIterable))
     assert.every(

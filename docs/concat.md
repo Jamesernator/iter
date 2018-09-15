@@ -4,8 +4,7 @@
 
 ```ts
 function concat<T>(
-    iterable: Iterable<T>,
-    ...otherIterables: Array<Iterable<T>>,
+    iterables: Array<Iterable<T>>,
 ): Iterable<T>
 ```
 
@@ -13,8 +12,7 @@ function concat<T>(
 
 ```ts
 function concat<T>(
-    asyncIterable: AsyncOrSyncIterable<T>,
-    ...otherAsyncIterables: Array<AsyncOrSyncIterable<T>>,
+    asyncIterables: Array<AsyncOrSyncIterable<T>>,
 ): AsyncIterable<T>
 ```
 

@@ -24,7 +24,9 @@ function sampleN(iterable, n, allowLess=false) {
         if (idx < n) {
             chosenList.push(item)
         } else if (Math.random() < n/(idx + 1)) {
-            chosenList[Math.floor(Math.random()*n)] = item
+            const randomN = Math.floor(Math.random() * n)
+            chosenList.splice(randomN, 1)
+            chosenList.push(item)
         }
     }
     if (chosenList.length === n) {

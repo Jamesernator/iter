@@ -4,6 +4,7 @@ import assert from "../--assert.mjs"
 import iterator from "./--iterator.mjs"
 
 function delay(time, value) {
+    /* global setTimeout */
     return new Promise(resolve => setTimeout(resolve, time, value))
 }
 

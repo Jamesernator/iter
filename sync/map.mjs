@@ -3,16 +3,16 @@ import { raw as iterableGenerator } from "./iterableGenerator.mjs"
 import { raw as enumerate } from "./enumerate.mjs"
 import assert from "../--assert.mjs"
 
-const _map = iterableGenerator(function* map(iterable, iteratee=x => x) {
+const _map = iterableGenerator(function* map(iterable, mapperFn) {
     for (const [idx, item] of enumerate(iterable)) {
-        yield iteratee(item, idx)
+        yield mapperFn(item, idx)
     }
 })
 
-function map(iterable, iteratee=x => x, ...rest) {
-    assert.function(iteratee, `[map] Expected map iteratee to be a function`)
+function map(iterable, mapperFn, ...rest) {
+    assert.function(mapperFn, `[map] Expected mapperFn to be a function`)
     assert.empty(rest, `[map] Unexpected additional arguments to map`)
-    return _map(iterable, iteratee)
+    return _map(iterable, mapperFn)
 }
 
 export default create(map)

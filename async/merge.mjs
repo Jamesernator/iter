@@ -35,6 +35,8 @@ const _merge = iterableGenerator(async function* _merge(...iterables) {
     }
 })
 
+// TODO: Make this non-variadic
+
 function merge(iterable, ...otherIterables) {
     const snapshots = otherIterables.map(otherIterable => snapshotIterable(otherIterable))
     assert.every(

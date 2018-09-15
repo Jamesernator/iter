@@ -4,7 +4,7 @@ import iterator from "./--iterator.mjs"
 import assert from "../--assert.mjs"
 
 const _takeUntil = iterableGenerator(async function* takeUntil(iterable, promiseOrFunc) {
-    const promise = typeof promiseOrFunc === 'function' ? promiseOrFunc() : promiseOrFunc 
+    const promise = typeof promiseOrFunc === 'function' ? promiseOrFunc() : promiseOrFunc
     const terminated = Promise.resolve(promise).then(value => ({
         type: 'interrupt',
         value,
@@ -32,6 +32,7 @@ const _takeUntil = iterableGenerator(async function* takeUntil(iterable, promise
         await it.return()
     }
 })
+
 
 function takeUntil(iterable, ...args) {
     assert(args.length !== 0, `[takeUntil] Expected a promise to takeUntil`)
