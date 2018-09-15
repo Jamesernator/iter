@@ -4,7 +4,7 @@ import snapshotIterable from "./--snapshotIterable.mjs"
 import assert from "../--assert.mjs"
 import iterator from "./--iterator.mjs"
 
-const _zip = iterableGenerator(function* zip(...iterables) {
+const _zip = iterableGenerator(function* zip(iterables) {
     const iteratorsDone = new Set()
     const iterators = []
     try {
@@ -40,14 +40,15 @@ const _zip = iterableGenerator(function* zip(...iterables) {
     }
 })
 
-function zip(iterable, ...others) {
-    const snapshots = others.map(otherIterable => snapshotIterable(otherIterable))
+function zip(iterables, ...rest) {
+    const snapshots = iterables.map(otherIterable => snapshotIterable(otherIterable))
+    assert.empty(rest, `[zip] Unexpected additional arguments to zip`)
     assert.every(
         snapshots,
         iter => iter,
         `[zip] Can't zip with non-iterable`,
     )
-    return _zip(iterable, ...snapshots)
+    return _zip(snapshots)
 }
 
 export default create(zip)

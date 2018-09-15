@@ -4,7 +4,7 @@ import snapshotIterable from "./--snapshotIterable.mjs"
 import assert from "../--assert.mjs"
 import iterator from "./--iterator.mjs"
 
-const _zipLongest = iterableGenerator(async function* zipLongest(...iterables) {
+const _zipLongest = iterableGenerator(async function* zipLongest(iterables) {
     const iteratorsDone = new Set()
     const iterators = []
     try {
@@ -42,14 +42,15 @@ const _zipLongest = iterableGenerator(async function* zipLongest(...iterables) {
 
 // TODO: Make non-variadic
 
-function zipLongest(iterable, ...others) {
-    const snapshots = others.map(otherIterable => snapshotIterable(otherIterable))
+function zipLongest(iterables, ...rest) {
+    const snapshots = iterables.map(otherIterable => snapshotIterable(otherIterable))
+    assert.empty(rest, `[zip] Unexpected additional arguments to zipLongest`)
     assert.every(
         snapshots,
         iter => iter,
         `[zipLongest] Can't zipLongest with non-iterable`,
     )
-    return _zipLongest(iterable, ...snapshots)
+    return _zipLongest(iterables)
 }
 
 export default create(zipLongest)
