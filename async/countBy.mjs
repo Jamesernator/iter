@@ -34,7 +34,6 @@ function countBy(iterable, ...args) {
         throw new Error(`[countBy] Unexpected additional arguments to countBy`)
     }
 
-    /* eslint-disable indent */
     const [map, iteratee]
         = args.length === 0 ?
             [new Map(), x => x]
@@ -47,7 +46,6 @@ function countBy(iterable, ...args) {
             args
         :
             unexpectedArgs()
-    /* eslint-enable indent */
     assert(map && typeof map.get === 'function', `[countBy] map object doesn't have a get method`)
     assert(map && typeof map.set === 'function', `[countBy] map object doesn't have a set method`)
     assert(map && typeof map.has === 'function', `[countBy] map object doesn't have a has method`)

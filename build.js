@@ -1,4 +1,5 @@
 "use strict"
+/* eslint-env node */
 const fs = require('fs')
 const path = require('path')
 const dedent = require('dedent')
@@ -18,8 +19,8 @@ folderModule("./sync/", {
 })
 
 /**
- * 
- * @param {"async" | "sync"} type 
+ *
+ * @param {"async" | "sync"} type
  */
 function createCommonjs(type) {
     for (const file of fs.readdirSync(type)) {

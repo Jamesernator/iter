@@ -31,7 +31,6 @@ const __scan = iterableGenerator(async function* scan(iterable, reducer, seeded,
 })
 
 function _scan(iterable, ...args) {
-    /* eslint-disable indent */
     const [seeded, seedValue, reducer]
         = args.length === 0 ?
             [false, undefined, (x, y) => x + y]
@@ -39,12 +38,10 @@ function _scan(iterable, ...args) {
             [false, undefined, ...args]
         :
             [true, ...args]
-    /* eslint-enable indent */
     return __scan(iterable, reducer, seeded, seedValue)
 }
 
 function scan(iterable, ...args) {
-    /* eslint-disable indent */
     const unexpectedArgs = _ => {
         throw new Error(`[scan] Unexpected additional arguments`)
     }
@@ -58,7 +55,6 @@ function scan(iterable, ...args) {
             [true, ...args]
         :
             unexpectedArgs()
-    /* eslint-enable indent */
 
     assert.function(reducer, `[scan] Expected scanr to be a function`)
     return __scan(iterable, reducer, seeded, seedValue)

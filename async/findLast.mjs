@@ -21,7 +21,6 @@ async function __findLast(iterable, predicate, hasDefault, defaultValue) {
 }
 
 function _findLast(iterable, ...args) {
-    /* eslint-disable indent */
     const [hasDefault, defaultValue, predicate]
         = args.length === 0 ?
             [false, undefined, x => x]
@@ -30,7 +29,6 @@ function _findLast(iterable, ...args) {
         :
             [true, ...args]
 
-    /* eslint-enable indent */
     return __findLast(iterable, predicate, hasDefault, defaultValue)
 }
 
@@ -38,7 +36,6 @@ function findLast(iterable, ...args) {
     const unexpectedArgs = _ => {
         throw new Error(`[findLast] Unexpected additional arguments to find`)
     }
-    /* eslint-disable indent */
     const [hasDefault, defaultValue, predicate]
         = args.length === 0 ?
             [false, undefined, x => x]
@@ -48,7 +45,6 @@ function findLast(iterable, ...args) {
             [true, ...args]
         :
             unexpectedArgs()
-    /* eslint-enable indent */
     assert.function(predicate, `[findLast] Expected find predicate to be a function`)
     return __findLast(iterable, predicate, hasDefault, defaultValue)
 }

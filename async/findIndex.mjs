@@ -16,7 +16,6 @@ async function __findIndex(iterable, predicate, hasDefault, defaultValue) {
 }
 
 function _findIndex(iterable, ...args) {
-    /* eslint-disable indent */
     const [hasDefault, defaultValue, predicate]
         = args.length === 0 ?
             [false, undefined, x => x]
@@ -25,7 +24,6 @@ function _findIndex(iterable, ...args) {
         :
             [true, ...args]
 
-    /* eslint-enable indent */
     return __findIndex(iterable, predicate, hasDefault, defaultValue)
 }
 
@@ -33,7 +31,6 @@ function findIndex(iterable, ...args) {
     const unexpectedArgs = _ => {
         throw new Error(`[findIndex] Unexpected additional arguments to findIndex`)
     }
-    /* eslint-disable indent */
     const [hasDefault, defaultValue, predicate]
         = args.length === 0 ?
             [false, undefined, x => x]
@@ -43,7 +40,6 @@ function findIndex(iterable, ...args) {
             [true, ...args]
         :
             unexpectedArgs()
-    /* eslint-enable indent */
     assert.function(predicate, `[findIndex] Expected findIndex predicate to be a function`)
     return __findIndex(iterable, predicate, hasDefault, defaultValue)
 }

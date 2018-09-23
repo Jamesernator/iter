@@ -21,7 +21,6 @@ const __flatMap = iterableGenerator(async function* flatMap(iterable, allowNonIt
 })
 
 function _flatMap(iterable, ...args) {
-    /* eslint-disable indent */
     const [allowNonIterable, iteratee=x => [x]] =
         args.length === 0 ?
             [false, x => [x]]
@@ -29,7 +28,6 @@ function _flatMap(iterable, ...args) {
             [false, ...args]
         :
             args
-    /* eslint-enable indent */
     return __flatMap(iterable, allowNonIterable, iteratee)
 }
 
@@ -42,7 +40,6 @@ function flatMap(iterable, ...args) {
         throw new Error(`[flatMap] Unexpected additional arguments to flatMap`)
     }
 
-    /* eslint-disable indent */
     const [allowNonIterable, iteratee] =
         args.length === 0 ?
             tooFewArgs()
@@ -52,7 +49,6 @@ function flatMap(iterable, ...args) {
             args
         :
             unexpectedArgs()
-    /* eslint-enable indent */
 
     assert.boolean(allowNonIterable, `[flatMap] allowNonIterable must be a boolean as other values are reserved for future use`)
     assert.function(iteratee, `[flatMap] Expected flatMap iteratee to be a function`)

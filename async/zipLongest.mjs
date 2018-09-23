@@ -41,12 +41,12 @@ const _zipLongest = iterableGenerator(async function* zipLongest(iterables) {
 
 function zipLongest(iterables, ...rest) {
     const snapshots = iterables.map(otherIterable => snapshotIterable(otherIterable))
-    assert.empty(rest, `[zip] Unexpected additional arguments to zipLongest`)
     assert.every(
         snapshots,
         iter => iter,
         `[zipLongest] Can't zipLongest with non-iterable`,
     )
+    assert.empty(rest, `[zipLongest] Unexpected additional arguments to zipLongest`)
     return _zipLongest(iterables)
 }
 
