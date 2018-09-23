@@ -1,4 +1,6 @@
-node_modules/
-.esm-cache/
-async.mjs
-sync.mjs
+/node_modules/
+/.esm-cache/
+/async.mjs
+/sync.mjs
+/coverage/*
+/coverage/
