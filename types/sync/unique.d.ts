@@ -7,10 +7,10 @@ interface SetLike<Value> {
 export default
     function unique<T>(
         iterable: Iterable<T>,
-    ): Set<T>
+    ): Iterable<T>
 
 export default
     function unique<T>(
         iterable: Iterable<T>,
         set: SetLike<T>,
-    ): SetLike<T>
+    ): Iterable<T>

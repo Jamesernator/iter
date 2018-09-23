@@ -8,10 +8,10 @@ interface SetLike<Value> {
 export default
     function unique<T>(
         asyncIterable: AsyncOrSyncIterable<T>,
-    ): Set<T>
+    ): AsyncIterable<T>
 
 export default
     function unique<T>(
         asyncIterable: AsyncOrSyncIterable<T>,
         set: SetLike<T>,
-    ): SetLike<T>
+    ): AsyncIterable<T>
