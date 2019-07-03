@@ -301,7 +301,7 @@ rules:
         - as-needed
     semi:
         - error
-        - never
+        - always
     semi-spacing:
         - error
     semi-style:

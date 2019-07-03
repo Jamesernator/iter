@@ -6,7 +6,7 @@
 ```ts
 function all<T>(
     iterable: Iterable<T>,
-    predicate?: (item: T, index: number) => any ,
+    predicate?: (item: T, index: number) => any,
 ): boolean
 ```
 
