@@ -1,10 +1,6 @@
 import iterableGenerator from "./iterableGenerator.js"
 import { AsyncOrSyncIterable } from "../AsyncOrSyncIterable.js";
 
-function delay<T>(time: number, value: T): Promise<T> {
-    return new Promise(resolve => setTimeout(resolve, time, value))
-}
-
 export default iterableGenerator(
     async function* debounceLeading<T>(
         iterable: AsyncOrSyncIterable<T>,

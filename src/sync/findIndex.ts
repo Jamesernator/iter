@@ -1,28 +1,27 @@
-import enumerate from "./enumerate.js"
-import { AsyncOrSyncIterable } from "../AsyncOrSyncIterable.js";
+import enumerate from './enumerate.js';
 
-export default function find<T>(
-    iterable: AsyncOrSyncIterable<T>,
-): Promise<T | undefined>;
-export default function find<T>(
-    iterable: AsyncOrSyncIterable<T>,
+export default function findIndex<T>(
+    iterable: Iterable<T>,
+): number | undefined;
+export default function findIndex<T>(
+    iterable: Iterable<T>,
     predicate: ((value: T, index: number) => any),
-): Promise<T | undefined>;
-export default function find<T, Default=T>(
-    iterable: AsyncOrSyncIterable<T>,
-    defaultValue: Default,
+): number | undefined;
+export default function findIndex<T>(
+    iterable: Iterable<T>,
+    defaultValue: number,
     predicate: ((value: T, index: number) => any),
-): Promise<T | Default>;
-export default async function find<T, Default=T>(
-    iterable: AsyncOrSyncIterable<T>,
+): T | number;
+export default function findIndex<T>(
+    iterable: Iterable<T>,
     ...options:
         []
         | [((value: T, index: number) => any)]
-        | [Default, ((value: T, index: number) => any)]
+        | [number, ((value: T, index: number) => any)]
 ) {
     let predicate: (value: T, index: number) => any;
     let hasDefault: boolean = false;
-    let defaultValue: Default;
+    let defaultValue: number;
 
     if (options.length === 0) {
         predicate = i => i;
@@ -36,11 +35,12 @@ export default async function find<T, Default=T>(
         hasDefault = true;
     }
 
-    for await (const [idx, item] of enumerate(iterable)) {
-        if (await predicate(item, idx)) {
-            return item
+    for (const [idx, item] of enumerate(iterable)) {
+        if (predicate(item, idx)) {
+            return idx
         }
     }
+
     if (hasDefault) {
         return defaultValue!
     } else {

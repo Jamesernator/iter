@@ -1,23 +1,22 @@
 import iterableGenerator from "./iterableGenerator.js"
 import enumerate from "./enumerate.js"
-import { AsyncOrSyncIterable } from "../AsyncOrSyncIterable.js";
 
 function filter<T, K extends T>(
-    iterable: AsyncOrSyncIterable<T>,
+    iterable: Iterable<T>,
     predicate: ((value: T, index: number) => value is K),
-): AsyncIterableIterator<K>;
+): IterableIterator<K>;
 function filter<T>(
-    iterable: AsyncOrSyncIterable<T>,
+    iterable: Iterable<T>,
     predicate: ((value: T, index: number) => any),
-): AsyncIterableIterator<T>;
-async function* filter<T, K extends T = T>(
-    iterable: AsyncOrSyncIterable<T>,
+): IterableIterator<T>;
+function* filter<T, K extends T = T>(
+    iterable: Iterable<T>,
     predicate:
         ((value: T, index: number) => value is K)
         | (( value: T, index: number) => any),
 ) {
-    for await (const [idx, item] of enumerate(iterable)) {
-        if (await predicate(item, idx)) {
+    for (const [idx, item] of enumerate(iterable)) {
+        if (predicate(item, idx)) {
             yield item
         }
     }
@@ -25,13 +24,13 @@ async function* filter<T, K extends T = T>(
 
 type Filter = {
     <T, K extends T>(
-        iterable: AsyncOrSyncIterable<T>,
+        iterable: Iterable<T>,
         predicate: ((value: T, index: number) => value is K),
-    ): AsyncIterable<K>;
+    ): Iterable<K>;
     <T>(
-        iterable: AsyncOrSyncIterable<T>,
+        iterable: Iterable<T>,
         predicate: ((value: T, index: number) => any),
-    ): AsyncIterable<T>;
+    ): Iterable<T>;
 }
 
 export default iterableGenerator(filter) as Filter;

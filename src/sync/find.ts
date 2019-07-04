@@ -1,20 +1,19 @@
 import enumerate from "./enumerate.js"
-import { AsyncOrSyncIterable } from "../AsyncOrSyncIterable.js";
 
 export default function find<T>(
-    iterable: AsyncOrSyncIterable<T>,
-): Promise<T | undefined>;
+    iterable: Iterable<T>,
+): T | undefined;
 export default function find<T>(
-    iterable: AsyncOrSyncIterable<T>,
+    iterable: Iterable<T>,
     predicate: ((value: T, index: number) => any),
-): Promise<T | undefined>;
+): T | undefined;
 export default function find<T, Default=T>(
-    iterable: AsyncOrSyncIterable<T>,
+    iterable: Iterable<T>,
     defaultValue: Default,
     predicate: ((value: T, index: number) => any),
-): Promise<T | Default>;
-export default async function find<T, Default=T>(
-    iterable: AsyncOrSyncIterable<T>,
+): T | Default;
+export default function find<T, Default=T>(
+    iterable: Iterable<T>,
     ...options:
         []
         | [((value: T, index: number) => any)]
@@ -36,8 +35,8 @@ export default async function find<T, Default=T>(
         hasDefault = true;
     }
 
-    for await (const [idx, item] of enumerate(iterable)) {
-        if (await predicate(item, idx)) {
+    for (const [idx, item] of enumerate(iterable)) {
+        if (predicate(item, idx)) {
             return item
         }
     }

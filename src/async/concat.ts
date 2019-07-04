@@ -1,4 +1,4 @@
-import { AsyncOrSyncIterable } from "../AsyncOrSyncIterable";
+import { AsyncOrSyncIterable } from "../AsyncOrSyncIterable.js";
 import iterableGenerator from "./iterableGenerator.js";
 
 export default iterableGenerator(

@@ -1,20 +1,19 @@
 import enumerate from "./enumerate.js"
-import { AsyncOrSyncIterable } from "../AsyncOrSyncIterable.js";
 
-export default function find<T>(
-    iterable: AsyncOrSyncIterable<T>,
-): Promise<T | undefined>;
-export default function find<T>(
-    iterable: AsyncOrSyncIterable<T>,
+export default function findLast<T>(
+    iterable: Iterable<T>,
+): T | undefined;
+export default function findLast<T>(
+    iterable: Iterable<T>,
     predicate: ((value: T, index: number) => any),
-): Promise<T | undefined>;
-export default function find<T, Default=T>(
-    iterable: AsyncOrSyncIterable<T>,
+): T | undefined;
+export default function findLast<T, Default=T>(
+    iterable: Iterable<T>,
     defaultValue: Default,
     predicate: ((value: T, index: number) => any),
-): Promise<T | Default>;
-export default async function find<T, Default=T>(
-    iterable: AsyncOrSyncIterable<T>,
+): T | Default;
+export default function findLast<T, Default=T>(
+    iterable: Iterable<T>,
     ...options:
         []
         | [((value: T, index: number) => any)]
@@ -36,12 +35,18 @@ export default async function find<T, Default=T>(
         hasDefault = true;
     }
 
-    for await (const [idx, item] of enumerate(iterable)) {
-        if (await predicate(item, idx)) {
-            return item
+    let found = false
+    let foundItem: T;
+
+    for (const [idx, item] of enumerate(iterable)) {
+        if (predicate(item, idx)) {
+            found = true;
+            foundItem = item;
         }
     }
-    if (hasDefault) {
+    if (found) {
+        return foundItem!
+    } else if (hasDefault) {
         return defaultValue!
     } else {
         throw new Error(`[find] No item found with no default provided`)
