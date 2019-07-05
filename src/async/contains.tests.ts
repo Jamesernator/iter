@@ -1,66 +1,55 @@
-import test from "ava";
+import * as assert from "../lib/assert.js";
 import contains from "./contains.js";
 import CountClosing from "./helpers/CountClosing.js";
 
-test("contains default Object.is", async (t) => {
-    t.true(
-        await contains([1, 2, 3, 4], 2),
-    );
-    const x = {};
-    t.true(
-        await contains([x, {}, NaN], x),
-    );
+export const tests = {
+    async "contains defaults to Object.is"() {
+        assert.isTrue(await contains([1, 2, 3, 4], 2));
 
-    t.true(
-        await contains([0, 4], 0),
-    );
+        const o = {};
+        assert.isTrue(await contains([1, o, {}, NaN], o));
 
-    t.false(
-        await contains([-0, 4], 0),
-    );
-    t.true(
-        await contains([3, NaN, "banana"], NaN),
-    );
+        assert.isFalse(await contains([-0, 4], 0));
 
-    t.false(
-        await contains([{}, "foo", NaN], x),
-    );
-});
+        assert.isTrue(await contains([1, 2, NaN, "banana"], NaN));
 
-test("contains custom equality", async (t) => {
-    const data: Array<[number, number]> = [[1, 2], [3, 4]];
-    const equals = ([x1, y1]: [number, number], [x2, y2]: [number, number]) => {
-        return Object.is(x1, x2) && Object.is(y1, y2);
-    };
-    t.true(
-        await contains(data, [1, 2], equals),
-    );
+        assert.isFalse(await contains([{}, "foo", 12], {}));
+    },
 
-    t.false(
-        await contains(data, [4, 5], equals),
-    );
-});
+    async "contains with custom equality function"() {
+        const data: Array<[number, number]> = [[1, 2], [3, 4]];
 
-test("contains custom equality doesn't throw if value found before throwing case", async (t) => {
-    const data: Array<[number, number]> = [[5, 6], [1, 2], [9, 9]];
-    const equals = ([x1, y1]: [number, number], [x2, y2]: [number, number]) => {
-        if (x1 === 9 && x2 === 9) {
-            throw new Error("Test");
+        function equals([x1, y1]: [number, number], [x2, y2]: [number, number]) {
+            return x1 === x2 && y1 === y2;
         }
-        return Object.is(x1, x2) && Object.is(y1, y2);
-    };
 
-    t.true(
-        await contains(data, [1, 2], equals),
-    );
-});
+        assert.isTrue(await contains(data, [1, 2], equals));
+        assert.isFalse(await contains(data, [9, 9], equals));
+    },
 
-test("iterator closing", async (t) => {
-    const d1 = new CountClosing([1, 2, 3, 4]);
+    async "contains custom equality doesn't throw if value is found"() {
+        const data: Array<[number, number]> = [[1, 2], [3, 4], [5, 6]];
 
-    await contains(d1, 12);
-    t.is(d1.closed, 0);
+        function equals([x1, y1]: [number, number], [x2, y2]: [number, number]) {
+            if (x1 === 5 && x2 === 6) {
+                throw new Error("Test");
+            }
+            return x1 === x2 && y1 === y2;
+        }
 
-    await contains(d1, 2);
-    t.is(d1.closed, 1);
-});
+        assert.isTrue(await contains(data, [3, 4], equals));
+        await assert.throwsAsync(() => contains(data, [9, 9], equals));
+    },
+
+    async "contains iterator closing"() {
+        const iter1 = new CountClosing([1, 2, 3, 4]);
+
+        await contains(iter1, 12);
+        assert.is(iter1.closed, 0);
+
+        const iter2 = new CountClosing([1, 2, 3, 4]);
+
+        await contains(iter2, 2);
+        assert.is(iter2.closed, 1);
+    },
+};
