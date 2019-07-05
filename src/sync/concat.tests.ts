@@ -1,6 +1,6 @@
 import test from "ava"
-import concat from "../../sync/concat.mjs"
-import toArray from "../../sync/toArray.mjs"
+import concat from "../../sync/concat.js"
+import toArray from "../../sync/toArray.js"
 
 test("concat works with single concatentation", t => {
     t.deepEqual(
@@ -51,13 +51,13 @@ test("concat throws early on invalid arguments", t => {
     t.throws(_ => concat([[1], [2]], 12))
 })
 
-import countClosing from "./helpers/countClosing.mjs"
-import consumeIterator from "./helpers/consumeIterator.mjs"
+import CountClosing from "./helpers/CountClosing.js"
+import consumeIterator from "./helpers/consumeIterator.js"
 
 test("iterator closing", t => {
-    const d1 = countClosing([1, 2])
-    const d2 = countClosing([1, 2, 3])
-    const d3 = countClosing([1, 2])
+    const d1 = CountClosing([1, 2])
+    const d2 = CountClosing([1, 2, 3])
+    const d3 = CountClosing([1, 2])
 
     const seq = concat([d1, d2, d3])[Symbol.iterator]()
     consumeIterator(seq, 4)

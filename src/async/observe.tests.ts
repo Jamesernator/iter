@@ -1,6 +1,6 @@
 import test from "ava"
-import debug from "../../async/debug.mjs"
-import toArray from "../../async/toArray.mjs"
+import debug from "../../async/debug.js"
+import toArray from "../../async/toArray.js"
 
 async function* seq() {
     yield 1
@@ -31,10 +31,10 @@ test("debug throws early on invalid arguments", t => {
     t.throws(_ => debug([], x => x, []))
 })
 
-import countClosing from "./helpers/countClosing.mjs"
+import CountClosing from "./helpers/CountClosing.js"
 
 test("iterator closing", async t => {
-    const data = countClosing([1, 2, 3, 4])
+    const data = CountClosing([1, 2, 3, 4])
     const seq = debug(data, _ => _)[Symbol.asyncIterator]()
     await seq.next()
     await seq.return()

@@ -1,5 +1,5 @@
 import test from "ava"
-import find from "../../sync/find.mjs"
+import find from "../../sync/find.js"
 
 test('find basic functionality', t => {
     const val = { x: 10, y: 20 }
@@ -57,10 +57,10 @@ test('find throws on bad arguments', t => {
     t.throws(_ => find(data, _ => 2, 12))
 })
 
-import countClosing from "./helpers/countClosing.mjs"
+import CountClosing from "./helpers/CountClosing.js"
 
 test("iterator closing", t => {
-    const data = countClosing([1, 2, 3, 4])
+    const data = CountClosing([1, 2, 3, 4])
 
     find(data, 99, x => x > 5)
     t.is(data.closed, 0)

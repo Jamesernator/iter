@@ -1,5 +1,5 @@
 import test from "ava"
-import indexOf from "../../async/indexOf.mjs"
+import indexOf from "../../async/indexOf.js"
 
 test('indexOf returns the correct index for a given value', async t => {
     const data = [1, 2, 3, 4, 5, 42, 11]
@@ -45,10 +45,10 @@ test("indexOf throws early on invalid arguments", t => {
     t.throws(_ => indexOf([], 3, _ => [], 'banana'))
 })
 
-import countClosing from "./helpers/countClosing.mjs"
+import CountClosing from "./helpers/CountClosing.js"
 
 test("iterator closing", async t => {
-    const data = countClosing([1, 2, 3, 4])
+    const data = CountClosing([1, 2, 3, 4])
     await indexOf(data, 12)
     t.is(data.closed, 0)
     await indexOf(data, 2)

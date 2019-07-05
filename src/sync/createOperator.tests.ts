@@ -1,5 +1,5 @@
 import test from "ava"
-import createOperator from "../../sync/createOperator.mjs"
+import createOperator from "../../sync/createOperator.js"
 
 test('createOperator creates a function which expects an iterable', t => {
     const method = createOperator(function foo(iterable) {

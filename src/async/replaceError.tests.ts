@@ -1,6 +1,6 @@
 import test from "ava"
-import replaceError from "../../async/replaceError.mjs"
-import toArray from "../../async/toArray.mjs"
+import replaceError from "../../async/replaceError.js"
+import toArray from "../../async/toArray.js"
 
 test("replaceError can replace an error with another sequence", async t => {
     async function* seq() {
@@ -49,7 +49,7 @@ test("replaceError throws early on invalid arguments", t => {
     t.throws(_ => replaceError([], _ => [3, 4], 'banana'))
 })
 
-import countClosing from "./helpers/countClosing.mjs"
+import CountClosing from "./helpers/CountClosing.js"
 
 test("replaceError iterator closing early", async t => {
     let closed = 0
@@ -64,7 +64,7 @@ test("replaceError iterator closing early", async t => {
         throw new Error("Foo")
     }
 
-    const data = countClosing([1, 2, 3])
+    const data = CountClosing([1, 2, 3])
 
     const s = replaceError(seq(), _ => data)[Symbol.asyncIterator]()
     await s.next()

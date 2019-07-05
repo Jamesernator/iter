@@ -1,6 +1,6 @@
 import test from "ava"
-import enumerate from "../../sync/enumerate.mjs"
-import toArray from "../../sync/toArray.mjs"
+import enumerate from "../../sync/enumerate.js"
+import toArray from "../../sync/toArray.js"
 
 test('enumerate gives pairs of values', t => {
     t.deepEqual(
@@ -14,11 +14,11 @@ test('enumerate throws early on invalid arguments', t => {
     t.throws(_ => enumerate())
 })
 
-import countClosing from "./helpers/countClosing.mjs"
-import consumeIterator from "./helpers/consumeIterator.mjs"
+import CountClosing from "./helpers/CountClosing.js"
+import consumeIterator from "./helpers/consumeIterator.js"
 
 test("iterator closing", t => {
-    const data = countClosing([1, 2, 3, 4])
+    const data = CountClosing([1, 2, 3, 4])
     const seq = enumerate(data)[Symbol.iterator]()
 
     consumeIterator(seq, 2)

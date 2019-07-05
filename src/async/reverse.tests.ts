@@ -1,6 +1,6 @@
 import test from "ava"
-import reverse from "../../async/reverse.mjs"
-import toArray from "../../async/toArray.mjs"
+import reverse from "../../async/reverse.js"
+import toArray from "../../async/toArray.js"
 
 test("reverse basic functionality", async t => {
     const data = [1, 2, 3, 4]

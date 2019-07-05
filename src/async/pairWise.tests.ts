@@ -1,6 +1,6 @@
 import test from "ava"
-import pairWise from "../../async/pairWise.mjs"
-import toArray from "../../async/toArray.mjs"
+import pairWise from "../../async/pairWise.js"
+import toArray from "../../async/toArray.js"
 
 test("pairWise basic functionality", async t => {
     const data = [1, 2, 3, 4, 5, 6, 7]
@@ -41,10 +41,10 @@ test("pairWise throws early on invalid arguments", t => {
     t.throws(_ => pairWise(null))
 })
 
-import countClosing from "./helpers/countClosing.mjs"
+import CountClosing from "./helpers/CountClosing.js"
 
 test("pairWise iterator closing", async t => {
-    const data = countClosing([1, 2, 3, 4])
+    const data = CountClosing([1, 2, 3, 4])
     const pairs = pairWise(data)[Symbol.asyncIterator]()
 
     await pairs.next()

@@ -1,6 +1,6 @@
 import test from "ava"
-import zipLongest from "../../async/zipLongest.mjs"
-import toArray from "../../async/toArray.mjs"
+import zipLongest from "../../async/zipLongest.js"
+import toArray from "../../async/toArray.js"
 
 test("zipLongest basic functionality", async t => {
     const d1 = [1, 2, 3, 4, 5]
@@ -44,11 +44,11 @@ test("zipLongest throws early on invalid arguments", t => {
     t.throws(_ => zipLongest([1, 2, 3, 4], 12))
 })
 
-import countClosing from "./helpers/countClosing.mjs"
+import CountClosing from "./helpers/CountClosing.js"
 
 test("zipLongest iterator closing all if early", async t => {
-    const data1 = countClosing([1, 2])
-    const data2 = countClosing([3, 4])
+    const data1 = CountClosing([1, 2])
+    const data2 = CountClosing([3, 4])
 
     const seq = zipLongest([data1, data2])[Symbol.asyncIterator]()
     await seq.next()

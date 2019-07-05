@@ -1,6 +1,6 @@
 import test from "ava"
-import countBy from "../../sync/countBy.mjs"
-import toArray from "../../sync/toArray.mjs"
+import countBy from "../../sync/countBy.js"
+import toArray from "../../sync/toArray.js"
 import ArrayMap from "es6-array-map"
 
 test("countBy no arguments", t => {
@@ -92,10 +92,10 @@ test("countBy throws early on invalid arguments", t => {
     }))
 })
 
-import countClosing from "./helpers/countClosing.mjs"
+import CountClosing from "./helpers/CountClosing.js"
 
 test("iterator closing when an error is thrown in a set method", t => {
-    const data = countClosing([1, 2, 3, 'foo', 12, 13])
+    const data = CountClosing([1, 2, 3, 'foo', 12, 13])
     t.throws(_ => countBy(data, {
         get() {
             return undefined

@@ -1,5 +1,5 @@
 import test from "ava"
-import none from "../../async/none.mjs"
+import none from "../../async/none.js"
 
 test("none basic functionality", async t => {
     const isEven = i => i % 2 === 0
@@ -31,16 +31,16 @@ test("none throws early on invalid arguments", t => {
     t.throws(_ => none([], x => x**2, 'foobar'))
 })
 
-import countClosing from "./helpers/countClosing.mjs"
+import CountClosing from "./helpers/CountClosing.js"
 
 test("none iterator closing on early find", async t => {
-    const data = countClosing([1, 2, 3, 4])
+    const data = CountClosing([1, 2, 3, 4])
     await none(data, x => x === 2)
     t.is(data.closed, 1)
 })
 
 test("none iterator closing on predicate error", async t => {
-    const data = countClosing([1, 2, 3, 4])
+    const data = CountClosing([1, 2, 3, 4])
     await t.throwsAsync(none(data, _ => { throw new Error("Error") }))
     t.is(data.closed, 1)
 })

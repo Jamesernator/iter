@@ -1,6 +1,6 @@
 import test from "ava"
-import filter from "../../sync/filter.mjs"
-import toArray from "../../sync/toArray.mjs"
+import filter from "../../sync/filter.js"
+import toArray from "../../sync/toArray.js"
 
 test('filter basic functionality', t => {
     const data = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
@@ -28,10 +28,10 @@ test('filter throws early on bad input', t => {
     t.throws(_ => filter([], _ => true, 'banana'))
 })
 
-import countClosing from "./helpers/countClosing.mjs"
+import CountClosing from "./helpers/CountClosing.js"
 
 test("filter iterator closing", t => {
-    const data = countClosing([1, 2, 3, 4])
+    const data = CountClosing([1, 2, 3, 4])
     const seq = filter(data, x => x % 2 === 0)[Symbol.iterator]()
 
     seq.next()
@@ -40,7 +40,7 @@ test("filter iterator closing", t => {
 })
 
 test("filter iterator closing on iteratee error", t => {
-    const data = countClosing([1, 2, 3, 4])
+    const data = CountClosing([1, 2, 3, 4])
     const seq = filter(data, _ => {
         throw new Error("Error")
     })[Symbol.iterator]()

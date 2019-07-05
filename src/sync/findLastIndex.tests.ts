@@ -1,5 +1,5 @@
 import test from "ava"
-import findLastIndex from "../../sync/findLastIndex.mjs"
+import findLastIndex from "../../sync/findLastIndex.js"
 
 test('findLastIndex basic functionality', t => {
     const data = [1, 2, 3, 4, 5, 1]
@@ -55,10 +55,10 @@ test('findLastIndex throws early on bad arguments', t => {
     t.throws(_ => findLastIndex(data, 4))
 })
 
-import countClosing from "./helpers/countClosing.mjs"
+import CountClosing from "./helpers/CountClosing.js"
 
 test("iterator closing", t => {
-    const data = countClosing([1, 2, 3, 4])
+    const data = CountClosing([1, 2, 3, 4])
 
     findLastIndex(data, 99, x => x > 5)
     t.is(data.closed, 0)

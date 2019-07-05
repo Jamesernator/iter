@@ -1,7 +1,7 @@
 import test from "ava"
-import iterableGenerator from "../../sync/iterableGenerator.mjs"
-import snapshotIterable from "../../sync/--snapshotIterable.mjs"
-import toArray from "../../sync/toArray.mjs"
+import iterableGenerator from "../../sync/iterableGenerator.js"
+import snapshotIterable from "../../sync/--snapshotIterable.js"
+import toArray from "../../sync/toArray.js"
 
 test('iterableGenerator returns an object that be iterated', t => {
     const gen = function* () {

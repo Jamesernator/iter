@@ -1,6 +1,6 @@
 import test from "ava"
-import map from "../../async/map.mjs"
-import toArray from "../../async/toArray.mjs"
+import map from "../../async/map.js"
+import toArray from "../../async/toArray.js"
 
 test('map basic functionality', async t => {
     const data = [1, 2, 3]
@@ -35,10 +35,10 @@ test('map throws early on invalid arguments', t => {
     t.throws(_ => map(data, x => x**2, 12))
 })
 
-import countClosing from "./helpers/countClosing.mjs"
+import CountClosing from "./helpers/CountClosing.js"
 
 test("iterator closing on early map close", async t => {
-    const data = countClosing([1, 2, 3, 4])
+    const data = CountClosing([1, 2, 3, 4])
     const seq = map(data, x => x**2)[Symbol.asyncIterator]()
 
     await seq.next()
@@ -47,7 +47,7 @@ test("iterator closing on early map close", async t => {
 })
 
 test("iterator closing on error in iteratee", async t => {
-    const data = countClosing([1, 2, 3, 4])
+    const data = CountClosing([1, 2, 3, 4])
     await t.throwsAsync(toArray(map(data, _ => { throw new Error("Error") })))
     t.is(data.closed, 1)
 })

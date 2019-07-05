@@ -1,6 +1,6 @@
 import test from "ava"
-import map from "../../sync/map.mjs"
-import toArray from "../../sync/toArray.mjs"
+import map from "../../sync/map.js"
+import toArray from "../../sync/toArray.js"
 
 test('map basic functionality', t => {
     const data = [1, 2, 3]
@@ -35,10 +35,10 @@ test('map throws early on invalid arguments', t => {
     t.throws(_ => map(data, x => x**2, 12))
 })
 
-import countClosing from "./helpers/countClosing.mjs"
+import CountClosing from "./helpers/CountClosing.js"
 
 test("iterator closing on early map close", t => {
-    const data = countClosing([1, 2, 3, 4])
+    const data = CountClosing([1, 2, 3, 4])
     const seq = map(data, x => x**2)[Symbol.iterator]()
 
     seq.next()
@@ -47,7 +47,7 @@ test("iterator closing on early map close", t => {
 })
 
 test("iterator closing on error in iteratee", t => {
-    const data = countClosing([1, 2, 3, 4])
+    const data = CountClosing([1, 2, 3, 4])
     t.throws(_ => [...map(data, _ => { throw new Error("Error") })])
     t.is(data.closed, 1)
 })

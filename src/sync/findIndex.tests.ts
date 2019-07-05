@@ -1,5 +1,5 @@
 import test from "ava"
-import findIndex from "../../sync/findIndex.mjs"
+import findIndex from "../../sync/findIndex.js"
 
 test('findIndex finds item if it exists', t => {
     const data = [1, 2, 3, 4]
@@ -47,10 +47,10 @@ test('findIndex throws early on bad arguments', t => {
     t.throws(_ => findIndex(data, 4))
 })
 
-import countClosing from "./helpers/countClosing.mjs"
+import CountClosing from "./helpers/CountClosing.js"
 
 test("iterator closing", t => {
-    const data = countClosing([1, 2, 3, 4])
+    const data = CountClosing([1, 2, 3, 4])
 
     findIndex(data, 99, x => x > 5)
     t.is(data.closed, 0)

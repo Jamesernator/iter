@@ -1,5 +1,5 @@
 import test from "ava"
-import toMap from "../../async/toMap.mjs"
+import toMap from "../../async/toMap.js"
 
 test("toMap converts a sequence of arrays into a map", async t => {
     const pairs = [[1, 2, 12], [3, 4], [4, 5, 6]]

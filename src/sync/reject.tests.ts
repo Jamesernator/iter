@@ -1,6 +1,6 @@
 import test from "ava"
-import reject from "../../sync/reject.mjs"
-import toArray from "../../sync/toArray.mjs"
+import reject from "../../sync/reject.js"
+import toArray from "../../sync/toArray.js"
 
 test('reject basic functionality', t => {
     const data = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
@@ -28,10 +28,10 @@ test('reject throws early on bad input', t => {
     t.throws(_ => reject([], _ => true, 'banana'))
 })
 
-import countClosing from "./helpers/countClosing.mjs"
+import CountClosing from "./helpers/CountClosing.js"
 
 test("reject iterator closing on early close", t => {
-    const data = countClosing([1, 2, 3, 4])
+    const data = CountClosing([1, 2, 3, 4])
     const seq = reject(data, x => x % 2 === 0)[Symbol.iterator]()
 
     seq.next()
@@ -40,7 +40,7 @@ test("reject iterator closing on early close", t => {
 })
 
 test("reject iterator closing on predicate error", t => {
-    const data = countClosing([1, 2, 3, 4])
+    const data = CountClosing([1, 2, 3, 4])
     const seq = reject(data, _ => { throw new Error("Error") })[Symbol.iterator]()
 
     t.throws(_ => seq.next())

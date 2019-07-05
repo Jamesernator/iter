@@ -1,5 +1,5 @@
 import test from "ava"
-import reduce from "../../async/reduce.mjs"
+import reduce from "../../async/reduce.js"
 
 test('reduce without arguments joins sequence using +', async t => {
     const target = ['Cat', 'Hat', 'Bat']
@@ -60,10 +60,10 @@ test("reduce throws early on invalid arguments", t => {
     t.throws(_ => reduce([], 11, 'banana'))
 })
 
-import countClosing from "./helpers/countClosing.mjs"
+import CountClosing from "./helpers/CountClosing.js"
 
 test("reduce closing on iteratee error", async t => {
-    const data = countClosing([1, 2, 3, 4])
+    const data = CountClosing([1, 2, 3, 4])
     await t.throwsAsync(reduce(data, _ => { throw new Error("Error") }))
     t.is(data.closed, 1)
 })

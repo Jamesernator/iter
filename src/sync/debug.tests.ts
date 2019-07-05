@@ -1,5 +1,5 @@
 import test from "ava"
-import debug from "../../sync/debug.mjs"
+import debug from "../../sync/debug.js"
 
 function* seq() {
     yield 1
@@ -29,11 +29,11 @@ test("debug throws early on invalid arguments", t => {
     t.throws(_ => debug([], x => x, []))
 })
 
-import countClosing from "./helpers/countClosing.mjs"
-import consumeIterator from "./helpers/consumeIterator.mjs"
+import CountClosing from "./helpers/CountClosing.js"
+import consumeIterator from "./helpers/consumeIterator.js"
 
 test("iterator closing", t => {
-    const data = countClosing([1, 2, 3, 4])
+    const data = CountClosing([1, 2, 3, 4])
     const seq = debug(data, _ => _)[Symbol.iterator]()
     consumeIterator(seq, 3)
     seq.return()

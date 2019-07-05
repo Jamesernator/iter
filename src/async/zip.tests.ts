@@ -1,6 +1,6 @@
 import test from "ava"
-import zip from "../../async/zip.mjs"
-import toArray from "../../async/toArray.mjs"
+import zip from "../../async/zip.js"
+import toArray from "../../async/toArray.js"
 
 test("zip basic functionality", async t => {
     const d1 = [1, 2, 3, 4, 5]
@@ -44,11 +44,11 @@ test("zip throws early on invalid arguments", t => {
     t.throws(_ => zip([1, 2]))
 })
 
-import countClosing from "./helpers/countClosing.mjs"
+import CountClosing from "./helpers/CountClosing.js"
 
 test("zip iterator closing all sequences", async t => {
-    const data1 = countClosing([1, 2])
-    const data2 = countClosing([3, 4])
+    const data1 = CountClosing([1, 2])
+    const data2 = CountClosing([3, 4])
 
     const seq = zip([data1, data2])[Symbol.asyncIterator]()
     await seq.next()
@@ -58,8 +58,8 @@ test("zip iterator closing all sequences", async t => {
 })
 
 test("zip iterator closing only as needed on completion", async t => {
-    const data1 = countClosing([1, 2])
-    const data2 = countClosing([1, 2, 3])
+    const data1 = CountClosing([1, 2])
+    const data2 = CountClosing([1, 2, 3])
 
     const seq = zip([data1, data2])[Symbol.asyncIterator]()
     await seq.next()

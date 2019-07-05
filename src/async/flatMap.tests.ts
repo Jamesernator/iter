@@ -1,6 +1,6 @@
 import test from "ava"
-import flatMap from "../../async/flatMap.mjs"
-import toArray from "../../async/toArray.mjs"
+import flatMap from "../../async/flatMap.js"
+import toArray from "../../async/toArray.js"
 
 test('flatMap basic functionality', async t => {
     const data = [1, 2, 3, 4]
@@ -45,11 +45,11 @@ test('flatMap throws early on bad arguments', t => {
     t.throws(_ => flatMap([], x => x**2, 3, 4, 5))
 })
 
-import countClosing from "./helpers/countClosing.mjs"
+import CountClosing from "./helpers/CountClosing.js"
 
 test("iterator closing", async t => {
-    const data = countClosing([1, 2, 3, 4])
-    const inner = countClosing([1, 2])
+    const data = CountClosing([1, 2, 3, 4])
+    const inner = CountClosing([1, 2])
     const seq = flatMap(data, _ => inner)[Symbol.asyncIterator]()
     await seq.next()
     await seq.return()

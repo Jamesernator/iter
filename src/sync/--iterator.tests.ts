@@ -1,5 +1,5 @@
 import test from "ava"
-import iterator from "../../sync/--iterator.mjs"
+import iterator from "../../sync/--iterator.js"
 
 test("iterator returns an iterator for a given iterable", t => {
     const iter = iterator([1, 2])
@@ -28,11 +28,11 @@ test("iterator reuses the initial value of nextMethod", t => {
     t.deepEqual(iter.next(), { done: false, value: 1 })
 })
 
-import countClosing from "./helpers/countClosing.mjs"
+import CountClosing from "./helpers/CountClosing.js"
 
 
 test("calling return is idempotent when the sequence is already closed", t => {
-    const data = countClosing([1, 2, 3, 4, 5])
+    const data = CountClosing([1, 2, 3, 4, 5])
     const seq = iterator(data)
 
     seq.next()

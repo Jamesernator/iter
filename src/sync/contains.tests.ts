@@ -1,5 +1,5 @@
 import test from "ava"
-import contains from "../../sync/contains.mjs"
+import contains from "../../sync/contains.js"
 
 test("contains default Object.is", t => {
     t.true(
@@ -63,10 +63,10 @@ test("contains throws early on bad arguments", t => {
     t.throws(_ => contains([], 0, {}, 'bar'))
 })
 
-import countClosing from "./helpers/countClosing.mjs"
+import CountClosing from "./helpers/CountClosing.js"
 
 test("iterator closing", t => {
-    const d1 = countClosing([1, 2, 3, 4])
+    const d1 = CountClosing([1, 2, 3, 4])
 
     contains(d1, 12)
     t.is(d1.closed, 0)

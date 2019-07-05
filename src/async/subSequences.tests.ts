@@ -1,6 +1,6 @@
 import test from "ava"
-import subSequences from "../../async/subSequences.mjs"
-import toArray from "../../async/toArray.mjs"
+import subSequences from "../../async/subSequences.js"
+import toArray from "../../async/toArray.js"
 
 test("subSequences emits small subSequencess of elements", async t => {
     const seq = [1, 2, 3, 4, 5, 6]
@@ -42,10 +42,10 @@ test("subSequences throws early on bad arguments", t => {
     t.throws(_ => subSequences([], 10, '12'))
 })
 
-import countClosing from "./helpers/countClosing.mjs"
+import CountClosing from "./helpers/CountClosing.js"
 
 test("subSequences iterator closing", async t => {
-    const data = countClosing([1, 2, 3, 4])
+    const data = CountClosing([1, 2, 3, 4])
     const seq = subSequences(data, 3)[Symbol.asyncIterator]()
 
     await seq.next()

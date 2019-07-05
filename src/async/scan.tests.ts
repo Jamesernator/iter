@@ -1,6 +1,6 @@
 import test from "ava"
-import scan from "../../async/scan.mjs"
-import toArray from "../../async/toArray.mjs"
+import scan from "../../async/scan.js"
+import toArray from "../../async/toArray.js"
 
 test("scan acts like reduce but emits the intermediate stages", async t => {
     const data = [1, 2, 3, 4, 5]
@@ -49,10 +49,10 @@ test("scan throws early on invalid arguments", t => {
     t.throws(_ => scan(data, {}, _ => _, 'extra'))
 })
 
-import countClosing from "./helpers/countClosing.mjs"
+import CountClosing from "./helpers/CountClosing.js"
 
 test("scan iterator closing on early end", async t => {
-    const data = countClosing([1, 2, 3, 4])
+    const data = CountClosing([1, 2, 3, 4])
     const seq = scan(data)[Symbol.asyncIterator]()
 
     await seq.next()
@@ -61,7 +61,7 @@ test("scan iterator closing on early end", async t => {
 })
 
 test("scan iterator closing on reducer error", async t => {
-    const data = countClosing([1, 2, 3, 4])
+    const data = CountClosing([1, 2, 3, 4])
     const seq = scan(data, _ => { throw new Error("Error") })
 
     await t.throwsAsync(toArray(seq))

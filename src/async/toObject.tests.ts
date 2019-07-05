@@ -1,5 +1,5 @@
 import test from "ava"
-import toObject from "../../async/toObject.mjs"
+import toObject from "../../async/toObject.js"
 
 test("toObject converts a sequence of arrays into a object", async t => {
     const pairs = [[1, 2, 12], [3, 4], [4, 5]]

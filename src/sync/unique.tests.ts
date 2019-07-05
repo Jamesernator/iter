@@ -1,6 +1,6 @@
 import test from "ava"
-import toArray from "../../sync/toArray.mjs"
-import unique from "../../sync/unique.mjs"
+import toArray from "../../sync/toArray.js"
+import unique from "../../sync/unique.js"
 import ArraySet from "es6-array-set"
 
 test("unique doesn't emit items it's already seen before", t => {
@@ -43,10 +43,10 @@ test("unique throws early on invalid arguments", t => {
     t.throws(_ => unique([1, 2, 3], { get() {}, set() {}, has() {} }, 'foobar'))
 })
 
-import countClosing from "./helpers/countClosing.mjs"
+import CountClosing from "./helpers/CountClosing.js"
 
 test("unique iterator closing", t => {
-    const data = countClosing([1, 2, 3, 4])
+    const data = CountClosing([1, 2, 3, 4])
     const seq = unique(data)[Symbol.iterator]()
 
     seq.next()
@@ -55,7 +55,7 @@ test("unique iterator closing", t => {
 })
 
 test("unique iterator closing on set method error", t => {
-    const data = countClosing([1, 2, 3, 4])
+    const data = CountClosing([1, 2, 3, 4])
     const set = {
         add() { throw new Error("Error") },
         has() { throw new Error("Error") },

@@ -1,5 +1,5 @@
 import test from "ava"
-import toArray from "../../sync/toArray.mjs"
+import toArray from "../../sync/toArray.js"
 
 test('array converts iterable to array', t => {
     const seq = function* () {

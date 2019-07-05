@@ -1,5 +1,5 @@
 import test from "ava"
-import groupBy from "../../async/groupBy.mjs"
+import groupBy from "../../async/groupBy.js"
 import ArrayMap from "es6-array-map"
 
 test('groupBy basic functionality', async t => {
@@ -54,10 +54,10 @@ test('groupBy throws early on bad arguments', async t => {
     await t.notThrowsAsync(_ => groupBy([], { set() {}, get() {}, has() {} }, x => x))
 })
 
-import countClosing from "./helpers/countClosing.mjs"
+import CountClosing from "./helpers/CountClosing.js"
 
 test("iterator closing if set throws an error", async t => {
-    const data = countClosing([1, 2, 3, 'fizzbuzz', 5, 6, 7])
+    const data = CountClosing([1, 2, 3, 'fizzbuzz', 5, 6, 7])
     await t.throwsAsync(groupBy(data, {
         get() {
             return undefined
@@ -78,7 +78,7 @@ test("iterator closing if set throws an error", async t => {
 })
 
 test("iterator closing if iteratee throws an error", async t => {
-    const data = countClosing([1, 2, 3, 4])
+    const data = CountClosing([1, 2, 3, 4])
     await t.throwsAsync(groupBy(data, _ => {
         throw new Error("Error")
     }))

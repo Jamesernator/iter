@@ -1,5 +1,5 @@
 import test from "ava"
-import last from "../../async/last.mjs"
+import last from "../../async/last.js"
 
 test('last with no arguments returns the last element of the sequence', async t => {
     t.is(

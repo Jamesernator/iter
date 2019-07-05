@@ -1,5 +1,5 @@
-import { AsyncOrSyncIterable } from "../../../AsyncOrSyncIterable.js";
-import iterator from "../../../async/--iterator.js";
+import { AsyncOrSyncIterable } from "../../AsyncOrSyncIterable.js";
+import iterator from "../--iterator.js";
 
 export default class CountClosing<T> implements AsyncIterableIterator<T> {
     private _closed: number = 0;
@@ -21,7 +21,7 @@ export default class CountClosing<T> implements AsyncIterableIterator<T> {
 
     async return() {
         if (this._throwError) {
-            throw new Error("[countClosing] Iterator closing error");
+            throw new Error("[CountClosing] Iterator closing error");
         }
         this._closed += 1;
         return { done: true, value: undefined as unknown as T };

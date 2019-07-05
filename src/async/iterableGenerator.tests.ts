@@ -1,7 +1,7 @@
 import test from "ava"
-import iterableGenerator from "../../async/iterableGenerator.mjs"
-import snapshotIterable from "../../async/--snapshotIterable.mjs"
-import toArray from "../../async/toArray.mjs"
+import iterableGenerator from "../../async/iterableGenerator.js"
+import snapshotIterable from "../../async/--snapshotIterable.js"
+import toArray from "../../async/toArray.js"
 
 test('iterableGenerator returns an object that be iterated', async t => {
     const gen = async function* () {

@@ -1,5 +1,5 @@
 import test from "ava"
-import lastIndexOf from "../../async/lastIndexOf.mjs"
+import lastIndexOf from "../../async/lastIndexOf.js"
 
 test('lastIndexOf returns the correct index for a given value', async t => {
     const data = [1, 2, 3, 4, 5, 42, 11]

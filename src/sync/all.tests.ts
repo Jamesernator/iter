@@ -1,5 +1,5 @@
 import test from "ava"
-import all from "../../sync/all.mjs"
+import all from "../../sync/all.js"
 
 test('all without argument returns true if all values are truthy', t => {
     const target1 = [true, 'cats', {}, 1]
@@ -32,10 +32,10 @@ test('all throws early with bad arguments', t => {
     t.throws(_ => all([], x => x, 'banana'))
 })
 
-import countClosing from "./helpers/countClosing.mjs"
+import CountClosing from "./helpers/CountClosing.js"
 
 test("iterator closing", t => {
-    const iter = countClosing([1, 2, 3, 4])
+    const iter = CountClosing([1, 2, 3, 4])
 
     t.true(all(iter, x => x > 0))
     t.is(iter.closed, 0)

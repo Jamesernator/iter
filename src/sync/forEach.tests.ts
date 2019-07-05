@@ -1,5 +1,5 @@
 import test from "ava"
-import forEach from "../../sync/forEach.mjs"
+import forEach from "../../sync/forEach.js"
 
 test('each basic functionality', t => {
     const seq = (function* () {
@@ -19,10 +19,10 @@ test('each throws early on invalid arguments', t => {
     t.throws(_ => forEach([], x => x, 2))
 })
 
-import countClosing from "./helpers/countClosing.mjs"
+import CountClosing from "./helpers/CountClosing.js"
 
 test("iterator closing on iteratee error", t => {
-    const data = countClosing([1, 2, 3, 4])
+    const data = CountClosing([1, 2, 3, 4])
     t.throws(_ => forEach(data, _ => { throw new Error("Error") }))
     t.is(data.closed, 1)
 })

@@ -1,5 +1,5 @@
 import test from "ava"
-import toSet from "../../async/toSet.mjs"
+import toSet from "../../async/toSet.js"
 
 test("set returns a set from a given sequence", async t => {
     async function* data() {

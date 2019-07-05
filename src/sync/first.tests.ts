@@ -1,5 +1,5 @@
 import test from "ava"
-import first from "../../sync/first.mjs"
+import first from "../../sync/first.js"
 
 test('first with no arguments returns the first element of the sequence', t => {
     t.is(
@@ -50,10 +50,10 @@ test('first throws early with invalid arguments', t => {
     t.throws(_ => first([], 'single', true))
 })
 
-import countClosing from "./helpers/countClosing.mjs"
+import CountClosing from "./helpers/CountClosing.js"
 
 test("iterator closing", t => {
-    const data = countClosing([1, 2, 3, 4])
+    const data = CountClosing([1, 2, 3, 4])
 
     first(data)
     t.is(data.closed, 1)
