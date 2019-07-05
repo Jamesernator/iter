@@ -4,14 +4,14 @@
 const folderModule = require("folder-module");
 
 folderModule("./async/", {
-    outFile: "./async.mjs",
+    outFile: "./async.js",
     ignore(file) {
         return file.startsWith("_");
     },
 });
 
 folderModule("./sync/", {
-    outFile: "./sync.mjs",
+    outFile: "./sync.js",
     ignore(file) {
         return file.startsWith("_");
     },

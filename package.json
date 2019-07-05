@@ -28,6 +28,7 @@
         "eslint-plugin-import": "^2.18.0",
         "esm": "^3.2.25",
         "folder-module": "latest",
+        "glob": "^7.1.4",
         "ndb": "^1.0.52",
         "sinon": "^7.3.2",
         "typescript": "^3.5.2"

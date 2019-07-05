@@ -1,4 +1,4 @@
-import { AsyncOrSyncIterable } from "../AsyncOrSyncIterable.js";
+type AsyncOrSyncIterable = import("../AsyncOrSyncIterable.js").AsyncOrSyncIterable;
 
 /**
  * this is a tiny utility so that calling .return is idempotent and can be

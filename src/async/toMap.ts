@@ -1,4 +1,4 @@
-import { AsyncOrSyncIterable } from "../AsyncOrSyncIterable.js";
+type AsyncOrSyncIterable = import("../AsyncOrSyncIterable.js").AsyncOrSyncIterable;
 
 export default async function toMap<K, V>(iterable: AsyncOrSyncIterable<[K, V]>) {
     const m: Map<K, V> = new Map();

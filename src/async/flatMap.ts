@@ -1,4 +1,4 @@
-import { AsyncOrSyncIterable } from "../AsyncOrSyncIterable.js";
+type AsyncOrSyncIterable = import("../AsyncOrSyncIterable.js").AsyncOrSyncIterable;
 import enumerate from "./enumerate.js";
 import iterableGenerator from "./iterableGenerator.js";
 

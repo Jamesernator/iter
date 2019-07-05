@@ -10,13 +10,15 @@
         "noImplicitAny": true,
         "noImplicitThis": true,
         "alwaysStrict": true,
+        "declaration": true,
 
         "moduleResolution": "node",
         "allowSyntheticDefaultImports": true,
 
         "outDir": ".",
-        "include": [
-            "src/**/*.ts"
-        ]
-    }
+    },
+    "include": [
+        "./src/**/*",
+    ],
+    "exclude": []
 }

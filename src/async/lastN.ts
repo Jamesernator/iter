@@ -1,4 +1,4 @@
-import { AsyncOrSyncIterable } from "../AsyncOrSyncIterable.js";
+type AsyncOrSyncIterable = import("../AsyncOrSyncIterable.js").AsyncOrSyncIterable;
 
 export default async function lastN<T>(
     iterable: AsyncOrSyncIterable<T>,

@@ -1,4 +1,4 @@
-import { AsyncOrSyncIterable } from "../AsyncOrSyncIterable.js";
+type AsyncOrSyncIterable = import("../AsyncOrSyncIterable.js").AsyncOrSyncIterable;
 
 export default async function first<T>(iterable: AsyncOrSyncIterable<T>) {
     for await (const item of iterable) {

@@ -2,6 +2,7 @@ import test from "ava";
 import toArray from "./toArray.js";
 import map from "./map.js";
 import CountClosing from "./helpers/CountClosing.js";
+import iterator from "./iterator.js";
 
 test("map basic functionality", (t) => {
     const data = [1, 2, 3];
@@ -27,10 +28,9 @@ test("map iteratee receives no additional arguments", (t) => {
     toArray(map(data, (_1, _2, ...rest) => t.is(0, rest.length)));
 });
 
-
 test("iterator closing on early map close", (t) => {
     const data = new CountClosing([1, 2, 3, 4]);
-    const seq = map(data, (x) => x**2)[Symbol.Iterator]();
+    const seq = iterator(map(data, (x) => x**2));
 
     seq.next();
     seq.return!();
