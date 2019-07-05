@@ -22,6 +22,7 @@ module.exports = {
     ],
 
     plugins: [
+        "import",
         "@typescript-eslint",
     ],
 
@@ -207,7 +208,7 @@ module.exports = {
         ],
         "max-len": [
             "error",
-            100,
+            120,
             {
                 ignoreUrls: true,
                 ignoreStrings: true,
@@ -288,7 +289,10 @@ module.exports = {
             "error",
             "always",
         ],
-        "arrow-spacing": "error",
+        "arrow-spacing": [
+            "error",
+            { before: true, after: true },
+        ],
         "constructor-super": "error",
         "generator-star-spacing": [
             "error",
@@ -322,7 +326,7 @@ module.exports = {
         "prefer-destructuring": [
             "error",
             {
-                array: true,
+                array: false,
                 object: true,
             },
             {
@@ -386,7 +390,6 @@ module.exports = {
             { allowEmptyCatch: false },
         ],
         "no-empty-function": "error",
-        "sort-imports": "error",
         quotes: [
             "error",
             "double",
@@ -446,7 +449,13 @@ module.exports = {
         "@typescript-eslint/no-require-imports": "error",
         "@typescript-eslint/no-unnecessary-qualifier": "error",
         "@typescript-eslint/no-unnecessary-type-assertion": "error",
-        "@typescript-eslint/no-unused-vars": "error",
+        "@typescript-eslint/no-unused-vars": [
+            "error",
+            {
+                varsIgnorePattern: "^_",
+                argsIgnorePattern: "^_",
+            },
+        ],
         "@typescript-eslint/no-use-before-define": [
             "error",
             { classes: false, functions: false },
@@ -551,9 +560,85 @@ module.exports = {
         "@typescript-eslint/semi": "error",
         "@typescript-eslint/type-annotation-spacing": [
             "error",
-            { before: false, after: true },
+            {
+                before: false,
+                after: true,
+                overrides: {
+                    arrow: { before: true, after: true },
+                },
+            },
         ],
         "@typescript-eslint/unified-signatures": "error",
+
+        // ---- Import errors ----
+
+        "import/no-absolute-path": "error",
+        "import/no-webpack-loader-syntax": "error",
+        "import/no-self-import": "error",
+        "import/no-useless-path-segments": "error",
+        "import/no-unused-modules": "error",
+        "import/no-cycle": "warn",
+        "import/no-named-as-default": "error",
+        "import/no-mutable-exports": "error",
+        "import/no-deprecated": "error",
+        "import/no-extraneous-dependencies": "error",
+        "import/unambiguous": "error",
+        "import/no-amd": "error",
+
+        // ---- Import styles ----
+
+        "import/no-dynamic-require": "error",
+        "import/first": "error",
+        "import/no-duplicates": "error",
+        "import/extensions": [
+            "error",
+            "always",
+            { ignorePackages: true },
+        ],
+        "import/order": [
+            "error",
+            { "newlines-between": "never" },
+        ],
+        "import/newline-after-import": "error",
+        "import/prefer-default-export": "error",
+        "import/no-named-default": "error",
+        "import/no-anonymous-default-export": [
+            "error",
+            {
+                allowObject: true,
+                allowArray: false,
+                allowArrowFunction: false,
+                allowAnonymousClass: false,
+                allowAnonymousFunction: false,
+                allowCallExpression: false,
+                allowLiteral: false,
+            },
+        ],
+
+        // ---- Import off ----
+
+        // TODO: Consider using .test.ts files instead
+        "import/no-relative-parent-imports": "off",
+
+        "import/no-restricted-paths": "off",
+        "import/no-internal-modules": "off",
+        "import/no-commonjs": "off",
+        "import/no-nodejs-modules": "off",
+        "import/exports-last": "off",
+        "import/no-namespace": "off",
+        "import/max-dependencies": "off",
+        "import/no-unassigned-import": "off",
+        "import/no-default-export": "off",
+        "import/no-named-export": "off",
+        "import/group-exports": "off",
+        "import/dynamic-import-chunkname": "off",
+
+        // Handled by typescript
+        "import/no-unresolved": "off",
+        "import/named": "off",
+        "import/default": "off",
+        "import/namespace": "off",
+        "import/export": "off",
 
         // ---- TypeScript disabled ----
         "@typescript-eslint/ban-ts-ignore": "off",
@@ -648,5 +733,7 @@ module.exports = {
         "max-lines-per-function": "off",
         "no-restricted-syntax": "off",
         "sort-vars": "off",
+        // Using eslint-plugin-import instead
+        "sort-imports": "off",
     },
 };

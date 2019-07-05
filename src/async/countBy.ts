@@ -3,7 +3,7 @@ import enumerate from "./enumerate.js";
 
 export default async function countBy<T, Key=T>(
     iterable: AsyncOrSyncIterable<T>,
-    toKey: (value: T, index: number) => Key | PromiseLike<Key>,
+    toKey: (value: T, index: number) => Key | PromiseLike<Key> = (i) => i,
 ) {
     const map = new Map<Key, number>();
     for await (const [idx, item] of enumerate(iterable)) {

@@ -1,5 +1,5 @@
 import test from "ava";
-import contains from "../../async/contains.js";
+import contains from "./contains.js";
 import CountClosing from "./helpers/CountClosing.js";
 
 test("contains default Object.is", async (t) => {

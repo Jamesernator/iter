@@ -1,5 +1,5 @@
 import test from "ava";
-import any from "../../async/any.js";
+import any from "./any.js";
 import CountClosing from "./helpers/CountClosing.js";
 
 test("any without argument returns true if a value is truthy", async (t) => {

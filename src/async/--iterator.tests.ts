@@ -1,5 +1,5 @@
 import test from "ava";
-import iterator from "../../async/--iterator.js";
+import iterator from "./--iterator.js";
 import CountClosing from "./helpers/CountClosing.js";
 
 test("iterator returns an iterator for a given iterable", async (t) => {

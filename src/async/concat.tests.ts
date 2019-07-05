@@ -1,6 +1,6 @@
 import test from "ava";
-import concat from "../../async/concat.js";
-import toArray from "../../async/toArray.js";
+import toArray from "./toArray.js";
+import concat from "./concat.js";
 import CountClosing from "./helpers/CountClosing.js";
 
 test("concat works with single concatentation", async (t) => {
