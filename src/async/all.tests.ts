@@ -1,6 +1,13 @@
-import test from "ava";
 import all from "./all.js";
 import CountClosing from "./helpers/CountClosing.js";
+import assert from 'assert';
+
+export const tests = {
+    async 'all without argument returns true if all values are truthy'() {
+
+    }
+}
+/*
 
 test("all without argument returns true if all values are truthy", async (t) => {
     const target1 = [true, "cats", {}, 1];
@@ -38,3 +45,4 @@ test("iterator closing", async (t) => {
     t.false(await all(iter, (x) => x === 2));
     t.is(iter.closed, 1);
 });
+*/

@@ -1,5 +1,4 @@
 /* eslint-disable max-lines */
-/* eslint-env node */
 "use strict";
 
 // eslint-version: 6.01
@@ -115,7 +114,6 @@ module.exports = {
         ],
         "no-delete-var": "error",
         "no-shadow-restricted-names": "error",
-        "no-undef": "error",
         "no-unused-vars": [
             "error",
             {
@@ -746,5 +744,7 @@ module.exports = {
             "off",
             "always",
         ],
+        // Handled by typescript
+        "no-undef": "off",
     },
 };

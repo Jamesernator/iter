@@ -4,7 +4,6 @@ import iterator from "./iterator.js";
 type AsyncOrSyncIterable<T> = import("../lib/AsyncOrSyncIterable.js").AsyncOrSyncIterable<T>;
 
 function delay<T>(time: number, value: T): Promise<T> {
-    /* global setTimeout */
     return new Promise((resolve) => setTimeout(resolve, time, value));
 }
 
