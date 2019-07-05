@@ -1,7 +1,7 @@
 import iterableGenerator from "./iterableGenerator.js";
 import toArray from "./toArray.js";
 
-type AsyncOrSyncIterable<T> = import("../AsyncOrSyncIterable.js").AsyncOrSyncIterable<T>;
+type AsyncOrSyncIterable<T> = import("../lib/AsyncOrSyncIterable.js").AsyncOrSyncIterable<T>;
 
 const reverse = iterableGenerator(
     async function* reverse<T>(iterable: AsyncOrSyncIterable<T>) {

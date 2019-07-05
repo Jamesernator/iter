@@ -1,4 +1,4 @@
-type AsyncOrSyncIterable<T> = import("../AsyncOrSyncIterable.js").AsyncOrSyncIterable<T>;
+type AsyncOrSyncIterable<T> = import("../lib/AsyncOrSyncIterable.js").AsyncOrSyncIterable<T>;
 
 export default async function toArray<T>(iterable: AsyncOrSyncIterable<T>): Promise<Array<T>> {
     const result: Array<T> = [];

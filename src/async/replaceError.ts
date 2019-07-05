@@ -1,6 +1,6 @@
 import iterableGenerator from "./iterableGenerator.js";
 
-type AsyncOrSyncIterable<T> = import("../AsyncOrSyncIterable.js").AsyncOrSyncIterable<T>;
+type AsyncOrSyncIterable<T> = import("../lib/AsyncOrSyncIterable.js").AsyncOrSyncIterable<T>;
 
 const replaceError = iterableGenerator(
     async function* replaceError<T>(

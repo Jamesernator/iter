@@ -1,6 +1,6 @@
 import enumerate from "./enumerate.js";
 
-type AsyncOrSyncIterable<T> = import("../AsyncOrSyncIterable.js").AsyncOrSyncIterable<T>;
+type AsyncOrSyncIterable<T> = import("../lib/AsyncOrSyncIterable.js").AsyncOrSyncIterable<T>;
 
 export default async function firstN<T, N extends number>(
     iterable: AsyncOrSyncIterable<T>,

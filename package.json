@@ -1,54 +1,21 @@
 {
     "name": "@jx/iter",
     "type": "module",
-    "version": "0.0.1",
-    "description": "train.js is a library of iterator helper methods (for both sync and async iterators)",
+    "version": "0.0.2",
+    "description": "This is a library of helper methods for dealing with Iterables",
     "main": "index.js",
-    "directories": {
-        "test": "tests"
-    },
     "scripts": {
         "build": "tsc && node build.cjs",
         "lint": "eslint **/*.ts .eslintrc.js **/*.cjs",
-        "lint:fix": "eslint --fix **/*.ts .eslintrc.js **/*.cjs",
-        "test": "ava"
+        "lint:fix": "eslint --fix **/*.ts .eslintrc.js **/*.cjs"
     },
     "author": "James \"The Jamesernator\" Browning",
     "license": "MIT",
     "devDependencies": {
         "@typescript-eslint/eslint-plugin": "^1.11.0",
         "@typescript-eslint/parser": "^1.11.0",
-        "ava": "^2.1.0",
-        "babel-eslint": "^10.0.2",
-        "c8": "^5.0.1",
-        "dedent": "^0.7.0",
-        "es6-array-map": "latest",
-        "es6-array-set": "latest",
-        "eslint": "^6.0.1",
         "eslint-plugin-import": "^2.18.0",
-        "esm": "^3.2.25",
-        "folder-module": "latest",
-        "glob": "^7.1.4",
-        "ndb": "^1.0.52",
-        "sinon": "^7.3.2",
+        "folder-module": "^2.0.4",
         "typescript": "^3.5.2"
-    },
-    "ava": {
-        "files": [
-            "tests/sync/*.mjs",
-            "tests/async/*.mjs"
-        ],
-        "extensions": [
-            "js",
-            "mjs"
-        ],
-        "sources": [
-            "src/**/*.mjs"
-        ],
-        "require": [
-            "esm"
-        ],
-        "babel": false
-    },
-    "dependencies": {}
+    }
 }

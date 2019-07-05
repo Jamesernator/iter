@@ -1,4 +1,4 @@
-import named from "../_named.js";
+import named from "../lib/_named.js";
 
 export default function iterableGenerator<A extends Array<any>, T>(
     genFunc: (...args: A) => AsyncIterator<T>,
