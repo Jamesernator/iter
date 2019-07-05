@@ -1,5 +1,5 @@
-import enumerate from "./enumerate.js"
 import { AsyncOrSyncIterable } from "../AsyncOrSyncIterable.js";
+import enumerate from "./enumerate.js";
 
 export default function findLast<T>(
     iterable: AsyncOrSyncIterable<T>,
@@ -16,16 +16,16 @@ export default function findLast<T, Default=T>(
 export default async function findLast<T, Default=T>(
     iterable: AsyncOrSyncIterable<T>,
     ...options:
-        []
-        | [((value: T, index: number) => any)]
-        | [Default, ((value: T, index: number) => any)]
+    []
+    | [((value: T, index: number) => any)]
+    | [Default, ((value: T, index: number) => any)]
 ) {
     let predicate: (value: T, index: number) => any;
     let hasDefault: boolean = false;
     let defaultValue: Default;
 
     if (options.length === 0) {
-        predicate = i => i;
+        predicate = (i) => i;
         hasDefault = false;
     } else if (options.length === 1) {
         predicate = options[0];
@@ -36,7 +36,7 @@ export default async function findLast<T, Default=T>(
         hasDefault = true;
     }
 
-    let found = false
+    let found = false;
     let foundItem: T;
 
     for await (const [idx, item] of enumerate(iterable)) {
@@ -46,10 +46,9 @@ export default async function findLast<T, Default=T>(
         }
     }
     if (found) {
-        return foundItem!
+        return foundItem!;
     } else if (hasDefault) {
-        return defaultValue!
-    } else {
-        throw new Error(`[find] No item found with no default provided`)
+        return defaultValue!;
     }
+    throw new Error(`[find] No item found with no default provided`);
 }

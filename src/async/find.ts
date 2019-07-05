@@ -1,5 +1,5 @@
-import enumerate from "./enumerate.js"
 import { AsyncOrSyncIterable } from "../AsyncOrSyncIterable.js";
+import enumerate from "./enumerate.js";
 
 export default function find<T>(
     iterable: AsyncOrSyncIterable<T>,
@@ -16,16 +16,16 @@ export default function find<T, Default=T>(
 export default async function find<T, Default=T>(
     iterable: AsyncOrSyncIterable<T>,
     ...options:
-        []
-        | [((value: T, index: number) => any)]
-        | [Default, ((value: T, index: number) => any)]
+    []
+    | [((value: T, index: number) => any)]
+    | [Default, ((value: T, index: number) => any)]
 ) {
     let predicate: (value: T, index: number) => any;
     let hasDefault: boolean = false;
     let defaultValue: Default;
 
     if (options.length === 0) {
-        predicate = i => i;
+        predicate = (i) => i;
         hasDefault = false;
     } else if (options.length === 1) {
         predicate = options[0];
@@ -38,12 +38,11 @@ export default async function find<T, Default=T>(
 
     for await (const [idx, item] of enumerate(iterable)) {
         if (await predicate(item, idx)) {
-            return item
+            return item;
         }
     }
     if (hasDefault) {
-        return defaultValue!
-    } else {
-        throw new Error(`[find] No item found with no default provided`)
+        return defaultValue!;
     }
+    throw new Error(`[find] No item found with no default provided`);
 }

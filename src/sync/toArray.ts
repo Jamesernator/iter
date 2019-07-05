@@ -1,8 +1,8 @@
 
 export default function toArray<T>(iterable: Iterable<T>): Array<T> {
-    const result: T[] = []
+    const result: Array<T> = [];
     for (const item of iterable) {
-        result.push(item)
+        result.push(item);
     }
-    return result
+    return result;
 }

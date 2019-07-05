@@ -1,5 +1,5 @@
-import iterableGenerator from "./iterableGenerator.js";
 import { AsyncOrSyncIterable } from "../AsyncOrSyncIterable.js";
+import iterableGenerator from "./iterableGenerator.js";
 
 export default iterableGenerator(
     async function* replaceError<T>(
@@ -7,9 +7,9 @@ export default iterableGenerator(
         replacer: (error: any) => AsyncOrSyncIterable<T> | Promise<AsyncOrSyncIterable<T>>,
     ) {
         try {
-            yield* iterable
+            yield* iterable;
         } catch (err) {
-            yield* await replacer(err)
+            yield* await replacer(err);
         }
     },
-)
+);

@@ -6,8 +6,8 @@ export default function contains<T>(
 ) {
     for (const item of iterable) {
         if (isEqual(value, item)) {
-            return true
+            return true;
         }
     }
-    return false
+    return false;
 }

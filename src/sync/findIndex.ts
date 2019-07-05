@@ -1,4 +1,4 @@
-import enumerate from './enumerate.js';
+import enumerate from "./enumerate.js";
 
 export default function findIndex<T>(
     iterable: Iterable<T>,
@@ -15,16 +15,16 @@ export default function findIndex<T>(
 export default function findIndex<T>(
     iterable: Iterable<T>,
     ...options:
-        []
-        | [((value: T, index: number) => any)]
-        | [number, ((value: T, index: number) => any)]
+    []
+    | [((value: T, index: number) => any)]
+    | [number, ((value: T, index: number) => any)]
 ) {
     let predicate: (value: T, index: number) => any;
     let hasDefault: boolean = false;
     let defaultValue: number;
 
     if (options.length === 0) {
-        predicate = i => i;
+        predicate = (i) => i;
         hasDefault = false;
     } else if (options.length === 1) {
         predicate = options[0];
@@ -37,13 +37,12 @@ export default function findIndex<T>(
 
     for (const [idx, item] of enumerate(iterable)) {
         if (predicate(item, idx)) {
-            return idx
+            return idx;
         }
     }
 
     if (hasDefault) {
-        return defaultValue!
-    } else {
-        throw new Error(`[find] No item found with no default provided`)
+        return defaultValue!;
     }
+    throw new Error(`[find] No item found with no default provided`);
 }

@@ -1,6 +1,5 @@
-import { AsyncOrSyncIterable } from "../AsyncOrSyncIterable.js";
-import iterableGenerator from "./iterableGenerator.js";
 import enumerate from "./enumerate.js";
+import iterableGenerator from "./iterableGenerator.js";
 
 export default iterableGenerator(
     function* flatMap<T, R>(
@@ -10,5 +9,5 @@ export default iterableGenerator(
         for (const [idx, item] of enumerate(iterable)) {
             yield* flatMapperFn(item, idx);
         }
-    }
-)
+    },
+);

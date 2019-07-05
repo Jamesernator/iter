@@ -5,6 +5,6 @@ export default function forEach<T>(
     callback: (item: T, index: number) => any,
 ) {
     for (const [idx, item] of enumerate(iterable)) {
-        callback(item, idx)
+        callback(item, idx);
     }
 }

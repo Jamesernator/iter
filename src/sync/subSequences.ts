@@ -1,5 +1,5 @@
-import iterator from "./--iterator.js";
 import iterableGenerator from "./iterableGenerator.js";
+import iterator from "./--iterator.js";
 
 function subSequences<T>(
     iterable: Iterable<T>,
@@ -29,35 +29,34 @@ function subSequences<T>(
 function* subSequences<T>(
     iterable: Iterable<T>,
     subSequenceSize: number,
-    allowShorter=false
+    allowShorter=false,
 ) {
     if (subSequenceSize < 1) {
-        throw new RangeError(`[subSequences] subSequenceSize must be at least one`)
+        throw new RangeError(`[subSequences] subSequenceSize must be at least one`);
     }
-    const iter = iterator(iterable)
+    const iter = iterator(iterable);
     try {
-        const buff = []
+        const buff = [];
         for (let i = 0; i < subSequenceSize; i += 1) {
-            const { value, done } = iter.next()
+            const { value, done } = iter.next();
             if (done) {
                 if (allowShorter) {
-                    return
-                } else {
-                    const message = `[subSequence] Can't get a subSequence of size ${ subSequenceSize } from a sequence of length ${ i }`
-                    throw new Error(message)
+                    return;
                 }
+                const message = `[subSequence] Can't get a subSequence of size ${ subSequenceSize } from a sequence of length ${ i }`;
+                throw new Error(message);
             }
-            buff.push(value)
+            buff.push(value);
         }
 
         for (const item of iter) {
-            yield [...buff]
-            buff.shift()
-            buff.push(item)
+            yield [...buff];
+            buff.shift();
+            buff.push(item);
         }
-        yield [...buff]
+        yield [...buff];
     } finally {
-        iter.return!()
+        iter.return!();
     }
 }
 
@@ -66,27 +65,27 @@ type SubSequences = {
         iterable: Iterable<T>,
         size: 1,
         allowShorter?: false,
-    ): Iterable<[T]>;
+    ): Iterable<[T]>,
     <T>(
         iterable: Iterable<T>,
         size: 2,
         allowShorter?: false,
-    ): Iterable<[T, T]>;
+    ): Iterable<[T, T]>,
     <T>(
         iterable: Iterable<T>,
         size: 3,
         allowShorter?: false,
-    ): Iterable<[T, T, T]>;
+    ): Iterable<[T, T, T]>,
     <T>(
         iterable: Iterable<T>,
         size: 4,
         allowShorter?: false,
-    ): Iterable<[T, T, T, T]>;
+    ): Iterable<[T, T, T, T]>,
     <T>(
         iterable: Iterable<T>,
         size: number,
         allowShorter?: boolean,
-    ): Iterable<Array<T>>;
-}
+    ): Iterable<Array<T>>,
+};
 
 export default iterableGenerator(subSequences) as SubSequences;

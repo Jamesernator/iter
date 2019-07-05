@@ -1,9 +1,9 @@
 import { AsyncOrSyncIterable } from "../AsyncOrSyncIterable.js";
 
 export default async function toArray<T>(iterable: AsyncOrSyncIterable<T>): Promise<Array<T>> {
-    const result: T[] = []
+    const result: Array<T> = [];
     for await (const item of iterable) {
-        result.push(item)
+        result.push(item);
     }
-    return result
+    return result;
 }

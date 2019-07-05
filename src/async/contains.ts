@@ -7,8 +7,8 @@ export default async function contains<T>(
 ) {
     for await (const item of iterable) {
         if (isEqual(value, item)) {
-            return true
+            return true;
         }
     }
-    return false
+    return false;
 }

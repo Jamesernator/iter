@@ -1,4 +1,4 @@
-import iterator from './--iterator.js';
+import iterator from "./--iterator.js";
 
 export default function reduce<T>(
     iterable: Iterable<T>,
@@ -17,54 +17,54 @@ export default function reduce<T, R>(
 export default function reduce<T, R=T>(
     iterable: Iterable<T>,
     ...options:
-        [(accumulator: T, value: T, index: number) => T]
-        | [R, (accumulator: R, value: T, index: number) => R]
+    [(accumulator: T, value: T, index: number) => T]
+    | [R, (accumulator: R, value: T, index: number) => R]
 ) {
-    let reduction: 
-        {
-            seeded: true,
-            seedValue: R,
-            reducer: (accumulator: R, value: T, index: number) => R,
-        } | {
-            seeded: false,
-            reducer: (accumulator: T, value: T, index: number) => T,
-        }
+    let reduction:
+    {
+        seeded: true,
+        seedValue: R,
+        reducer: (accumulator: R, value: T, index: number) => R,
+    } | {
+        seeded: false,
+        reducer: (accumulator: T, value: T, index: number) => T,
+    };
     if (options.length === 1) {
         reduction = {
             seeded: false,
             reducer: options[0],
-        }
+        };
     } else {
         reduction = {
             seeded: true,
             seedValue: options[0],
             reducer: options[1],
-        }
+        };
     }
 
-    const iter = iterator(iterable)
+    const iter = iterator(iterable);
     try {
-        let acc
-        let idx = 0
+        let acc;
+        let idx = 0;
         if (reduction.seeded) {
-            acc = reduction.seedValue
+            acc = reduction.seedValue;
         } else {
-            const { value, done } = iter.next()
+            const { value, done } = iter.next();
             if (done) {
-                throw new Error(`[reduce] Can't reduce empty sequence with no initial value`)
+                throw new Error(`[reduce] Can't reduce empty sequence with no initial value`);
             }
-            acc = value
-            idx += 1
+            acc = value;
+            idx += 1;
         }
 
-        const reducer = reduction.reducer;
+        const { reducer } = reduction;
 
         for (const item of iter) {
-            acc = reducer(acc as T & R, item, idx)
-            idx += 1
+            acc = reducer(acc as T & R, item, idx);
+            idx += 1;
         }
-        return acc
+        return acc;
     } finally {
-        iter.return!()
+        iter.return!();
     }
 }
