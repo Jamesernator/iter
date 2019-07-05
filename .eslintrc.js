@@ -377,6 +377,9 @@ module.exports = {
         "spaced-comment": [
             "error",
             "always",
+            {
+                markers: ["/"],
+            },
         ],
         "no-div-regex": "error",
         "no-new": "error",
@@ -604,7 +607,6 @@ module.exports = {
             { "newlines-between": "never" },
         ],
         "import/newline-after-import": "error",
-        "import/prefer-default-export": "error",
         "import/no-named-default": "error",
         "import/no-anonymous-default-export": [
             "error",
@@ -621,9 +623,7 @@ module.exports = {
 
         // ---- Import off ----
 
-        // TODO: Consider using .test.ts files instead
         "import/no-relative-parent-imports": "off",
-
         "import/no-restricted-paths": "off",
         "import/no-internal-modules": "off",
         "import/no-commonjs": "off",
@@ -636,6 +636,7 @@ module.exports = {
         "import/no-named-export": "off",
         "import/group-exports": "off",
         "import/dynamic-import-chunkname": "off",
+        "import/prefer-default-export": "off",
 
         // Handled by typescript
         "import/no-unresolved": "off",
