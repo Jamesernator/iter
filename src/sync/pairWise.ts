@@ -1,5 +1,5 @@
 import iterableGenerator from "./iterableGenerator.js";
-import iterator from "./--iterator.js";
+import iterator from "./iterator.js";
 
 const pairWise = iterableGenerator(
     function* pairWise<T>(

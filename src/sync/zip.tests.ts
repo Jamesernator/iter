@@ -2,7 +2,7 @@ import test from "ava";
 import toArray from "./toArray.js";
 import zip from "./zip.js";
 import CountClosing from "./helpers/CountClosing.js";
-import iterator from "./--iterator.js";
+import iterator from "./iterator.js";
 
 test("zip basic functionality", (t) => {
     const d1 = [1, 2, 3, 4, 5];

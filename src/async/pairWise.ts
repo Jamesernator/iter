@@ -1,6 +1,6 @@
 import { AsyncOrSyncIterable } from "../AsyncOrSyncIterable.js";
 import iterableGenerator from "./iterableGenerator.js";
-import iterator from "./--iterator.js";
+import iterator from "./iterator.js";
 
 const pairWise = iterableGenerator(
     async function* pairWise<T>(

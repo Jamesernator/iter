@@ -2,7 +2,7 @@ import test from "ava";
 import replaceError from "./replaceError.js";
 import toArray from "./toArray.js";
 import CountClosing from "./helpers/CountClosing.js";
-import iterator from "./--iterator.js";
+import iterator from "./iterator.js";
 
 test("replaceError can replace an error with another sequence", (t) => {
     function* seq() {

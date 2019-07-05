@@ -1,4 +1,4 @@
-import iterator from "./--iterator.js";
+import iterator from "./iterator.js";
 
 export default function reduce<T>(
     iterable: Iterable<T>,

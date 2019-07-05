@@ -1,5 +1,5 @@
 import test from "ava";
-import iterator from "./--iterator.js";
+import iterator from "./iterator.js";
 import enumerate from "./enumerate.js";
 import toArray from "./toArray.js";
 import CountClosing from "./helpers/CountClosing.js";

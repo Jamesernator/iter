@@ -2,7 +2,7 @@ import test from "ava";
 import toArray from "./toArray.js";
 import scan from "./scan.js";
 import CountClosing from "./helpers/CountClosing.js";
-import iterator from "./--iterator.js";
+import iterator from "./iterator.js";
 
 function add(a: number, b: number) {
     return a + b;

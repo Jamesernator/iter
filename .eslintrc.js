@@ -262,10 +262,6 @@ module.exports = {
             "error",
             "as-needed",
         ],
-        semi: [
-            "error",
-            "always",
-        ],
         "semi-spacing": "error",
         "semi-style": "error",
         "space-before-function-paren": [
@@ -735,5 +731,10 @@ module.exports = {
         "sort-vars": "off",
         // Using eslint-plugin-import instead
         "sort-imports": "off",
+        // Handled by @typescript-eslint/semi instead
+        semi: [
+            "off",
+            "always",
+        ],
     },
 };

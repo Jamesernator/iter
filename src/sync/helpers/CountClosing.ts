@@ -1,4 +1,4 @@
-import iterator from "../--iterator.js";
+import iterator from "../iterator.js";
 
 export default class CountClosing<T> implements IterableIterator<T> {
     private _closed: number = 0;

@@ -1,5 +1,5 @@
 import iterableGenerator from "./iterableGenerator.js";
-import iterator from "./--iterator.js";
+import iterator from "./iterator.js";
 
 type Unwrap<T> = T extends Iterable<infer R> ? R : never;
 type ZipUnwrapped<T> = { [P in keyof T]: Unwrap<T[P]> };

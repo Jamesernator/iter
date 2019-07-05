@@ -2,7 +2,7 @@ import test from "ava";
 import toArray from "./toArray.js";
 import observe from "./observe.js";
 import CountClosing from "./helpers/CountClosing.js";
-import iterator from "./--iterator.js";
+import iterator from "./iterator.js";
 
 async function* seq() {
     yield 1;

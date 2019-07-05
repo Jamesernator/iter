@@ -2,7 +2,7 @@ import test from "ava";
 import toArray from "./toArray.js";
 import reject from "./reject.js";
 import CountClosing from "./helpers/CountClosing.js";
-import iterator from "./--iterator.js";
+import iterator from "./iterator.js";
 
 test("reject basic functionality", (t) => {
     const data = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];

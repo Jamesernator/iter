@@ -2,7 +2,7 @@ import test from "ava";
 import flat from "./flat.js";
 import toArray from "./toArray.js";
 import CountClosing from "./helpers/CountClosing.js";
-import iterator from "./--iterator.js";
+import iterator from "./iterator.js";
 
 test("flat basic functionality", (t) => {
     const data = [[1], [2, 3], [4, 5], [6], [7], [8, 9, 10]];

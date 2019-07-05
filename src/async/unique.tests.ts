@@ -2,7 +2,7 @@ import test from "ava";
 import toArray from "./toArray.js";
 import unique from "./unique.js";
 import CountClosing from "./helpers/CountClosing.js";
-import iterator from "./--iterator.js";
+import iterator from "./iterator.js";
 
 class PointSet {
     private _set = new Set<string>();

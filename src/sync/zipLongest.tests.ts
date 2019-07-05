@@ -2,7 +2,7 @@ import test from "ava";
 import CountClosing from "./helpers/CountClosing.js";
 import zipLongest from "./zipLongest.js";
 import toArray from "./toArray.js";
-import iterator from "./--iterator.js";
+import iterator from "./iterator.js";
 
 test("zipLongest basic functionality", (t) => {
     const d1 = [1, 2, 3, 4, 5];

@@ -1,6 +1,6 @@
 import { AsyncOrSyncIterable } from "../AsyncOrSyncIterable.js";
 import iterableGenerator from "./iterableGenerator.js";
-import iterator from "./--iterator.js";
+import iterator from "./iterator.js";
 
 function racePromises<T>(object: { [key: string]: Promise<T> }) {
     const promises = Object.entries(object).map(([key, promise]) => {

@@ -2,7 +2,7 @@ import test from "ava";
 import subSequences from "./subSequences.js";
 import toArray from "./toArray.js";
 import CountClosing from "./helpers/CountClosing.js";
-import iterator from "./--iterator.js";
+import iterator from "./iterator.js";
 
 test("subSequences emits small subSequencess of elements", async (t) => {
     const seq = [1, 2, 3, 4, 5, 6];

@@ -1,5 +1,5 @@
 import { AsyncOrSyncIterable } from "../AsyncOrSyncIterable.js";
-import iterator from "./--iterator.js";
+import iterator from "./iterator.js";
 
 export default async function reduce<T>(
     iterable: AsyncOrSyncIterable<T>,

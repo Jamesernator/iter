@@ -2,7 +2,7 @@ import test from "ava";
 import flatMap from "./flatMap.js";
 import toArray from "./toArray.js";
 import CountClosing from "./helpers/CountClosing.js";
-import iterator from "./--iterator.js";
+import iterator from "./iterator.js";
 
 test("flatMap basic functionality", (t) => {
     const data = [1, 2, 3, 4];
