@@ -1,5 +1,6 @@
 import test from "ava";
-import any from "../../async/any.mjs";
+import any from "../../async/any.js";
+import CountClosing from "./helpers/CountClosing.js";
 
 test("any without argument returns true if a value is truthy", async (t) => {
     const target1 = [true, "cats", {}, 1];
@@ -36,7 +37,7 @@ test("any", async (t) => {
 });
 
 test("any vacuously false", async (t) => {
-    const target = [];
+    const target: Array<any> = [];
 
     t.false(
         await any(target),
@@ -47,16 +48,8 @@ test("any vacuously false", async (t) => {
     );
 });
 
-test("any throws early with bad arguments", (t) => {
-    t.throws((_) => any([], 2));
-    t.throws((_) => any());
-    t.throws((_) => any([], (x) => x, "banana"));
-});
-
-import countClosing from "./helpers/countClosing.mjs";
-
 test("any iterator closing", async (t) => {
-    const iter = countClosing([1, 2, 3, 4]);
+    const iter = new CountClosing([1, 2, 3, 4]);
 
     t.true(await any(iter, (x) => x > 0));
     t.is(iter.closed, 1);

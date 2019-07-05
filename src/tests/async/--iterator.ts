@@ -1,6 +1,6 @@
-import CountClosing from "./helpers/CountClosing.js";
-import iterator from "../../async/--iterator.js";
 import test from "ava";
+import iterator from "../../async/--iterator.js";
+import CountClosing from "./helpers/CountClosing.js";
 
 test("iterator returns an iterator for a given iterable", async (t) => {
     const iter = iterator([1, 2]);

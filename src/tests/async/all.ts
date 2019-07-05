@@ -1,5 +1,5 @@
-import all from "../../async/all.js";
 import test from "ava";
+import all from "../../async/all.js";
 import CountClosing from "./helpers/CountClosing.js";
 
 test("all without argument returns true if all values are truthy", async (t) => {
