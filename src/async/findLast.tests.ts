@@ -30,7 +30,7 @@ test("findLast throws when it can't find any such element", async (t) => {
     await t.throwsAsync(() => findLast(data, (x) => x === 42));
 
     const empty: Array<number> = [];
-    await t.throwsAsync(findLast(empty, (x) => x === 42));
+    await t.throwsAsync(() => findLast(empty, (x) => x === 42));
 });
 
 test("findLast returns the default when provided and it can't find any such element", async (t) => {

@@ -1,6 +1,6 @@
 import iterableGenerator from "./iterableGenerator.js";
 
-export default iterableGenerator(
+const enumerate = iterableGenerator(
     function* enumerate<T>(iterable: Iterable<T>) {
         let idx = 0;
         for (const item of iterable) {
@@ -9,3 +9,5 @@ export default iterableGenerator(
         }
     },
 );
+
+export { enumerate as default };

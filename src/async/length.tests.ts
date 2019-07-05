@@ -1,20 +1,20 @@
-import test from "ava"
-import length from "../../async/length.js"
+import test from "ava";
+import length from "./length.js";
 
-test("length returns the length of an iterable", async t => {
-    const a = [1, 2, 3, 4]
-    const b = (async function* foo() {
-        yield 1
-        yield 2
-    })()
+const call = <R>(f: () => R) => f();
 
-    t.is(await length(a), 4)
-    t.is(await length(b), 2)
-    t.is(await length(b), 0)
-})
+test("length returns the length of an iterable", async (t) => {
+    const a = [1, 2, 3, 4];
+    const b = call(async function* foo() {
+        yield 1;
+        yield 2;
+    });
+    const c = call(async function* () {
+        yield* [];
+    });
 
-test("length throws early on invalid arguments", t => {
-    t.throws(_ => length())
-    t.throws(_ => length(12))
-    t.throws(_ => length([1, 2, 3, 4], 'fizzbyzz'))
-})
+    t.is(await length(a), 4);
+    t.is(await length(b), 2);
+    t.is(await length(b), 0);
+    t.is(await length(c), 0);
+});

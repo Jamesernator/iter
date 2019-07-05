@@ -22,7 +22,7 @@ function mapObject<T, R>(
     return result;
 }
 
-export default iterableGenerator(
+const merge = iterableGenerator(
     async function* merge<T>(iterables: Array<AsyncOrSyncIterable<T>>) {
         const iterators: { [key: string]: AsyncIterableIterator<T> } = {};
         for (const [idx, item] of iterables.entries()) {
@@ -40,3 +40,5 @@ export default iterableGenerator(
         }
     },
 );
+
+export { merge as default };

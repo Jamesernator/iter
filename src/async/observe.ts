@@ -4,7 +4,7 @@ import iterableGenerator from "./iterableGenerator.js";
 
 /* global console */
 
-export default iterableGenerator(
+const observe = iterableGenerator(
     async function* observe<T>(
         iterable: AsyncOrSyncIterable<T>,
         callback: ((value: T, index: number) => any)=console.log,
@@ -15,3 +15,5 @@ export default iterableGenerator(
         }
     },
 );
+
+export { observe as default };

@@ -1,7 +1,7 @@
 import { AsyncOrSyncIterable } from "../AsyncOrSyncIterable.js";
 import iterableGenerator from "./iterableGenerator.js";
 
-export default iterableGenerator(
+const replaceError = iterableGenerator(
     async function* replaceError<T>(
         iterable: AsyncOrSyncIterable<T>,
         replacer: (error: any) => AsyncOrSyncIterable<T> | Promise<AsyncOrSyncIterable<T>>,
@@ -13,3 +13,5 @@ export default iterableGenerator(
         }
     },
 );
+
+export { replaceError as default };

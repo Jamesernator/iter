@@ -1,7 +1,7 @@
 import enumerate from "./enumerate.js";
 import iterableGenerator from "./iterableGenerator.js";
 
-export default iterableGenerator(
+const map = iterableGenerator(
     function* map<T, R>(
         iterable: Iterable<T>,
         mapperFn: ((value: T, index: number) => R),
@@ -11,3 +11,5 @@ export default iterableGenerator(
         }
     },
 );
+
+export { map as default };

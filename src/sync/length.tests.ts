@@ -1,20 +1,20 @@
-import test from "ava"
-import length from "../../sync/length.js"
+import test from "ava";
+import length from "./length.js";
 
-test("length returns the length of an iterable", t => {
-    const a = [1, 2, 3, 4]
-    const b = (function* foo() {
-        yield 1
-        yield 2
-    })()
+const call = <R>(f: () => R) => f();
 
-    t.is(length(a), 4)
-    t.is(length(b), 2)
-    t.is(length(b), 0)
-})
+test("length returns the length of an iterable", (t) => {
+    const a = [1, 2, 3, 4];
+    const b = call(function* foo() {
+        yield 1;
+        yield 2;
+    });
+    const c = call(function* () {
+        yield* [];
+    });
 
-test("length throws early on invalid arguments", t => {
-    t.throws(_ => length())
-    t.throws(_ => length(12))
-    t.throws(_ => length([1, 2, 3, 4], 'fizzbyzz'))
-})
+    t.is( length(a), 4);
+    t.is( length(b), 2);
+    t.is( length(b), 0);
+    t.is( length(c), 0);
+});

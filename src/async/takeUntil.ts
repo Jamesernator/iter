@@ -2,7 +2,7 @@ import { AsyncOrSyncIterable } from "../AsyncOrSyncIterable.js";
 import iterableGenerator from "./iterableGenerator.js";
 import iterator from "./--iterator.js";
 
-export default iterableGenerator(
+const takeUntil = iterableGenerator(
     async function* takeUntil<T>(
         iterable: AsyncOrSyncIterable<T>,
         createTimeout: () => any,
@@ -35,3 +35,5 @@ export default iterableGenerator(
         }
     },
 );
+
+export { takeUntil as default };

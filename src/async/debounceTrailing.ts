@@ -7,7 +7,7 @@ function delay<T>(time: number, value: T): Promise<T> {
     return new Promise((resolve) => setTimeout(resolve, time, value));
 }
 
-export default iterableGenerator(
+const debounceTrailing = iterableGenerator(
     async function* debounceTrailing<T>(
         iterable: AsyncOrSyncIterable<T>,
         time: number,
@@ -55,3 +55,5 @@ export default iterableGenerator(
         }
     },
 );
+
+export { debounceTrailing as default };

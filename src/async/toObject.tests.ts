@@ -1,57 +1,37 @@
-import test from "ava"
-import toObject from "../../async/toObject.js"
+import test from "ava";
+import toObject from "./toObject.js";
 
-test("toObject converts a sequence of arrays into a object", async t => {
-    const pairs = [[1, 2, 12], [3, 4], [4, 5]]
-
-    async function* values() {
-        yield* pairs
-    }
-
-    const obj = await toObject(values())
-    t.is(null, Object.getPrototypeOf(obj))
-    t.deepEqual(obj, { 1: 2, 3: 4, 4: 5 })
-    t.true(pairs.every(pair => !pair.extra))
-})
-
-test("toObject overrides early values with later values of the same key", async t => {
-    const pairs = [[1, 2], [3, 4, 16], [4, 5], [1, 3], [1, 7, 12], [2, 1]]
+test("toObject converts a sequence of arrays into a object", async (t) => {
+    const pairs: Array<[string, number]> = [
+        ["foo", 4],
+        ["bar", 9],
+        ["baz", 32],
+    ];
 
     async function* values() {
-        yield* pairs
+        yield* pairs;
     }
 
-    const obj = await toObject(values())
-    t.deepEqual(obj, { 1: 7, 3: 4, 4: 5, 2: 1 })
+    const obj = await toObject(values());
+    t.is(null, Object.getPrototypeOf(obj));
+    t.deepEqual(obj, { foo: 4, bar: 9, baz: 32 });
+});
 
-    t.true(pairs.every(pair => !pair.extra))
-})
+test("toObject overrides early values with later values of the same key", async (t) => {
+    const pairs: Array<[string, number]> = [
+        ["foo", 2],
+        ["baz", 4],
+        ["boz", 5],
+        ["foo", 3],
+        ["foo", 7],
+        ["bar", 1],
+    ];
 
-test("toObject throws an error if any pairs are not iterable", async t => {
-    const data = [1, 2, 3, [1, 3]]
-
-    await t.throwsAsync(toObject(data))
-})
-
-test("toObject throws early on invalid arguments", t => {
-    const data = [[1, 2], [2, 3], [4, 5]]
-    t.throws(_ => toObject())
-    t.throws(_ => toObject(...data))
-    t.throws(_ => toObject(data, {}, 'bar'))
-})
-
-test("toObject ignores getters/setters when assigning values", async t => {
-    const data = [[1, 2], [3, 4]]
-
-    const proto = {
-        get 1() {
-            throw new Error("Ooops!")
-        },
-
-        get 2() {
-            throw new Error("Ooops!")
-        },
+    async function* values() {
+        yield* pairs;
     }
 
-    t.deepEqual({ 1: 2, 3: 4 }, await toObject(data, proto))
-})
+    const obj = await toObject(values());
+    t.deepEqual(obj, { foo: 7, baz: 4, boz: 5, bar: 1 });
+});
+

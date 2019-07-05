@@ -1,69 +1,57 @@
-import test from "ava"
-import reduce from "../../sync/reduce.js"
+import test from "ava";
+import reduce from "./reduce.js";
+import CountClosing from "./helpers/CountClosing.js";
 
-test('reduce without arguments joins sequence using +', t => {
-    const target = ['Cat', 'Hat', 'Bat']
-    t.is(
-        reduce(target),
-        'CatHatBat',
-    )
-})
-
-test('reduce without initial value', t => {
-    const target = ['Cat', 'Hat', 'Bat']
+test("reduce without initial value", (t) => {
+    const target = ["Cat", "Hat", "Bat"];
     t.is(
         reduce(target, (acc, item) => acc + item.repeat(2)),
-        'CatHatHatBatBat',
-    )
+        "CatHatHatBatBat",
+    );
     t.is(
         reduce(target, (acc, item, idx) => acc + item.repeat(idx)),
-        'CatHatBatBat',
-    )
-})
+        "CatHatBatBat",
+    );
+});
 
-test('reduce without initial value throws on empty sequence', t => {
-    const target = []
+test("reduce without initial value throws on empty sequence", (t) => {
+    const target: Array<number> = [];
     try {
-        reduce(target, (x, y) => x + y)
-        t.fail("reduce didn't throw")
+        reduce(target, (x, y) => x + y);
+        t.fail("reduce didn't throw");
     } catch (_) {
-        t.pass()
+        t.pass();
     }
-})
+});
 
-test('reduce with initial value', t => {
-    const target = ['Cat', 'Hat', 'Bat']
+test("reduce with initial value", (t) => {
+    const target = ["Cat", "Hat", "Bat"];
     t.is(
-        reduce(target, 'Tat', (acc, item) => acc + item),
-        'TatCatHatBat',
-    )
+        reduce(target, "Tat", (acc, item) => acc + item),
+        "TatCatHatBat",
+    );
     t.is(
-        reduce(target, 'Tat', (acc, item, idx) => acc + item.repeat(idx)),
-        'TatHatBatBat',
-    )
-})
+        reduce(target, "Tat", (acc, item, idx) => acc + item.repeat(idx)),
+        "TatHatBatBat",
+    );
+});
 
-test("reduce with initial value does not throw on empty sequence", t => {
-    const target = []
+test("reduce with initial value does not throw on empty sequence", (t) => {
+    const target: Array<string> = [];
     try {
-        reduce(target, '', (x, y) => x + y)
-        t.pass()
+        reduce(target, "", (x, y) => x + y);
+        t.pass();
     } catch (_) {
-        t.fail("reduce threw error on empty sequence with initial value")
+        t.fail("reduce threw error on empty sequence with initial value");
     }
-})
+});
 
-test("reduce throws early on invalid arguments", t => {
-    t.throws(_ => reduce())
-    t.throws(_ => reduce(12))
-    t.throws(_ => reduce([], i => i, 12))
-    t.throws(_ => reduce([], 11, 'banana'))
-})
-
-import CountClosing from "./helpers/CountClosing.js"
-
-test("reduce closing on iteratee error", t => {
-    const data = CountClosing([1, 2, 3, 4])
-    t.throws(_ => reduce(data, _ => { throw new Error("Error") }))
-    t.is(data.closed, 1)
-})
+test("reduce closing on iteratee error", (t) => {
+    const data = new CountClosing([1, 2, 3, 4]);
+    t.throws(() => {
+        return reduce(data, () => {
+            throw new Error("Error");
+        });
+    });
+    t.is(data.closed, 1);
+});

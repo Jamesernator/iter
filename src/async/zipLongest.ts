@@ -5,7 +5,7 @@ import iterator from "./--iterator.js";
 type Unwrap<T> = T extends AsyncOrSyncIterable<infer R> ? R : never;
 type ZipUnwrapped<T> = { [P in keyof T]: Unwrap<T[P]> | undefined };
 
-export default iterableGenerator(
+const zipLongest = iterableGenerator(
     async function* zipLongest<
         Iterables extends Array<AsyncOrSyncIterable<any>> | [AsyncOrSyncIterable<any>]
     >(
@@ -46,3 +46,5 @@ export default iterableGenerator(
         }
     },
 );
+
+export { zipLongest as default };

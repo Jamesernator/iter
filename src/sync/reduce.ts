@@ -3,17 +3,17 @@ import iterator from "./--iterator.js";
 export default function reduce<T>(
     iterable: Iterable<T>,
     reducer: (accumulator: T, value: T, index: number) => T,
-): Promise<T>;
+): T;
 export default function reduce<T>(
     iterable: Iterable<T>,
     seed: T,
     reducer: (accumulator: T, value: T, index: number) => T,
-): Promise<T>;
+): T;
 export default function reduce<T, R>(
     iterable: Iterable<T>,
     seed: R,
     reducer: (accumulator: R, value: T, index: number) => R,
-): Promise<R>;
+): R;
 export default function reduce<T, R=T>(
     iterable: Iterable<T>,
     ...options:

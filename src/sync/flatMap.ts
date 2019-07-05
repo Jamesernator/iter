@@ -1,7 +1,7 @@
 import enumerate from "./enumerate.js";
 import iterableGenerator from "./iterableGenerator.js";
 
-export default iterableGenerator(
+const flatMap = iterableGenerator(
     function* flatMap<T, R>(
         iterable: Iterable<T>,
         flatMapperFn: (value: T, index: number) => Iterable<R>,
@@ -11,3 +11,5 @@ export default iterableGenerator(
         }
     },
 );
+
+export { flatMap as default };

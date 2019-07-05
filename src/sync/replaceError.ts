@@ -1,6 +1,6 @@
 import iterableGenerator from "./iterableGenerator.js";
 
-export default iterableGenerator(
+const replaceError = iterableGenerator(
     function* replaceError<T>(
         iterable: Iterable<T>,
         replacer: (error: any) => Iterable<T>,
@@ -12,3 +12,5 @@ export default iterableGenerator(
         }
     },
 );
+
+export { replaceError as default };

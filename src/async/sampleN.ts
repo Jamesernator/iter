@@ -1,4 +1,4 @@
-import { AsyncOrSyncIterable } from "../AsyncOrSyncIterable";
+import { AsyncOrSyncIterable } from "../AsyncOrSyncIterable.js";
 import enumerate from "./enumerate.js";
 
 export default async function sampleN<T>(

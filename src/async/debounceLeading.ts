@@ -1,8 +1,7 @@
 import { AsyncOrSyncIterable } from "../AsyncOrSyncIterable.js";
 import iterableGenerator from "./iterableGenerator.js";
 
-
-export default iterableGenerator(
+const debounceLeading = iterableGenerator(
     async function* debounceLeading<T>(
         iterable: AsyncOrSyncIterable<T>,
         time: number,
@@ -17,3 +16,5 @@ export default iterableGenerator(
         }
     },
 );
+
+export { debounceLeading as default };

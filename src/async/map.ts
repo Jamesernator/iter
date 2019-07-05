@@ -2,7 +2,7 @@ import { AsyncOrSyncIterable } from "../AsyncOrSyncIterable.js";
 import enumerate from "./enumerate.js";
 import iterableGenerator from "./iterableGenerator.js";
 
-export default iterableGenerator(
+const map = iterableGenerator(
     async function* map<T, R>(
         iterable: AsyncOrSyncIterable<T>,
         mapperFn: ((value: T, index: number) => R | Promise<R>),
@@ -12,3 +12,5 @@ export default iterableGenerator(
         }
     },
 );
+
+export { map as default };

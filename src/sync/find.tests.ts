@@ -1,70 +1,56 @@
-import test from "ava"
-import find from "../../sync/find.js"
+import test from "ava";
+import find from "./find.js";
+import CountClosing from "./helpers/CountClosing.js";
 
-test('find basic functionality', t => {
-    const val = { x: 10, y: 20 }
-    const data = [1, { x: 20, y: 'banana' }, 2, 'banana', val, NaN, '']
+test("find basic functionality", (t) => {
+    const val = { x: 10, y: 20 };
+    const data = [1, { x: 20, y: "banana" }, 2, "banana", val, NaN, ""];
 
     t.is(
-        find(data, item => item instanceof Object && item.x === 10),
+        find(data, (item) => item instanceof Object && item.x === 10),
         val,
-    )
+    );
 
     t.is(
-        find(data, item => item === 2),
+        find(data, (item) => item === 2),
         2,
-    )
-})
+    );
+});
 
-test('find with no argument returns first truthy value', t => {
-    const data = [0, '', null, undefined, NaN, false, 1]
+test("find with no argument returns first truthy value", (t) => {
+    const data = [0, "", null, undefined, NaN, false, 1];
     t.is(
         find(data),
         1,
-    )
-})
+    );
+});
 
-test("find throws when it can't find the given element", t => {
-    const data = [1, 2, 3, 4]
-    t.throws(_ => {
-        find(data, x => x === 42)
-    })
+test("find throws when it can't find the given element", (t) => {
+    const data = [1, 2, 3, 4];
+    t.throws(() => find(data, (x) => x === 42));
+    t.throws(() => find([], (x) => x === 42));
+});
 
-    t.throws(_ => {
-        find([], x => x === 42)
-    })
-})
-
-test("find returns the default value when it can't find the given element", t => {
-    const data = [1, 2, 3, 4]
+test("find returns the default value when it can't find the given element", (t) => {
+    const data = [1, 2, 3, 4];
     t.is(
-        find(data, 0, x => x === 42),
+        find(data, 0, (x) => x === 42),
         0,
-    )
+    );
 
-    const empty = []
+    const empty: Array<number> = [];
     t.is(
-        find(empty, 0, x => x === 42),
+        find(empty, 0, (x) => x === 42),
         0,
-    )
-})
+    );
+});
 
-test('find throws on bad arguments', t => {
-    const data = []
-    t.throws(_ => find())
-    t.throws(_ => find(data, _ => 2, x => x, 3))
-    t.throws(_ => find(data, 2))
-    t.throws(_ => find(data, _ => 2, 12))
-})
+test("iterator closing", (t) => {
+    const data = new CountClosing([1, 2, 3, 4]);
 
-import CountClosing from "./helpers/CountClosing.js"
+    find(data, 99, (x) => x > 5);
+    t.is(data.closed, 0);
 
-test("iterator closing", t => {
-    const data = CountClosing([1, 2, 3, 4])
-
-    find(data, 99, x => x > 5)
-    t.is(data.closed, 0)
-
-    find(data, 99, x => x === 2)
-    t.is(data.closed, 1)
-})
+    find(data, 99, (x) => x === 2);
+    t.is(data.closed, 1);
+});

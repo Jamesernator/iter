@@ -1,7 +1,7 @@
 import iterableGenerator from "./iterableGenerator.js";
 import iterator from "./--iterator.js";
 
-export default iterableGenerator(
+const pairWise = iterableGenerator(
     function* pairWise<T>(
         iterable: Iterable<T>,
         allowShorter: boolean=false,
@@ -32,3 +32,5 @@ export default iterableGenerator(
         }
     },
 );
+
+export { pairWise as default };

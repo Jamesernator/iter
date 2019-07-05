@@ -1,89 +1,81 @@
-import test from "ava"
-import iterableGenerator from "../../sync/iterableGenerator.js"
-import snapshotIterable from "../../sync/--snapshotIterable.js"
-import toArray from "../../sync/toArray.js"
+import test from "ava";
+import toArray from "./toArray.js";
+import iterableGenerator from "./iterableGenerator.js";
 
-test('iterableGenerator returns an object that be iterated', t => {
+test("iterableGenerator returns an object that be iterated", (t) => {
     const gen = function* () {
-        yield 1
-        yield 2
-        yield 3
-    }
+        yield 1;
+        yield 2;
+        yield 3;
+    };
 
-    const iterableGen = iterableGenerator(gen)
+    const iterableGen = iterableGenerator(gen);
 
-    t.is('function', typeof iterableGen)
+    t.is("function", typeof iterableGen);
 
-    const iterable = iterableGen()
+    const iterable = iterableGen();
 
-    t.truthy(snapshotIterable(iterable))
+    t.true(typeof iterable[Symbol.iterator] === "function");
 
     t.deepEqual(
         toArray(iterable),
         [1, 2, 3],
-    )
-})
+    );
+});
 
-test('iterableGenerator function returns an object that can be reiterated', t => {
-    let count = 0
+test("iterableGenerator function returns an object that can be reiterated", (t) => {
+    let count = 0;
     const gen = function* () {
-        count += 1
-        yield 1
-        yield 2
-        yield 3
-    }
+        count += 1;
+        yield 1;
+        yield 2;
+        yield 3;
+    };
 
-    const iterableGen = iterableGenerator(gen)
-    const iterable = iterableGen()
-
-    t.deepEqual(
-        toArray(iterable),
-        [1, 2, 3],
-    )
-
-    t.is(count, 1)
+    const iterableGen = iterableGenerator(gen);
+    const iterable = iterableGen();
 
     t.deepEqual(
         toArray(iterable),
         [1, 2, 3],
-    )
+    );
 
-    t.is(count, 2)
-})
+    t.is(count, 1);
 
-test('iterableGenerator has arguments forwarded to created iterator', t => {
-    const gen = function* (start) {
+    t.deepEqual(
+        toArray(iterable),
+        [1, 2, 3],
+    );
+
+    t.is(count, 2);
+});
+
+test("iterableGenerator has arguments forwarded to created iterator", (t) => {
+    const gen = function* (start: number) {
         for (let i = start; i < start + 3; i += 1) {
-            yield i
+            yield i;
         }
-    }
+    };
 
-    const iterableGen = iterableGenerator(gen)
-    const iterable = iterableGen(11)
+    const iterableGen = iterableGenerator(gen);
+    const iterable = iterableGen(11);
 
     t.deepEqual(
         toArray(iterable),
         [11, 12, 13],
-    )
+    );
 
     // Iterable can be re-used with the same arguments
 
     t.deepEqual(
         toArray(iterable),
         [11, 12, 13],
-    )
+    );
 
-    const iterable2 = iterableGen(14)
+    const iterable2 = iterableGen(14);
 
     t.deepEqual(
         toArray(iterable2),
         [14, 15, 16],
-    )
-})
-
-test('iterableGenerator throws early on invalid arguments', t => {
-    t.throws(_ => iterableGenerator())
-    t.throws(_ => iterableGenerator('foo'))
-    // eslint-disable-next-line no-empty-function
-    t.throws(_ => iterableGenerator(function* foo() {}, 12))
-})
+    );
+});

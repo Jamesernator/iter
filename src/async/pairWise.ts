@@ -2,7 +2,7 @@ import { AsyncOrSyncIterable } from "../AsyncOrSyncIterable.js";
 import iterableGenerator from "./iterableGenerator.js";
 import iterator from "./--iterator.js";
 
-export default iterableGenerator(
+const pairWise = iterableGenerator(
     async function* pairWise<T>(
         iterable: AsyncOrSyncIterable<T>,
         allowShorter: boolean=false,
@@ -33,3 +33,5 @@ export default iterableGenerator(
         }
     },
 );
+
+export { pairWise as default };

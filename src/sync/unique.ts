@@ -5,7 +5,7 @@ type SetLike<T> = {
     has(item: T): any,
 };
 
-export default iterableGenerator(
+const unique = iterableGenerator(
     function* unique<T>(
         iterable: Iterable<T>,
         makeSet: () => SetLike<T> = () => new Set(),
@@ -19,3 +19,5 @@ export default iterableGenerator(
         }
     },
 );
+
+export { unique as default };

@@ -4,7 +4,7 @@ import iterator from "./--iterator.js";
 type Unwrap<T> = T extends Iterable<infer R> ? R : never;
 type ZipUnwrapped<T> = { [P in keyof T]: Unwrap<T[P]> | undefined };
 
-export default iterableGenerator(
+const zipLongest = iterableGenerator(
     function* zipLongest<Iterables extends Array<Iterable<any>> | [Iterable<any>]>(
         iterables: Iterables,
     ): IterableIterator<ZipUnwrapped<Iterables>> {
@@ -43,3 +43,5 @@ export default iterableGenerator(
         }
     },
 );
+
+export { zipLongest as default };

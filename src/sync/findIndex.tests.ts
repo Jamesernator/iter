@@ -1,60 +1,51 @@
-import test from "ava"
-import findIndex from "../../sync/findIndex.js"
+import test from "ava";
+import findIndex from "./findIndex.js";
+import CountClosing from "./helpers/CountClosing.js";
 
-test('findIndex finds item if it exists', t => {
-    const data = [1, 2, 3, 4]
+test("findIndex finds item if it exists", (t) => {
+    const data = [1, 2, 3, 4];
 
     t.is(
-        findIndex(data, x => x === 3),
+        findIndex(data, (x) => x === 3),
         2,
-    )
-})
+    );
+});
 
-test("findIndex throws error if no item is found", t => {
-    const data = [1, 2, 3, 4]
+test("findIndex throws error if no item is found", (t) => {
+    const data = [1, 2, 3, 4];
 
-    t.throws(_ => findIndex(data, x => x === 42))
-})
+    t.throws(() => findIndex(data, (x) => x === 42));
+});
 
-test('findIndex with no argument returns the index of the first truthy', t => {
-    const data = [0, undefined, null, '', NaN, false, 1]
+test("findIndex with no argument returns the index of the first truthy", (t) => {
+    const data = [0, undefined, null, "", NaN, false, 1];
 
     t.is(
         findIndex(data),
         6,
-    )
-})
+    );
+});
 
-test('findIndex returns default value if not found', t => {
-    const data = [1, 2, 3, 4, 1, 2, 1, 2, 1]
-
-    t.is(
-        findIndex(data, null, x => x === 42),
-        null,
-    )
+test("findIndex returns default value if not found", (t) => {
+    const data = [1, 2, 3, 4, 1, 2, 1, 2, 1];
 
     t.is(
-        findIndex(data, null, x => x === 4),
+        findIndex(data, -1, (x) => x === 42),
+        -1,
+    );
+
+    t.is(
+        findIndex(data, -1, (x) => x === 4),
         3,
-    )
-})
+    );
+});
 
-test('findIndex throws early on bad arguments', t => {
-    const data = []
-    t.throws(_ => findIndex())
-    t.throws(_ => findIndex(data, x => x === 42, 2))
-    t.throws(_ => findIndex(data, x => x === 42, 'banana'))
-    t.throws(_ => findIndex(data, 4))
-})
+test("iterator closing", (t) => {
+    const data = new CountClosing([1, 2, 3, 4]);
 
-import CountClosing from "./helpers/CountClosing.js"
+    findIndex(data, 99, (x) => x > 5);
+    t.is(data.closed, 0);
 
-test("iterator closing", t => {
-    const data = CountClosing([1, 2, 3, 4])
-
-    findIndex(data, 99, x => x > 5)
-    t.is(data.closed, 0)
-
-    findIndex(data, 99, x => x === 2)
-    t.is(data.closed, 1)
-})
+    findIndex(data, 99, (x) => x === 2);
+    t.is(data.closed, 1);
+});
