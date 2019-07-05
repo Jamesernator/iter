@@ -1,4 +1,4 @@
-simport iterableGenerator from "./iterableGenerator.js";
+import iterableGenerator from "./iterableGenerator.js";
 import iterator from "./iterator.js";
 
 function subSequences<T>(

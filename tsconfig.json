@@ -1,17 +1,22 @@
 {
-  "compilerOptions": {
-    "target": "esnext",
-    "module": "esnext",
-    "sourceMap": true,
-    "downlevelIteration": true,
-    "isolatedModules": true,
+    "compilerOptions": {
+        "target": "esnext",
+        "module": "esnext",
+        "sourceMap": true,
+        "downlevelIteration": true,
+        "isolatedModules": true,
 
-    "strict": true,
-    "noImplicitAny": true,
-    "noImplicitThis": true,
-    "alwaysStrict": true,
+        "strict": true,
+        "noImplicitAny": true,
+        "noImplicitThis": true,
+        "alwaysStrict": true,
 
-    "moduleResolution": "node",
-    "allowSyntheticDefaultImports": true,
-  }
+        "moduleResolution": "node",
+        "allowSyntheticDefaultImports": true,
+
+        "outDir": ".",
+        "include": [
+            "src/**/*.ts"
+        ]
+    }
 }

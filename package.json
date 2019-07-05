@@ -8,6 +8,9 @@
         "test": "tests"
     },
     "scripts": {
+        "build": "tsc && node build.cjs",
+        "lint": "eslint **/*.ts .eslintrc.js **/*.cjs",
+        "lint:fix": "eslint --fix **/*.ts .eslintrc.js **/*.cjs",
         "test": "ava"
     },
     "author": "James \"The Jamesernator\" Browning",

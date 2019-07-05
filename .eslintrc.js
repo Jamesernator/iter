@@ -14,7 +14,17 @@ module.exports = {
 
     overrides: [
         {
-            files: "**/*.js",
+            files: "**/*.cjs",
+            parserOptions: {
+                sourceType: "script",
+            },
+            rules: {
+                "@typescript-eslint/no-var-requires": "off",
+                "@typescript-eslint/no-require-imports": "off",
+            },
+        },
+        {
+            files: ".eslintrc.js",
             parserOptions: {
                 sourceType: "script",
             },
