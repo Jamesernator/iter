@@ -1,6 +1,7 @@
-type AsyncOrSyncIterable = import("../AsyncOrSyncIterable.js").AsyncOrSyncIterable;
 import iterableGenerator from "./iterableGenerator.js";
 import iterator from "./iterator.js";
+
+type AsyncOrSyncIterable<T> = import("../AsyncOrSyncIterable.js").AsyncOrSyncIterable<T>;
 
 type Unwrap<T> = T extends AsyncOrSyncIterable<infer R> ? R : never;
 type ZipUnwrapped<T> = { [P in keyof T]: Unwrap<T[P]> };

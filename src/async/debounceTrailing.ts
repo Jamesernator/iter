@@ -1,6 +1,7 @@
-type AsyncOrSyncIterable = import("../AsyncOrSyncIterable.js").AsyncOrSyncIterable;
 import iterableGenerator from "./iterableGenerator.js";
 import iterator from "./iterator.js";
+
+type AsyncOrSyncIterable<T> = import("../AsyncOrSyncIterable.js").AsyncOrSyncIterable<T>;
 
 function delay<T>(time: number, value: T): Promise<T> {
     /* global setTimeout */

@@ -1,5 +1,6 @@
-type AsyncOrSyncIterable = import("../../AsyncOrSyncIterable.js").AsyncOrSyncIterable;
 import iterator from "../iterator.js";
+
+type AsyncOrSyncIterable<T> = import("../../AsyncOrSyncIterable.js").AsyncOrSyncIterable<T>;
 
 export default class CountClosing<T> implements AsyncIterableIterator<T> {
     private _closed: number = 0;

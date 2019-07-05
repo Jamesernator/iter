@@ -1,4 +1,4 @@
-type AsyncOrSyncIterable = import("../AsyncOrSyncIterable.js").AsyncOrSyncIterable;
+type AsyncOrSyncIterable<T> = import("../AsyncOrSyncIterable.js").AsyncOrSyncIterable<T>;
 
 export default async function contains<T>(
     iterable: AsyncOrSyncIterable<T>,

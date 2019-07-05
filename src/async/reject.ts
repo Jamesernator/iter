@@ -1,6 +1,7 @@
-type AsyncOrSyncIterable = import("../AsyncOrSyncIterable.js").AsyncOrSyncIterable;
 import enumerate from "./enumerate.js";
 import iterableGenerator from "./iterableGenerator.js";
+
+type AsyncOrSyncIterable<T> = import("../AsyncOrSyncIterable.js").AsyncOrSyncIterable<T>;
 
 const reject = iterableGenerator(
     async function* reject<T>(

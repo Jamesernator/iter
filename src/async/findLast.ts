@@ -1,5 +1,6 @@
-type AsyncOrSyncIterable = import("../AsyncOrSyncIterable.js").AsyncOrSyncIterable;
 import enumerate from "./enumerate.js";
+
+type AsyncOrSyncIterable<T> = import("../AsyncOrSyncIterable.js").AsyncOrSyncIterable<T>;
 
 export default function findLast<T>(
     iterable: AsyncOrSyncIterable<T>,
