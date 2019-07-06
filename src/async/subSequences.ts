@@ -7,27 +7,27 @@ function subSequences<T>(
     iterable: AsyncOrSyncIterable<T>,
     size: 1,
     allowShorter?: false,
-): AsyncIterableIterator<[T]>;
+): AsyncGenerator<[T], void>;
 function subSequences<T>(
     iterable: AsyncOrSyncIterable<T>,
     size: 2,
     allowShorter?: false,
-): AsyncIterableIterator<[T, T]>;
+): AsyncGenerator<[T, T], void>;
 function subSequences<T>(
     iterable: AsyncOrSyncIterable<T>,
     size: 3,
     allowShorter?: false,
-): AsyncIterableIterator<[T, T, T]>;
+): AsyncGenerator<[T, T, T], void>;
 function subSequences<T>(
     iterable: AsyncOrSyncIterable<T>,
     size: 4,
     allowShorter?: false,
-): AsyncIterableIterator<[T, T, T, T]>;
+): AsyncGenerator<[T, T, T, T], void>;
 function subSequences<T>(
     iterable: AsyncOrSyncIterable<T>,
     size: number,
     allowShorter?: boolean,
-): AsyncIterableIterator<Array<T>>;
+): AsyncGenerator<Array<T>, void>;
 async function* subSequences<T>(
     iterable: AsyncOrSyncIterable<T>,
     subSequenceSize: number,
@@ -58,7 +58,7 @@ async function* subSequences<T>(
         }
         yield [...buff];
     } finally {
-        await iter.return!();
+        await iter.return();
     }
 }
 

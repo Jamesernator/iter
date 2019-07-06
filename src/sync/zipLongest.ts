@@ -7,9 +7,9 @@ type ZipUnwrapped<T> = { [P in keyof T]: Unwrap<T[P]> | undefined };
 const zipLongest = iterableGenerator(
     function* zipLongest<Iterables extends Array<Iterable<any>> | [Iterable<any>]>(
         iterables: Iterables,
-    ): IterableIterator<ZipUnwrapped<Iterables>> {
+    ): Generator<ZipUnwrapped<Iterables>, void> {
         const iteratorsDone = new Set();
-        const iterators: Array<any> = [];
+        const iterators: Array<Generator<any, void>> = [];
         try {
             for (const iterable of iterables) {
                 iterators.push(iterator(iterable));

@@ -30,7 +30,7 @@ test("iterator closing", async (t) => {
     const data = new CountClosing([1, 2, 3, 4]);
     const seq = iterator(observe(data, () => null));
     await seq.next();
-    await seq.return!();
+    await seq.return();
 
     t.is(data.closed, 1);
 });

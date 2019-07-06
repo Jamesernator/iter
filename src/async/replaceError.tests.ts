@@ -59,14 +59,14 @@ test("replaceError iterator closing early", async (t) => {
 
     const s = iterator(replaceError(seq(), (_) => data));
     await s.next();
-    await s.return!();
+    await s.return();
     t.is(closed, 1);
 
     const s2 = iterator(replaceError(seq(), (_) => data));
     await s2.next();
     await s2.next();
     await s2.next();
-    await s2.return!();
+    await s2.return();
     t.is(closed, 1);
     t.is(data.closed, 1);
 });

@@ -69,10 +69,10 @@ test("unique can use a custom set type for comparing equality", async (t) => {
 
 test("unique iterator closing", async (t) => {
     const data = new CountClosing([1, 2, 3, 4]);
-    const seq = unique(data)[Symbol.asyncIterator]();
+    const seq = iterator(unique(data));
 
     await seq.next();
-    await seq.return!();
+    await seq.return();
     t.is(data.closed, 1);
 });
 

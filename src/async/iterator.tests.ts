@@ -1,48 +1,27 @@
-import test from "ava";
+import * as assert from "../lib/assert.js";
 import iterator from "./iterator.js";
 import CountClosing from "./helpers/CountClosing.js";
 
-test("iterator returns an iterator for a given iterable", async (t) => {
-    const iter = iterator([1, 2]);
+export const tests = {
+    async "iterator returns an iterator for a given iterable"() {
+        const iter = iterator([1, 2]);
 
-    t.is("function", typeof iter.next);
-    t.deepEqual(await iter.next(), { done: false, value: 1 });
-    t.deepEqual(await iter.next(), { done: false, value: 2 });
-    t.deepEqual(await iter.next(), { done: true, value: undefined as unknown as number });
-});
+        assert.is("function", typeof iter.next);
+        assert.deepEqual({ done: false, value: 1 }, await iter.next());
+        assert.deepEqual({ done: false, value: 2 }, await iter.next());
+        assert.deepEqual({ done: true, value: undefined }, await iter.next());
+    },
 
-test("iterator reuses the initial value of nextMethod", async (t) => {
-    const iterable = {
-        [Symbol.asyncIterator]() {
-            return {
-                _calls: 0,
+    async "calling return is idempotent when the sequence is already closed"() {
+        const data = new CountClosing([1, 2, 3, 4, 5]);
+        const seq = iterator(data);
 
-                async next() {
-                    if (this._calls === 0) {
-                        this._calls += 1;
-                        return { value: 1, done: false };
-                    }
-                    return { value: 2, done: false };
-                },
-            };
-        },
-    };
-
-    const iter = iterator(iterable);
-
-    t.deepEqual(await iter.next(), { done: false, value: 1 });
-    t.deepEqual(await iter.next(), { done: false, value: 1 });
-});
-
-test("calling return is idempotent when the sequence is already closed", async (t) => {
-    const data = new CountClosing([1, 2, 3, 4, 5]);
-    const seq = iterator(data);
-
-    await seq.next();
-    await seq.next();
-    t.is(data.closed, 0);
-    await seq.return!();
-    t.is(data.closed, 1);
-    await seq.return!();
-    t.is(data.closed, 1);
-});
+        await seq.next();
+        await seq.next();
+        assert.is(data.closed, 0);
+        await seq.return();
+        assert.is(data.closed, 1);
+        await seq.return();
+        assert.is(data.closed, 1);
+    },
+};

@@ -1,60 +1,52 @@
-import test from "ava";
+import * as assert from "../lib/assert.js";
 import findLastIndex from "./findLastIndex.js";
 import CountClosing from "./helpers/CountClosing.js";
 
-test("findLastIndex basic functionality", async (t) => {
-    const data = [1, 2, 3, 4, 5, 1];
+export const tests = {
+    async "findLastIndex returns the last index of a given item"() {
+        const val = { x: 10, y: 20 };
+        const data = [1, { x: 10, y: "banana" }, 2, "banana", val, NaN, ""];
 
-    t.is(
-        await findLastIndex(data, (x) => x === 2),
-        1,
-    );
+        assert.is(4, await findLastIndex(data, (item) => typeof item === "object" && item.x === 10));
+        assert.is(2, await findLastIndex(data, (item) => item === 2));
+    },
 
-    t.is(
-        await findLastIndex(data, (x) => x === 1),
-        5,
-    );
-});
+    async "findLastIndex throws an error if no item is found"() {
+        const data = [1, 2, 3, 4];
 
-test("findLastIndex throws when no value is found matching predicate", async (t) => {
-    const data = [1, 2, 3, 4];
-    await t.throwsAsync(() => findLastIndex(data, (x) => x === 42));
-});
+        await assert.throwsAsync(() => findLastIndex(data, (x) => x === 42));
+    },
 
-test("findLastIndex defaults to index of last truthy value", async (t) => {
-    const data = [1, 0, undefined, false, null, "", NaN, 1, false];
-    t.is(
-        await findLastIndex(data),
-        7,
-    );
-});
+    async "findLastIndex with no argument returns the last index for which the value is truthy"() {
+        const data = [0, false, undefined, "", null, "foo", 0, null, "banana", 0];
 
-test("findLastIndex with default returns default is not found", async (t) => {
-    const data = [1, 2, 3, 4, 3, 12];
+        assert.is(8, await findLastIndex(data));
+    },
 
-    t.is(
-        await findLastIndex(data, -1, (x) => x === 42),
-        -1,
-    );
+    async "findLastIndex returns the default value if not found"() {
+        const data = [1, 2, 3, 4];
 
-    t.is(
-        await findLastIndex(data, -1, (x) => x === 42),
-        -1,
-    );
+        assert.is(-1, await findLastIndex(data, -1, (x) => x > 12));
+        assert.is(null, await findLastIndex(data, null, (x) => x > 12));
+    },
 
-    t.is(
-        await findLastIndex(data, -1, (x) => x === 3),
-        4,
-    );
-});
+    async "findLastIndex iterator closing"() {
+        const iter1 = new CountClosing([1, 2, 3, 4]);
 
+        await findLastIndex(iter1, 99, (x) => x > 5);
+        assert.is(0, iter1.closed);
 
-test("iterator closing", async (t) => {
-    const data = new CountClosing([1, 2, 3, 4]);
+        const iter2 = new CountClosing([1, 2, 3, 4]);
 
-    await findLastIndex(data, 99, (x) => x > 5);
-    t.is(data.closed, 0);
+        await findLastIndex(iter2, 99, (x) => x === 2);
+        assert.is(0, iter2.closed);
 
-    await findLastIndex(data, 99, (x) => x === 2);
-    t.is(data.closed, 0);
-});
+        const iter3 = new CountClosing([1, 2, 3, 4]);
+        await assert.throwsAsync(() => findLastIndex(iter3, (x) => {
+            if (x === 2) {
+                throw new Error("Test");
+            }
+        }));
+        assert.is(1, iter3.closed);
+    },
+};

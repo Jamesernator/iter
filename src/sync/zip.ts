@@ -7,12 +7,12 @@ type ZipUnwrapped<T> = { [P in keyof T]: Unwrap<T[P]> };
 const zip = iterableGenerator(
     function* zip<Iterables extends Array<Iterable<any>> | [Iterable<any>]>(
         iterables: Iterables,
-    ): IterableIterator<ZipUnwrapped<Iterables>> {
+    ): Generator<ZipUnwrapped<Iterables>, void> {
         const iteratorsDone = new Set();
-        const iterators: Array<any> = [];
+        const iterators: Array<Generator<any, void>> = [];
         try {
-            for (const iterable of iterables as any) {
-                iterators.push(iterator(iterable) as any);
+            for (const iterable of iterables) {
+                iterators.push(iterator(iterable));
             }
 
             while (true) {
@@ -35,7 +35,7 @@ const zip = iterableGenerator(
         } finally {
             for (const iterator of iterators) {
                 try {
-                    iterator.return!();
+                    iterator.return();
                 } catch (error) {
                     /* Ensure all iterators close */
                 }

@@ -9,11 +9,11 @@ export default function findIndex<T>(
     iterable: AsyncOrSyncIterable<T>,
     predicate: ((value: T, index: number) => any),
 ): Promise<number | undefined>;
-export default function findIndex<T>(
+export default function findIndex<T, Default=number>(
     iterable: AsyncOrSyncIterable<T>,
-    defaultValue: number,
+    defaultValue: Default,
     predicate: ((value: T, index: number) => any),
-): Promise<T | number>;
+): Promise<number | Default>;
 export default async function findIndex<T>(
     iterable: AsyncOrSyncIterable<T>,
     ...options:

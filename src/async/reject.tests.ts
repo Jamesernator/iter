@@ -29,7 +29,7 @@ test("reject iterator closing on early close", async (t) => {
     const seq = iterator(reject(data, (x) => x % 2 === 0));
 
     await seq.next();
-    await seq.return!();
+    await seq.return();
     t.is(data.closed, 1);
 });
 

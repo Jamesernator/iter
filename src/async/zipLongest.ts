@@ -11,7 +11,7 @@ const zipLongest = iterableGenerator(
         Iterables extends Array<AsyncOrSyncIterable<any>> | [AsyncOrSyncIterable<any>]
     >(
         iterables: Iterables,
-    ): AsyncIterableIterator<ZipUnwrapped<Iterables>> {
+    ): AsyncGenerator<ZipUnwrapped<Iterables>> {
         const iteratorsDone = new Set();
         const iterators: Array<any> = [];
         try {

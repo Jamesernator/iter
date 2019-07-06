@@ -1,27 +1,21 @@
-import test from "ava";
+import * as assert from "../lib/assert.js";
 import first from "./first.js";
 import CountClosing from "./helpers/CountClosing.js";
 
-test("first with no arguments returns the first element of the sequence", async (t) => {
-    t.is(
-        await first([1, 2, 3, 4]),
-        1,
-    );
+export const tests = {
+    async "first returns the first element of the sequence"() {
+        assert.is(12, await first([12, 8, 9, 2]));
+        assert.is("banana", await first(["banana", 12, "foo"]));
+    },
 
-    t.is(
-        await first(["banana", 342]),
-        "banana",
-    );
-});
+    async "first with empty sequence throws an error on empty sequence"() {
+        await assert.throwsAsync(() => first([]));
+    },
 
-test("first with no arguments throws an error on an empty sequence", async (t) => {
-    await t.throwsAsync(() => first([]));
-});
+    async "first iterator closing"() {
+        const iter = new CountClosing([1, 2, 3, 4]);
 
-
-test("iterator closing", async (t) => {
-    const data = new CountClosing([1, 2, 3, 4]);
-
-    await first(data);
-    t.is(data.closed, 1);
-});
+        await first(iter);
+        assert.is(iter.closed, 1);
+    },
+};

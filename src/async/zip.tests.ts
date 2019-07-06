@@ -44,7 +44,7 @@ test("zip iterator closing all sequences", async (t) => {
 
     const seq = iterator(zip([data1, data2]));
     await seq.next();
-    await seq.return!();
+    await seq.return();
     t.is(data1.closed, 1);
     t.is(data2.closed, 1);
 });
@@ -57,7 +57,7 @@ test("zip iterator closing only as needed on completion", async (t) => {
     await seq.next();
     await seq.next();
     await seq.next();
-    await seq.return!();
+    await seq.return();
     t.is(data1.closed, 0);
     t.is(data2.closed, 1);
 });

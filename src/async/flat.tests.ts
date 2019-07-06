@@ -1,29 +1,50 @@
-import test from "ava";
-import flat from "./flat.js";
+import * as assert from "../lib/assert.js";
 import toArray from "./toArray.js";
+import flat from "./flat.js";
 import CountClosing from "./helpers/CountClosing.js";
 import iterator from "./iterator.js";
 
-test("flat basic functionality", async (t) => {
-    const data = [[1], [2, 3], [4, 5], [6], [7], [8, 9, 10]];
+export const tests = {
+    async "flat emits items from both sequences in sequence"() {
+        const expected1 = [1, 2, 3, 4, 5, 6];
 
-    t.deepEqual(
-        await toArray(flat(data)),
-        [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-    );
-});
+        assert.deepEqual(expected1, await toArray(flat([[1, 2, 3], [4, 5, 6]])));
 
-function* throwsError() {
-    yield 1;
-    throw new Error("Test!");
-}
+        const expected2 = [1, 2, 3, 4];
 
-test("iterator closing", async (t) => {
-    const data = new CountClosing([[1, 2], [2, 3, 4], throwsError(), [3, 2]]);
-    const seq = iterator(flat(data));
+        assert.deepEqual(expected2, await toArray(flat([[1, 2, 3, 4], []])));
+        assert.deepEqual(expected2, await toArray(flat([[], [1, 2, 3, 4]])));
 
-    await seq.next();
-    await seq.next();
-    await seq.return!();
-    t.is(data.closed, 1);
-});
+        assert.deepEqual([], await toArray(flat([[], []])));
+    },
+
+    async "flat works with multiple flatenations"() {
+        const expected = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+
+        assert.deepEqual(expected, await toArray(flat([[1, 2, 3], [4, 5, 6], [7, 8, 9]])));
+    },
+
+    async "flat can reuse the same iterable multiple times"() {
+        const x = [1, 2];
+        const expected = [1, 2, 1, 2, 1, 2, 1, 2];
+
+        assert.deepEqual(expected, await toArray(flat([x, x, x, x])));
+    },
+
+    async "flat iterator closing"() {
+        const iter1 = new CountClosing([1, 2]);
+        const iter2 = new CountClosing([1, 2, 3]);
+        const iter3 = new CountClosing([1, 2]);
+
+        const seq = iterator(flat([iter1, iter2, iter3]));
+
+        for (let i = 0; i < 4; i += 1) {
+            await seq.next();
+        }
+        await seq.return();
+
+        assert.is(iter1.closed, 0);
+        assert.is(iter2.closed, 1);
+        assert.is(iter3.closed, 0);
+    },
+};

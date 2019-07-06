@@ -41,7 +41,7 @@ export const tests = {
         for (let i = 0; i < 4; i += 1) {
             await seq.next();
         }
-        await seq.return!();
+        await seq.return();
 
         assert.is(iter1.closed, 0);
         assert.is(iter2.closed, 1);

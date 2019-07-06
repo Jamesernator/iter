@@ -33,7 +33,7 @@ test("iterator closing on early map close", async (t) => {
     const seq = map(data, (x) => x**2)[Symbol.asyncIterator]();
 
     await seq.next();
-    await seq.return!();
+    await seq.return();
     t.is(data.closed, 1);
 });
 

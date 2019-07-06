@@ -6,17 +6,17 @@ type AsyncOrSyncIterable<T> = import("../lib/AsyncOrSyncIterable.js").AsyncOrSyn
 function scan<T>(
     iterable: AsyncOrSyncIterable<T>,
     reducer: (accumulator: T, value: T, index: number) => T | PromiseLike<T>,
-): AsyncIterableIterator<T>;
+): AsyncGenerator<T, void>;
 function scan<T>(
     iterable: AsyncOrSyncIterable<T>,
     seed: T,
     reducer: (accumulator: T, value: T, index: number) => T | PromiseLike<T>,
-): AsyncIterableIterator<T>;
+): AsyncGenerator<T, void>;
 function scan<T, R>(
     iterable: AsyncOrSyncIterable<T>,
     seed: R,
     reducer: (accumulator: R, value: T, index: number) => R | PromiseLike<R>,
-): AsyncIterableIterator<R>;
+): AsyncGenerator<R, void>;
 async function* scan<T, R=T>(
     iterable: AsyncOrSyncIterable<T>,
     ...options:
@@ -69,7 +69,7 @@ async function* scan<T, R=T>(
             idx += 1;
         }
     } finally {
-        await iter.return!();
+        await iter.return();
     }
 }
 
@@ -77,17 +77,17 @@ type Scan = {
     <T>(
         iterable: AsyncOrSyncIterable<T>,
         reducer: (accumulator: T, value: T, index: number) => T,
-    ): AsyncIterableIterator<T>,
+    ): AsyncIterable<T>,
     <T>(
         iterable: AsyncOrSyncIterable<T>,
         seed: T,
         reducer: (accumulator: T, value: T, index: number) => T,
-    ): AsyncIterableIterator<T>,
+    ): AsyncIterable<T>,
     <T, R>(
         iterable: AsyncOrSyncIterable<T>,
         seed: R,
         reducer: (accumulator: R, value: T, index: number) => R,
-    ): AsyncIterableIterator<R>,
+    ): AsyncIterable<R>,
 };
 
 export default iterableGenerator(scan) as Scan;

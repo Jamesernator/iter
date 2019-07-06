@@ -1,38 +1,34 @@
-import test from "ava";
+import * as assert from "../lib/assert.js";
 import firstN from "./firstN.js";
 import CountClosing from "./helpers/CountClosing.js";
 
-test("firstN with numeric argument returns a sequence of that length", async (t) => {
-    t.deepEqual(
-        await firstN([1, 2, 3, 4, 5, 6, 7], 3),
-        [1, 2, 3],
-    );
+export const tests = {
+    async "firstN returns an array of the first N elements"() {
+        const data = [12, 9, 2, 3, 9];
+        assert.deepEqual([12, 9, 2], await firstN(data, 3));
+    },
 
-    t.deepEqual(
-        await firstN([1, 2, 3, 4], 0),
-        [],
-    );
-});
+    async "firstN with count too short throws an error"() {
+        const data = [1, 2, 3];
 
-test("firstN with count that is too short throws an error", async (t) => {
-    await t.throwsAsync(() => firstN([1, 2], 3));
-    await t.throwsAsync(() => firstN([], 1));
-    await t.notThrowsAsync(() => firstN([], 0));
-});
+        await assert.throwsAsync(() => firstN(data, 5));
+    },
 
-test("firstN with count that is too short can be supressed by passing true", async (t) => {
-    t.deepEqual(
-        await firstN([1, 2], 3, true),
-        [1, 2],
-    );
-});
+    async "firstN with count too short can be supressed by passing true"() {
+        const data = [1, 2, 3];
 
-test("iterator closing", async (t) => {
-    const data = new CountClosing([1, 2, 3, 4]);
+        assert.deepEqual([1, 2, 3], await firstN(data, 5, true));
+    },
 
-    await firstN(data, 3);
-    t.is(data.closed, 2);
+    async "firstN iterator closing"() {
+        const iter = new CountClosing([1, 2, 3, 4]);
 
-    await firstN(data, 5, true);
-    t.is(data.closed, 2);
-});
+        await firstN(iter, 2);
+        assert.is(1, iter.closed);
+
+        const iter2 = new CountClosing([1, 2, 3, 4]);
+
+        await firstN(iter, 5, true);
+        assert.is(iter2.closed, 0);
+    },
+};

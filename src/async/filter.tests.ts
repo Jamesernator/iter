@@ -24,7 +24,7 @@ export const tests = {
         const seq = iterator(filter(iter, (x) => x % 2 === 0));
 
         await seq.next();
-        await seq.return!();
+        await seq.return();
 
         assert.is(iter.closed, 1);
     },

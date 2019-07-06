@@ -42,6 +42,6 @@ test("pairWise iterator closing", async (t) => {
     const pairs = iterator(pairWise(data));
 
     await pairs.next();
-    await pairs.return!();
+    await pairs.return();
     t.is(data.closed, 1);
 });

@@ -46,7 +46,7 @@ test("scan iterator closing on early end", async (t) => {
     const seq = iterator(scan(data, add));
 
     await seq.next();
-    await seq.return!();
+    await seq.return();
     t.is(data.closed, 1);
 });
 

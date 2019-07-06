@@ -28,7 +28,7 @@ const pairWise = iterableGenerator(
                 throw new Error(`[pairWise] Can't get a pair from sequence of size 1`);
             }
         } finally {
-            iter.return!();
+            iter.return();
         }
     },
 );

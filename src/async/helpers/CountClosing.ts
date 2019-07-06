@@ -25,7 +25,7 @@ export default class CountClosing<T> implements AsyncIterableIterator<T> {
             throw new Error("[CountClosing] Iterator closing error");
         }
         this._closed += 1;
-        return { done: true, value: undefined as unknown as T };
+        return { done: true as const, value: undefined };
     }
 
 

@@ -67,6 +67,6 @@ export default async function reduce<T, R=T>(
         }
         return acc;
     } finally {
-        await iter.return!();
+        await iter.return();
     }
 }

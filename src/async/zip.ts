@@ -11,9 +11,9 @@ const zip = iterableGenerator(
         Iterables extends Array<AsyncOrSyncIterable<any>> | [AsyncOrSyncIterable<any>]
     >(
         iterables: Iterables,
-    ): AsyncIterableIterator<ZipUnwrapped<Iterables>> {
+    ): AsyncGenerator<ZipUnwrapped<Iterables>, void> {
         const iteratorsDone = new Set();
-        const iterators: Array<any> = [];
+        const iterators: Array<AsyncGenerator<any, void>> = [];
         try {
             for (const iterable of iterables as any) {
                 iterators.push(iterator(iterable) as any);
@@ -39,7 +39,7 @@ const zip = iterableGenerator(
         } finally {
             for (const iterator of iterators) {
                 try {
-                    await iterator.return!();
+                    await iterator.return();
                 } catch (error) {
                     /* Ensure all iterators close */
                 }

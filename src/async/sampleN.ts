@@ -4,6 +4,36 @@ type AsyncOrSyncIterable<T> = import("../lib/AsyncOrSyncIterable.js").AsyncOrSyn
 
 export default async function sampleN<T>(
     iterable: AsyncOrSyncIterable<T>,
+    n: 0,
+    allowShorter?: boolean,
+): Promise<[]>;
+export default async function sampleN<T>(
+    iterable: AsyncOrSyncIterable<T>,
+    n: 1,
+    allowShorter?: false,
+): Promise<[T]>;
+export default async function sampleN<T>(
+    iterable: AsyncOrSyncIterable<T>,
+    n: 2,
+    allowShorter?: false,
+): Promise<[T, T]>;
+export default async function sampleN<T>(
+    iterable: AsyncOrSyncIterable<T>,
+    n: 3,
+    allowShorter?: false,
+): Promise<[T, T, T]>;
+export default async function sampleN<T>(
+    iterable: AsyncOrSyncIterable<T>,
+    n: 4,
+    allowShorter?: false,
+): Promise<[T, T, T, T]>;
+export default async function sampleN<T>(
+    iterable: AsyncOrSyncIterable<T>,
+    n: number,
+    allowShorter?: boolean,
+): Promise<Array<T>>;
+export default async function sampleN<T>(
+    iterable: AsyncOrSyncIterable<T>,
     n: number,
     allowLess=false,
 ) {

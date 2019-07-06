@@ -47,7 +47,7 @@ test("zipLongest iterator closing all if early", async (t) => {
 
     const seq = iterator(zipLongest([data1, data2]));
     await seq.next();
-    await seq.return!();
+    await seq.return();
     t.is(data1.closed, 1);
     t.is(data2.closed, 1);
 });

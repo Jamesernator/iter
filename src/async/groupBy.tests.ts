@@ -1,37 +1,36 @@
-import test from "ava";
+import * as assert from "../lib/assert.js";
 import groupBy from "./groupBy.js";
 import CountClosing from "./helpers/CountClosing.js";
 
-test("groupBy basic functionality", async (t) => {
-    const groups = await groupBy([1, 2, 3, 4, 5, 6], (x) => x % 2 === 0 ? "even": "odd");
-    t.deepEqual(
-        groups.get("even"),
-        [2, 4, 6],
-    );
+export const tests = {
+    async "groupBy returns a map of arrays indexed by each key"() {
+        const data = [1, 2, 3, 4, 5, 6];
 
-    t.deepEqual(
-        groups.get("odd"),
-        [1, 3, 5],
-    );
-});
+        const groups = await groupBy(data, (i) => i % 2 === 0 ? "even" : "odd");
 
-test("groupBy defaults to identity", async (t) => {
-    const groups = await groupBy([1, 2, 1, 2, 3, 4, 4]);
-    t.deepEqual(
-        groups.get(1),
-        [1, 1],
-    );
+        assert.deepEqual(groups.get("even"), [2, 4, 6]);
+        assert.deepEqual(groups.get("odd"), [1, 3, 5]);
+    },
 
-    t.deepEqual(
-        groups.get(3),
-        [3],
-    );
-});
+    async "groupBy defaults to identity"() {
+        const data = [1, 2, 3, 1, 1, 2];
 
-test("iterator closing if iteratee throws an error", async (t) => {
-    const data = new CountClosing([1, 2, 3, 4]);
-    await t.throwsAsync(() => groupBy(data, () => {
-        throw new Error("Error");
-    }));
-    t.is(data.closed, 1);
-});
+        const groups = await groupBy(data);
+
+        assert.deepEqual(groups.get(1), [1, 1, 1]);
+        assert.deepEqual(groups.get(2), [2, 2]);
+        assert.deepEqual(groups.get(3), [3]);
+    },
+
+    async "groupBy iterator closing on toKey error"() {
+        const iter = new CountClosing([1, 2, 3, 4, 5]);
+
+        await assert.throwsAsync(() => groupBy(iter, (i) => {
+            if (i === 3) {
+                throw new Error("Test");
+            }
+        }));
+
+        assert.is(iter.closed, 1);
+    },
+};

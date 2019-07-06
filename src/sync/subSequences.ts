@@ -5,48 +5,48 @@ function subSequences<T>(
     iterable: Iterable<T>,
     size: 1,
     allowShorter?: false,
-): IterableIterator<[T]>;
+): Generator<[T], void>;
 function subSequences<T>(
     iterable: Iterable<T>,
     size: 2,
     allowShorter?: false,
-): IterableIterator<[T, T]>;
+): Generator<[T, T], void>;
 function subSequences<T>(
     iterable: Iterable<T>,
     size: 3,
     allowShorter?: false,
-): IterableIterator<[T, T, T]>;
+): Generator<[T, T, T], void>;
 function subSequences<T>(
     iterable: Iterable<T>,
     size: 4,
     allowShorter?: false,
-): IterableIterator<[T, T, T, T]>;
+): Generator<[T, T, T, T], void>;
 function subSequences<T>(
     iterable: Iterable<T>,
     size: number,
     allowShorter?: boolean,
-): IterableIterator<Array<T>>;
+): Generator<Array<T>, void>;
 function* subSequences<T>(
     iterable: Iterable<T>,
-    subSequenceSize: number,
+    size: number,
     allowShorter=false,
 ) {
-    if (subSequenceSize < 1) {
+    if (size < 1) {
         throw new RangeError(`[subSequences] subSequenceSize must be at least one`);
     }
     const iter = iterator(iterable);
     try {
-        const buff = [];
-        for (let i = 0; i < subSequenceSize; i += 1) {
-            const { value, done } = iter.next();
-            if (done) {
+        const buff: Array<T> = [];
+        for (let i = 0; i < size; i += 1) {
+            const iterResult = iter.next();
+            if (iterResult.done) {
                 if (allowShorter) {
                     return;
                 }
-                const message = `[subSequence] Can't get a subSequence of size ${ subSequenceSize } from a sequence of length ${ i }`;
+                const message = `[subSequence] Can't get a subSequence of size ${ size } from a sequence of length ${ i }`;
                 throw new Error(message);
             }
-            buff.push(value);
+            buff.push(iterResult.value);
         }
 
         for (const item of iter) {
@@ -56,7 +56,7 @@ function* subSequences<T>(
         }
         yield [...buff];
     } finally {
-        iter.return!();
+        iter.return();
     }
 }
 

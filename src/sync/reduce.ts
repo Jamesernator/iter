@@ -65,6 +65,6 @@ export default function reduce<T, R=T>(
         }
         return acc;
     } finally {
-        iter.return!();
+        iter.return();
     }
 }

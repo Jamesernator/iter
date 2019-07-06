@@ -51,7 +51,7 @@ const debounceTrailing = iterableGenerator(
                 }
             }
         } finally {
-            await it.return!();
+            await it.return();
         }
     },
 );

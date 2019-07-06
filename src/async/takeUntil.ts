@@ -32,7 +32,7 @@ const takeUntil = iterableGenerator(
                 yield iteratorValue;
             }
         } finally {
-            await it.return!();
+            await it.return();
         }
     },
 );

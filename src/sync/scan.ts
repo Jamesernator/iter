@@ -4,17 +4,17 @@ import iterator from "./iterator.js";
 function scan<T>(
     iterable: Iterable<T>,
     reducer: (accumulator: T, value: T, index: number) => T,
-): IterableIterator<T>;
+): Generator<T, void>;
 function scan<T>(
     iterable: Iterable<T>,
     seed: T,
     reducer: (accumulator: T, value: T, index: number) => T,
-): IterableIterator<T>;
+): Generator<T, void>;
 function scan<T, R>(
     iterable: Iterable<T>,
     seed: R,
     reducer: (accumulator: R, value: T, index: number) => R,
-): IterableIterator<R>;
+): Generator<R, void>;
 function* scan<T, R=T>(
     iterable: Iterable<T>,
     ...options:
@@ -67,7 +67,7 @@ function* scan<T, R=T>(
             idx += 1;
         }
     } finally {
-        iter.return!();
+        iter.return();
     }
 }
 
@@ -75,17 +75,17 @@ type Scan = {
     <T>(
         iterable: Iterable<T>,
         reducer: (accumulator: T, value: T, index: number) => T,
-    ): IterableIterator<T>,
+    ): Iterable<T>,
     <T>(
         iterable: Iterable<T>,
         seed: T,
         reducer: (accumulator: T, value: T, index: number) => T,
-    ): IterableIterator<T>,
+    ): Iterable<T>,
     <T, R>(
         iterable: Iterable<T>,
         seed: R,
         reducer: (accumulator: R, value: T, index: number) => R,
-    ): IterableIterator<R>,
+    ): Iterable<R>,
 };
 
 export default iterableGenerator(scan) as Scan;

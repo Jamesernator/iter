@@ -25,18 +25,24 @@ function mapObject<T, R>(
 
 const merge = iterableGenerator(
     async function* merge<T>(iterables: Array<AsyncOrSyncIterable<T>>) {
-        const iterators: { [key: string]: AsyncIterableIterator<T> } = {};
-        for (const [idx, item] of iterables.entries()) {
-            iterators[idx] = iterator(item);
-        }
-        const waiting = mapObject(iterators, (i) => i.next());
-        while (Object.keys(iterators).length > 0) {
-            const { key, value: { value, done } } = await racePromises(waiting);
-            if (done) {
-                delete iterators[key];
-            } else {
-                yield value;
-                waiting[key] = iterators[key].next();
+        const iterators: { [key: string]: AsyncGenerator<T, void> } = {};
+        try {
+            for (const [idx, item] of iterables.entries()) {
+                iterators[idx] = iterator(item);
+            }
+            const waiting = mapObject(iterators, (i) => i.next());
+            while (Object.keys(iterators).length > 0) {
+                const { key, value: { value, done } } = await racePromises(waiting);
+                if (done) {
+                    delete iterators[key];
+                } else {
+                    yield value;
+                    waiting[key] = iterators[key].next();
+                }
+            }
+        } finally {
+            for (const iterator of Object.values(iterators)) {
+                iterator.return();
             }
         }
     },

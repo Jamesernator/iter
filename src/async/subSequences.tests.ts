@@ -41,6 +41,6 @@ test("subSequences iterator closing", async (t) => {
     const seq = iterator(subSequences(data, 3));
 
     await seq.next();
-    await seq.return!();
+    await seq.return();
     t.is(data.closed, 1);
 });

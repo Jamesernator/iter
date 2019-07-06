@@ -4,11 +4,11 @@ import iterableGenerator from "./iterableGenerator.js";
 function filter<T, K extends T>(
     iterable: Iterable<T>,
     predicate: ((value: T, index: number) => value is K),
-): IterableIterator<K>;
+): Generator<K, void>;
 function filter<T>(
     iterable: Iterable<T>,
     predicate: ((value: T, index: number) => any),
-): IterableIterator<T>;
+): Generator<T, void>;
 function* filter<T, K extends T = T>(
     iterable: Iterable<T>,
     predicate:
