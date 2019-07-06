@@ -1,51 +1,45 @@
-import test from "ava";
+import * as assert from "../lib/assert.js";
+import iterator from "./iterator.js";
 import toArray from "./toArray.js";
 import map from "./map.js";
 import CountClosing from "./helpers/CountClosing.js";
 
-test("map basic functionality", async (t) => {
-    const data = [1, 2, 3];
+export const tests = {
+    async "map returns a mapped sequences"() {
+        const data = [1, 2, 3];
 
-    t.deepEqual(
-        await toArray(map(data, (x) => x**2)),
-        [1, 4, 9],
-    );
-});
+        assert.deepEqual([1, 4, 9], await toArray(map(data, (i) => i**2)));
+    },
 
-test("map iteratee receives second argument", async (t) => {
-    const data = [11, 22, 33];
+    async "the mapper function receives the index as second arg"() {
+        const data = [11, 22, 33];
+        const expected = [[11, 0], [22, 1], [33, 2]];
 
-    t.deepEqual(
-        await toArray(map(data, (x, i) => [x, i])),
-        [[11, 0], [22, 1], [33, 2]],
-    );
-});
+        assert.deepEqual(expected, await toArray(map(data, (item, idx) => [item, idx])));
+    },
 
-test("map iteratee receives no additional arguments", async (t) => {
-    const data = [11, 22, 33];
+    async "map iterator closing"() {
+        const iter = new CountClosing([1, 2, 3, 4]);
+        const seq = iterator(iter);
 
-    await toArray(map(data, (_1, _2, ...rest) => t.is(0, rest.length)));
-});
+        await seq.next();
+        await seq.return();
 
+        assert.is(1, iter.closed);
+    },
 
-test("iterator closing on early map close", async (t) => {
-    const data = new CountClosing([1, 2, 3, 4]);
-    const seq = map(data, (x) => x**2)[Symbol.asyncIterator]();
+    async "map iterator closing on mapper error"() {
+        const iter = new CountClosing([1, 2, 3, 4]);
 
-    await seq.next();
-    await seq.return();
-    t.is(data.closed, 1);
-});
+        await assert.throwsAsync(() => toArray(
+            map(iter, (value) => {
+                if (value === 2) {
+                    throw new Error("Test");
+                }
+                return value ** 2;
+            }),
+        ));
 
-test("iterator closing on error in iteratee", async (t) => {
-    const data = new CountClosing([1, 2, 3, 4]);
-    await t.throwsAsync(() => toArray(
-        map(data, (value, i) => {
-            if (i === 2) {
-                throw new Error("Error");
-            }
-            return value;
-        }),
-    ));
-    t.is(data.closed, 1);
-});
+        assert.is(1, iter.closed);
+    },
+};

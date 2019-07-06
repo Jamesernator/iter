@@ -1,20 +1,16 @@
-import test from "ava";
+import * as assert from "../lib/assert.js";
 import length from "./length.js";
+import iterator from "./iterator.js";
 
-const call = <R>(f: () => R) => f();
+export const tests = {
+    async "length returns the length of the iterable"() {
+        const data1 = [1, 2, 3, 4];
+        const data2 = iterator([1, 2]);
+        const data3: Array<number> = [];
 
-test("length returns the length of an iterable", async (t) => {
-    const a = [1, 2, 3, 4];
-    const b = call(async function* foo() {
-        yield 1;
-        yield 2;
-    });
-    const c = call(async function* () {
-        yield* [];
-    });
-
-    t.is(await length(a), 4);
-    t.is(await length(b), 2);
-    t.is(await length(b), 0);
-    t.is(await length(c), 0);
-});
+        assert.is(4, await length(data1));
+        assert.is(2, await length(data2));
+        assert.is(0, await length(data2));
+        assert.is(0, await length(data3));
+    },
+};

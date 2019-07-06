@@ -2,9 +2,9 @@ import iterator from "../iterator.js";
 
 type AsyncOrSyncIterable<T> = import("../../lib/AsyncOrSyncIterable.js").AsyncOrSyncIterable<T>;
 
-export default class CountClosing<T> implements AsyncIterableIterator<T> {
+export default class CountClosing<T> implements AsyncGenerator<T> {
     private _closed: number = 0;
-    private readonly _iterator: AsyncIterableIterator<T>;
+    private readonly _iterator: AsyncGenerator<T>;
     private readonly _throwError: boolean;
 
     constructor(iterable: AsyncOrSyncIterable<T>, throwError: boolean = false) {
@@ -16,8 +16,9 @@ export default class CountClosing<T> implements AsyncIterableIterator<T> {
         return this._closed;
     }
 
-    async next() {
-        return await this._iterator.next();
+    async next(): Promise<IteratorResult<T, void>> {
+        const iteratorResult = await this._iterator.next();
+        return iteratorResult;
     }
 
     async return() {
@@ -28,8 +29,11 @@ export default class CountClosing<T> implements AsyncIterableIterator<T> {
         return { done: true as const, value: undefined };
     }
 
+    async throw(err: any) {
+        return this._iterator.throw(err);
+    }
 
-    [Symbol.asyncIterator]() {
+    [Symbol.asyncIterator](): AsyncGenerator<T, void> {
         return this;
     }
 }

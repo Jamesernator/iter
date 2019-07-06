@@ -1,19 +1,14 @@
-import test from "ava";
+import * as assert from "../lib/assert.js";
 import last from "./last.js";
 
-test("last with no arguments returns the last element of the sequence", async (t) => {
-    t.is(
-        await last([1, 2, 3, 4]),
-        4,
-    );
+export const tests = {
+    async "last returns the last item of the sequence"() {
+        assert.is(4, await last([1, 2, 3, 4]));
 
-    t.is(
-        await last(["banana", 342]),
-        342,
-    );
-});
+        assert.is("banana", await last([2, "banana", 34, "banana"]));
+    },
 
-test("last with no arguments throws an error on an empty sequence", async (t) => {
-    await t.throwsAsync(() => last([]));
-});
-
+    async "last throws error with empty sequence"() {
+        await assert.throwsAsync(() => last([]));
+    },
+};

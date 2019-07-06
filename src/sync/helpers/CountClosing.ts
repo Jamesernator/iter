@@ -1,8 +1,8 @@
 import iterator from "../iterator.js";
 
-export default class CountClosing<T> implements IterableIterator<T> {
+export default class CountClosing<T> implements Generator<T, void> {
     private _closed: number = 0;
-    private readonly _iterator: IterableIterator<T>;
+    private readonly _iterator: Generator<T, void>;
     private readonly _throwError: boolean;
 
     constructor(iterable: Iterable<T>, throwError: boolean = false) {
@@ -26,7 +26,11 @@ export default class CountClosing<T> implements IterableIterator<T> {
         return { done: true as const, value: undefined };
     }
 
-    [Symbol.iterator]() {
+    throw(err: any) {
+        return this._iterator.throw(err);
+    }
+
+    [Symbol.iterator](): Generator<T, void> {
         return this;
     }
 }
