@@ -1,44 +1,41 @@
-import test from "ava";
+import * as assert from "../lib/assert.js";
 import toArray from "./toArray.js";
 import reject from "./reject.js";
 import CountClosing from "./helpers/CountClosing.js";
 import iterator from "./iterator.js";
 
-test("reject basic functionality", async (t) => {
-    const data = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+export const tests = {
+    async "reject filters items for which the predice returns true"() {
+        const data1 = [1, 2, 3, 4, 5, 6];
 
-    t.deepEqual(
-        await toArray(reject(data, (x) => x % 3 === 0)),
-        [1, 2, 4, 5, 7, 8, 10],
-    );
-});
+        assert.deepEqual([1, 3, 5], await toArray(reject(data1, (i) => i % 2 === 0)));
 
-test("reject receives correct arguments", async (t) => {
-    const data = [4, 3, 2, 1];
+        const data2 = [1, 2, 3, 4];
 
-    t.deepEqual(
-        await toArray(reject(data, (_, idx) => idx % 2 === 0)),
-        [3, 1],
-    );
+        assert.deepEqual([3, 4], await toArray(reject(data2, (i, idx) => idx < 2)));
+    },
 
-    await toArray(reject(data, (_, __, ...rest) => t.deepEqual(rest, [])));
-});
+    async "reject iterator closing"() {
+        const iter = new CountClosing([1, 2, 3, 4]);
+        const seq = iterator(reject(iter, (i) => i % 2 === 0));
 
-test("reject iterator closing on early close", async (t) => {
-    const data = new CountClosing([1, 2, 3, 4]);
-    const seq = iterator(reject(data, (x) => x % 2 === 0));
+        await seq.next();
+        await seq.next();
+        await seq.return();
 
-    await seq.next();
-    await seq.return();
-    t.is(data.closed, 1);
-});
+        assert.is(iter.closed, 1);
+    },
 
-test("reject iterator closing on predicate error", async (t) => {
-    const data = new CountClosing([1, 2, 3, 4]);
-    const seq = iterator(reject(data, (_) => {
-        throw new Error("Error");
-    }));
+    async "reject iterator closing on predicate error"() {
+        const iter = new CountClosing([1, 2, 3, 4]);
 
-    await t.throwsAsync(() => seq.next());
-    t.is(data.closed, 1);
-});
+        await assert.throwsAsync(() => toArray(reject(iter, (i) => {
+            if (i === 3) {
+                throw new Error("Test");
+            }
+            return false;
+        })));
+
+        assert.is(iter.closed, 1);
+    },
+};

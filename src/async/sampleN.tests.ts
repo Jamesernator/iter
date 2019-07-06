@@ -1,23 +1,31 @@
-import test from "ava";
+import * as assert from "../lib/assert.js";
 import sampleN from "./sampleN.js";
 
-test("sampleN with single numeric argument returns a sampling of size n", async (t) => {
-    const data = [1, 2, 3, 4, 5];
-    const choice = await sampleN(data, 3);
-    t.true(Array.isArray(choice));
-    t.is(choice.length, 3);
-    for (const element of choice) {
-        t.true(data.includes(element));
-    }
-    t.true(choice.length === new Set(choice).size);
-});
+export const tests = {
+    async "sampleN returns an arbitrary array of items from the sequence of size n"() {
+        const data = [1, 2, 3, 4, 5];
 
-test("sampleN with a single numeric arguments throws an error on too short sequence", async (t) => {
-    const data = [1, 2, 3];
-    await t.throwsAsync(() => sampleN(data, 5));
-});
+        const choice = await sampleN(data, 3);
 
-test("sampleN with numeric argument and boolean true doesn't throw", async (t) => {
-    const data = [1, 2, 3];
-    t.deepEqual([1, 2, 3], await sampleN(data, 10, true));
-});
+        assert.isTrue(Array.isArray(choice));
+        assert.is(choice.length, 3);
+
+        for (const element of choice) {
+            assert.isTrue(data.includes(element));
+        }
+
+        assert.is(choice.length, new Set(choice).size);
+    },
+
+    async "sampleN on a sequence too short throws an error"() {
+        const data = [1, 2, 3];
+
+        await assert.throwsAsync(() => sampleN(data, 5));
+    },
+
+    async "sampleN on a sequence too short returns the whole sequence if allowShorter is true"() {
+        const data = [1, 2, 3];
+
+        assert.deepEqual([1, 2, 3], await sampleN(data, 11, true));
+    },
+};

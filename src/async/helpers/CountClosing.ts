@@ -4,7 +4,7 @@ type AsyncOrSyncIterable<T> = import("../../lib/AsyncOrSyncIterable.js").AsyncOr
 
 export default class CountClosing<T> implements AsyncGenerator<T> {
     private _closed: number = 0;
-    private readonly _iterator: AsyncGenerator<T>;
+    private readonly _iterator: AsyncGenerator<T, void>;
     private readonly _throwError: boolean;
 
     constructor(iterable: AsyncOrSyncIterable<T>, throwError: boolean = false) {
@@ -25,6 +25,7 @@ export default class CountClosing<T> implements AsyncGenerator<T> {
         if (this._throwError) {
             throw new Error("[CountClosing] Iterator closing error");
         }
+        await this._iterator.return();
         this._closed += 1;
         return { done: true as const, value: undefined };
     }
