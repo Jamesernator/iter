@@ -7,11 +7,11 @@ export default function findIndex<T>(
     iterable: Iterable<T>,
     predicate: ((value: T, index: number) => any),
 ): number | undefined;
-export default function findIndex<T>(
+export default function findIndex<T, Default>(
     iterable: Iterable<T>,
-    defaultValue: number,
+    defaultValue: Default,
     predicate: ((value: T, index: number) => any),
-): T | number;
+): Default | number;
 export default function findIndex<T>(
     iterable: Iterable<T>,
     ...options:

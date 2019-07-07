@@ -3,7 +3,7 @@
 const folderModule = require("folder-module");
 
 function ignore(file) {
-    return file.startsWith('_') || file.split(/\./g).length !== 2;
+    return file.startsWith("_") || file.split(/\./ug).length !== 2;
 }
 
 folderModule("./async/", {

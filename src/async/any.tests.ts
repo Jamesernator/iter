@@ -1,4 +1,3 @@
-import test from "ava";
 import * as assert from "../lib/assert.js";
 import any from "./any.js";
 import CountClosing from "./helpers/CountClosing.js";

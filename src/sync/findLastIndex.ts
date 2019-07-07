@@ -7,11 +7,11 @@ export default function findLastIndex<T>(
     iterable: Iterable<T>,
     predicate: ((value: T, index: number) => any),
 ): number | undefined;
-export default function findLastIndex<T>(
+export default function findLastIndex<T, Default>(
     iterable: Iterable<T>,
-    defaultValue: number,
+    defaultValue: Default,
     predicate: ((value: T, index: number) => any),
-): T | number;
+): Default | number;
 export default function findLastIndex<T>(
     iterable: Iterable<T>,
     ...options:

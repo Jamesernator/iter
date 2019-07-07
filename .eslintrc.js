@@ -21,11 +21,17 @@ module.exports = {
                 "@typescript-eslint/no-var-requires": "off",
                 "@typescript-eslint/no-require-imports": "off",
             },
+            env: {
+                node: true,
+            },
         },
         {
             files: ".eslintrc.js",
             parserOptions: {
                 sourceType: "script",
+            },
+            env: {
+                node: true,
             },
         },
     ],

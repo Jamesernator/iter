@@ -18,7 +18,8 @@ async function main() {
             console.log(chalk`{red Failed to load tests} {blue > } {yellow ${ file }}`);
             errored = true;
             if (abortOnError) {
-                return process.exit(1);
+                process.exit(1);
+                return;
             }
             continue;
         }
@@ -32,7 +33,8 @@ async function main() {
                 console.log(err);
                 errored = true;
                 if (abortOnError) {
-                    return process.exit(1);
+                    process.exit(1);
+                    return;
                 }
             }
         }
