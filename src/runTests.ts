@@ -24,7 +24,9 @@ async function main() {
             continue;
         }
 
+        let testsRan: boolean = false;
         for (const [testName, test] of Object.entries(testModule.tests)) {
+            testsRan = true;
             try {
                 await test();
                 console.log(chalk`{green ${ file }} {blue >} {green ${ testName }}`);
@@ -36,6 +38,15 @@ async function main() {
                     process.exit(1);
                     return;
                 }
+            }
+        }
+
+        if (!testsRan) {
+            console.log(chalk`{red No tests in file} {blue >} {yellow ${ file }}`);
+            errored = true;
+            if (abortOnError) {
+                process.exit(1);
+                return;
             }
         }
     }
