@@ -1,4 +1,4 @@
-import test from "ava";
+import * as assert from "../lib/assert.js";
 import toArray from "./toArray.js";
 import unique from "./unique.js";
 import CountClosing from "./helpers/CountClosing.js";
@@ -23,67 +23,70 @@ class PointSet {
     }
 }
 
-test("unique doesn't emit items it's already seen before", async (t) => {
-    const data = [1, 2, 3, 4, 1, 2, 5];
+export const tests = {
+    async "unique doesn't emit items already emitted"() {
+        const data = [1, 2, 3, 4, 1, 2, 5];
+        const expected = [1, 2, 3, 4, 5];
 
-    t.deepEqual(
-        [1, 2, 3, 4, 5],
-        await toArray(unique(data)),
-    );
-});
+        assert.deepEqual(expected, await toArray(unique(data)));
+    },
 
-test("unique compares by Object.is by default", async (t) => {
-    const data = [NaN, 1, 2, NaN, 3, NaN];
+    async "unique can use a custom set type for storing data"() {
+        const makeSet = () => new PointSet();
 
-    t.deepEqual(
-        [NaN, 1, 2, 3],
-        await toArray(unique(data)),
-    );
-});
+        const data = [
+            { x: 10, y: 20 },
+            { x: 10, y: 30 },
+            { x: 10, y: 20 },
+            { x: 20, y: 10 },
+            { x: 20, y: 30 },
+            { x: 30, y: 40 },
+            { x: 30, y: 40 },
+        ];
 
-test("unique can use a custom set type for comparing equality", async (t) => {
-    const data = [
-        { x: 1, y: 2 },
-        { x: 3, y: 4 },
-        { x: 5, y: 6 },
-        { x: 1, y: 2 },
-        { x: 3, y: 4 },
-        { x: 7, y: 8 },
-    ];
+        const expected = [
+            { x: 10, y: 20 },
+            { x: 10, y: 30 },
+            { x: 20, y: 10 },
+            { x: 20, y: 30 },
+            { x: 30, y: 40 },
+        ];
 
-    t.deepEqual(
-        data,
-        await toArray(unique(data)),
-    );
+        assert.deepEqual(expected, await toArray(unique(data, makeSet)));
+    },
 
-    t.deepEqual(
-        [
-            { x: 1, y: 2 },
-            { x: 3, y: 4 },
-            { x: 5, y: 6 },
-            { x: 7, y: 8 },
-        ],
-        await toArray(unique(data, () => new PointSet())),
-    );
-});
+    async "unique iterator closing"() {
+        const iter = new CountClosing([1, 2, 3, 4]);
+        const seq = iterator(unique(iter));
 
-test("unique iterator closing", async (t) => {
-    const data = new CountClosing([1, 2, 3, 4]);
-    const seq = iterator(unique(data));
+        await seq.next();
+        await seq.next();
+        await seq.return();
 
-    await seq.next();
-    await seq.return();
-    t.is(data.closed, 1);
-});
+        assert.is(iter.closed, 1);
+    },
 
-test("unique iterator closing on set method error", async (t) => {
-    const data = new CountClosing([1, 2, 3, 4]);
-    const set = {
-        add() { throw new Error("Error"); },
-        has() { throw new Error("Error"); },
-    };
-    const seq = iterator(unique(data, () => set));
+    async "unique iterator closing on set method error"() {
+        const iter = new CountClosing([1, 2, 3, 4]);
 
-    await t.throwsAsync(() => seq.next());
-    t.is(data.closed, 1);
-});
+        const set = {
+            add(i: number) {
+                if (i === 3) {
+                    throw new Error("Test");
+                }
+            },
+
+            has() {
+                return false;
+            },
+        };
+
+        const seq = iterator(unique(iter, () => set));
+
+        await seq.next();
+        await seq.next();
+        await assert.throwsAsync(() => seq.next());
+
+        assert.is(iter.closed, 1);
+    },
+};

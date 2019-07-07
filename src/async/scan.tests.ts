@@ -1,4 +1,4 @@
-import test from "ava";
+import * as assert from "../lib/assert.js";
 import toArray from "./toArray.js";
 import scan from "./scan.js";
 import CountClosing from "./helpers/CountClosing.js";
@@ -8,57 +8,59 @@ function add(a: number, b: number) {
     return a + b;
 }
 
-test("scan acts like reduce but emits the intermediate stages", async (t) => {
-    const data = [1, 2, 3, 4, 5];
+export const tests = {
+    async "scan returns a sequence of intermediate reductions"() {
+        const data = [1, 2, 3, 4, 5];
 
-    t.deepEqual(
-        await toArray(scan(data, (acc, val) => acc + val**2)),
-        [1, 5, 14, 30, 55],
-    );
-});
+        const expected = [1, 5, 14, 30, 55];
 
-test("scan throws an error if sequence is empty", async (t) => {
-    const target: Array<number> = [];
-    await t.throwsAsync(() => toArray(scan(target, add)));
-    await t.throwsAsync(() => iterator(scan(target, add)).next());
-});
+        assert.deepEqual(expected, await toArray(scan(data, (acc, i) => acc + i**2)));
+    },
 
-test("scan can accept an initial value to seed the sequence", async (t) => {
-    const data = ["Cat", "Hat", "Bat"];
-    t.deepEqual(
-        await toArray(scan(data, "Mat", (acc, item) => acc + item)),
-        ["Mat", "MatCat", "MatCatHat", "MatCatHatBat"],
-    );
-});
+    async "scan throws an error if sequence is empty"() {
+        const data: Array<number> = [];
 
-test("scan doesn't throw an error on empty sequence when given initial value", async (t) => {
-    const data: Array<any> = [];
-    t.deepEqual(
-        await toArray(scan(data, "Fizzbuzz", () => {
-            throw new Error("Not reached!");
-        })),
-        ["Fizzbuzz"],
-    );
-});
+        await assert.throwsAsync(() => toArray(scan(data, add)));
+    },
 
-test("scan iterator closing on early end", async (t) => {
-    const data = new CountClosing([1, 2, 3, 4]);
-    const seq = iterator(scan(data, add));
+    async "scan can accept a seed value which is used as the initial accumulator"() {
+        const data = ["Cat", "Hat", "Bat"];
 
-    await seq.next();
-    await seq.return();
-    t.is(data.closed, 1);
-});
+        const expected = ["Mat", "MatCat", "MatCatHat", "MatCatHatBat"];
 
-test("scan iterator closing on reducer error", async (t) => {
-    const data = new CountClosing([1, 2, 3, 4]);
-    const seq = scan(data, (value, i) => {
-        if (i === 2) {
-            throw new Error("Error");
-        }
-        return value;
-    });
+        assert.deepEqual(expected, await toArray(scan(data, "Mat", (acc, item) => acc + item)));
+    },
 
-    await t.throwsAsync(() => toArray(seq));
-    t.is(data.closed, 1);
-});
+    async "can returns a sequence just of the initial value when given empty sequence"() {
+        const data: Array<number> = [];
+
+        assert.deepEqual([99], await toArray(scan(data, 99, add)));
+    },
+
+    async "scan iterator closing"() {
+        const iter = new CountClosing([1, 2, 3, 4]);
+        const seq = iterator(scan(iter, add));
+
+        await seq.next();
+        await seq.next();
+        await seq.return();
+
+        assert.is(iter.closed, 1);
+    },
+
+    async "scan iterator closing on reducer error"() {
+        const iter = new CountClosing([1, 2, 3, 4]);
+
+        await assert.throwsAsync(() => toArray(
+            scan(iter, (acc, value) => {
+                if (value === 3) {
+                    throw new Error("Test");
+                }
+                return acc + value;
+            }),
+        ));
+
+        assert.is(iter.closed, 1);
+    },
+};
+

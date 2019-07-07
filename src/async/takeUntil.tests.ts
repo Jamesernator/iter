@@ -1,3 +1,4 @@
-// TODO:
 
-export {};
+export const tests = {
+    // TODO:
+};

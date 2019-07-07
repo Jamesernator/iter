@@ -5,7 +5,7 @@
     "description": "This is a library of helper methods for dealing with Iterables",
     "main": "index.js",
     "scripts": {
-        "build": "tsc && node build.cjs",
+        "build": "rm -rf sync/* async/* && tsc && node build.cjs",
         "lint": "eslint **/*.ts .eslintrc.js **/*.cjs",
         "lint:fix": "eslint --fix **/*.ts .eslintrc.js **/*.cjs",
         "test": "npm run build || node --experimental-modules runTests.js"
