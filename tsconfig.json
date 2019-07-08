@@ -5,7 +5,7 @@
         "sourceMap": true,
         "inlineSources": true,
         "downlevelIteration": true,
-        "isolatedModules": true,
+        "declaration": true,
 
         "strict": true,
         "noImplicitAny": true,

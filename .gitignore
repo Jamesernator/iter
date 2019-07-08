@@ -4,3 +4,4 @@
 !.eslintrc.js
 *.js.map
 /.vscode/
+*.d.ts
