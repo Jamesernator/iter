@@ -1,7 +1,7 @@
 {
     "name": "@jx/iter",
     "type": "module",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "This is a library of helper methods for dealing with Iterables",
     "main": "index.js",
     "scripts": {
