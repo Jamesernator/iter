@@ -23,5 +23,13 @@
         "folder-module": "^2.0.4",
         "glob": "^7.1.4",
         "typescript": "^3.6.0-dev.20190704"
-    }
+    },
+    "files": [
+        "sync/",
+        "async/",
+        "docs/",
+        "lib/",
+        "async.js",
+        "sync.js"
+    ]
 }
