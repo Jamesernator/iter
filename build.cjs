@@ -6,12 +6,12 @@ function ignore(file) {
     return file.startsWith("_") || file.split(/\./ug).length !== 2;
 }
 
-folderModule("./async/", {
-    outFile: "./async.js",
+folderModule("./dist/async/", {
+    outFile: "./dist/async.js",
     ignore,
 });
 
-folderModule("./sync/", {
-    outFile: "./sync.js",
+folderModule("./dist/sync/", {
+    outFile: "./dist/sync.js",
     ignore,
 });

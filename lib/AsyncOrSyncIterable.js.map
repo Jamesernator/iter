@@ -1,0 +1,1 @@
+{"version":3,"file":"AsyncOrSyncIterable.js","sourceRoot":"","sources":["../src/lib/AsyncOrSyncIterable.ts"],"names":[],"mappings":"","sourcesContent":["\n// eslint-disable-next-line import/prefer-default-export\nexport type AsyncOrSyncIterable<T> = AsyncIterable<T> | Iterable<T>;\n"]}
