@@ -1,1 +1,0 @@
-{"version":3,"file":"MapLike.js","sourceRoot":"","sources":["../src/lib/MapLike.ts"],"names":[],"mappings":"","sourcesContent":["\n// eslint-disable-next-line import/prefer-default-export\nexport interface MapLike<Key, Value> {\n    get(key: Key): Value | undefined;\n    set(key: Key, value: Value): void;\n    has(key: Key): any;\n}\n"]}
