@@ -1,14 +1,19 @@
 {
     "name": "@jx/iter",
     "type": "module",
-    "ersion": "1.0.2",
+    "exports": {
+      "./async": "./dist/async.js",
+      "./sync": "./dist/sync.js",
+      "./async/": "./dist/async/",
+      "./sync/": "./dist/sync/"
+    },
+    "version": "1.1.0",
     "description": "This is a library of helper methods for dealing with Iterables",
-    "main": "index.js",
     "scripts": {
         "build": "rm -rf sync/* async/* && tsc && node build.cjs",
         "lint": "eslint **/*.ts .eslintrc.js **/*.cjs",
         "lint:fix": "eslint --fix **/*.ts .eslintrc.js **/*.cjs",
-        "test": "npm run build && node --experimental-modules runTests.js"
+        "test": "npm run build && cd dist/ && node --experimental-modules runTests.js"
     },
     "author": "James \"The Jamesernator\" Browning",
     "license": "MIT",
