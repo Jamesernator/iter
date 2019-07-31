@@ -30,11 +30,8 @@
         "typescript": "^3.6.0-dev.20190704"
     },
     "files": [
-        "sync/",
-        "async/",
+        "dist/**/*",
         "docs/",
-        "lib/",
-        "async.js",
-        "sync.js"
+        "src/"
     ]
 }
