@@ -2,12 +2,12 @@
     "name": "@jx/iter",
     "type": "module",
     "exports": {
-      "./async": "./dist/async.js",
-      "./sync": "./dist/sync.js",
-      "./async/": "./dist/async/",
-      "./sync/": "./dist/sync/"
+        "./async": "./dist/async.js",
+        "./sync": "./dist/sync.js",
+        "./async/": "./dist/async/",
+        "./sync/": "./dist/sync/"
     },
-    "version": "1.1.0",
+    "version": "1.1.1",
     "description": "This is a library of helper methods for dealing with Iterables",
     "scripts": {
         "build": "rm -rf sync/* async/* && tsc && node build.cjs",
