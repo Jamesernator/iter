@@ -30,11 +30,11 @@
         "typescript": "^3.6.0-dev.20190704"
     },
     "files": [
-        "./build.cjs",
-        "./tsconfig.json",
-        "./LICENSE",
-        "./dist",
-        "./docs/",
-        "./src/"
+        "build.cjs",
+        "tsconfig.json",
+        "LICENSE",
+        "dist/**/*",
+        "docs/**/*",
+        "src/**/*"
     ]
 }
