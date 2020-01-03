@@ -1,24 +1,21 @@
 {
-    "compilerOptions": {
-        "target": "esnext",
-        "module": "esnext",
-        "sourceMap": true,
-        "inlineSources": true,
-        "downlevelIteration": true,
-        "declaration": true,
+  "compilerOptions": {
+    "target": "esnext",
+    "module": "esnext",
+    "sourceMap": true,
+    "downlevelIteration": true,
 
-        "strict": true,
-        "noImplicitAny": true,
-        "noImplicitThis": true,
-        "alwaysStrict": true,
+    "strict": true,
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+    "alwaysStrict": true,
 
-        "moduleResolution": "node",
-        "allowSyntheticDefaultImports": true,
-
-        "outDir": "./dist/",
-    },
-    "include": [
-        "./src/**/*",
-    ],
-    "exclude": []
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
+    "useDefineForClassFields": true,
+    "outDir": "./dist/"
+  },
+  "include": [
+    "src/**/*.ts"
+  ]
 }
