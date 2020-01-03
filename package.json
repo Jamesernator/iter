@@ -11,8 +11,8 @@
     "description": "This is a library of helper methods for dealing with Iterables",
     "scripts": {
         "build": "rm -rf dist/ && tsc && node build.cjs",
-        "lint": "eslint **/*.ts .eslintrc.js **/*.cjs",
-        "lint:fix": "eslint --fix **/*.ts .eslintrc.js **/*.cjs",
+        "lint": "eslint **/*.ts",
+        "lint:fix": "eslint --fix **/*.ts",
         "test": "npm run build && cd dist/ && node --experimental-modules runTests.js"
     },
     "author": "James \"The Jamesernator\" Browning",
