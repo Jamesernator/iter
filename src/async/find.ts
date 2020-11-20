@@ -1,12 +1,12 @@
+import type { AsyncOrSyncIterable } from "../lib/AsyncOrSyncIterable.js";
 import enumerate from "./enumerate.js";
-
-type AsyncOrSyncIterable<T> = import("../lib/AsyncOrSyncIterable.js").AsyncOrSyncIterable<T>;
 
 export default function find<T>(
     iterable: AsyncOrSyncIterable<T>,
 ): Promise<T | undefined>;
 export default function find<T>(
     iterable: AsyncOrSyncIterable<T>,
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
     predicate: ((value: T, index: number) => any),
 ): Promise<T | undefined>;
 export default function find<T, Default=T>(
@@ -20,7 +20,7 @@ export default async function find<T, Default=T>(
     []
     | [((value: T, index: number) => any)]
     | [Default, ((value: T, index: number) => any)]
-) {
+): Promise<T | Default> {
     let predicate: (value: T, index: number) => any;
     let hasDefault: boolean = false;
     let defaultValue: Default;

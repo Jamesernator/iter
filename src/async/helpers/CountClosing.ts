@@ -1,37 +1,36 @@
+import type { AsyncOrSyncIterable } from "../../lib/AsyncOrSyncIterable.js";
 import iterator from "../iterator.js";
 
-type AsyncOrSyncIterable<T> = import("../../lib/AsyncOrSyncIterable.js").AsyncOrSyncIterable<T>;
-
 export default class CountClosing<T> implements AsyncGenerator<T> {
-    private _closed: number = 0;
-    private readonly _iterator: AsyncGenerator<T, void>;
-    private readonly _throwError: boolean;
+    #closed: number = 0;
+    readonly #iterator: AsyncGenerator<T, void>;
+    readonly #throwError: boolean;
 
     constructor(iterable: AsyncOrSyncIterable<T>, throwError: boolean = false) {
-        this._iterator = iterator(iterable);
-        this._throwError = throwError;
+        this.#iterator = iterator(iterable);
+        this.#throwError = throwError;
     }
 
-    get closed() {
-        return this._closed;
+    get closed(): number {
+        return this.#closed;
     }
 
     async next(): Promise<IteratorResult<T, void>> {
-        const iteratorResult = await this._iterator.next();
+        const iteratorResult = await this.#iterator.next();
         return iteratorResult;
     }
 
-    async return() {
-        if (this._throwError) {
+    async return(): Promise<IteratorResult<T, void>> {
+        if (this.#throwError) {
             throw new Error("[CountClosing] Iterator closing error");
         }
-        await this._iterator.return();
-        this._closed += 1;
+        await this.#iterator.return();
+        this.#closed += 1;
         return { done: true as const, value: undefined };
     }
 
-    async throw(err: any) {
-        return this._iterator.throw(err);
+    async throw(err: any): Promise<IteratorResult<T, void>> {
+        return await this.#iterator.throw(err);
     }
 
     [Symbol.asyncIterator](): AsyncGenerator<T, void> {

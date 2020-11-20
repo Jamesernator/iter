@@ -1,10 +1,11 @@
+import type { AsyncOrSyncIterable } from "../lib/AsyncOrSyncIterable.js";
 import iterableGenerator from "./iterableGenerator.js";
 import iterator from "./iterator.js";
 
-type AsyncOrSyncIterable<T> = import("../lib/AsyncOrSyncIterable.js").AsyncOrSyncIterable<T>;
-
 function delay<T>(time: number, value: T): Promise<T> {
-    return new Promise((resolve) => setTimeout(resolve, time, value));
+    return new Promise((resolve) => {
+        setTimeout(resolve, time, value);
+    });
 }
 
 const debounceTrailing = iterableGenerator(

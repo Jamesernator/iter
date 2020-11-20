@@ -1,4 +1,4 @@
-import * as assert from "../lib/assert.js";
+import test from "ava";
 import findIndex from "./findIndex.js";
 import CountClosing from "./helpers/CountClosing.js";
 

@@ -1,7 +1,6 @@
+import type { AsyncOrSyncIterable } from "../lib/AsyncOrSyncIterable.js";
 import enumerate from "./enumerate.js";
 import iterableGenerator from "./iterableGenerator.js";
-
-type AsyncOrSyncIterable<T> = import("../lib/AsyncOrSyncIterable.js").AsyncOrSyncIterable<T>;
 
 function filter<T, K extends T>(
     iterable: AsyncOrSyncIterable<T>,

@@ -1,6 +1,5 @@
+import type { AsyncOrSyncIterable } from "../lib/AsyncOrSyncIterable.js";
 import iterableGenerator from "./iterableGenerator.js";
-
-type AsyncOrSyncIterable<T> = import("../lib/AsyncOrSyncIterable.js").AsyncOrSyncIterable<T>;
 
 const debounceLeading = iterableGenerator(
     async function* debounceLeading<T>(
