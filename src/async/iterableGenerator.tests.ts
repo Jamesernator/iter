@@ -1,9 +1,10 @@
-import * as assert from "../lib/assert.js";
-import toArray from "./toArray.js";
+import test from "ava";
 import iterableGenerator from "./iterableGenerator.js";
+import toArray from "./toArray.js";
 
-export const tests = {
-    async "iterableGenerator returns an object that can be iterated"() {
+test(
+    "iterableGenerator returns an object that can be iterated",
+    async (t) => {
         async function* gen() {
             yield 1;
             yield 2;
@@ -12,16 +13,19 @@ export const tests = {
 
         const iterableGen = iterableGenerator(gen);
 
-        assert.is("function", typeof iterableGen);
+        t.is("function", typeof iterableGen);
 
         const iterable = iterableGen();
 
-        assert.is(typeof iterable[Symbol.asyncIterator], "function");
+        t.is(typeof iterable[Symbol.asyncIterator], "function");
 
-        assert.deepEqual(await toArray(iterable), [1, 2, 3]);
+        t.deepEqual(await toArray(iterable), [1, 2, 3]);
     },
+);
 
-    async "iterableGenerator function returns an object that can be iterated many times"() {
+test(
+    "iterableGenerator function returns an object that can be iterated many times",
+    async (t) => {
         let count = 0;
         async function* gen() {
             yield 1;
@@ -33,16 +37,21 @@ export const tests = {
         const iterableGen = iterableGenerator(gen);
         const iterable = iterableGen();
 
-        assert.is(0, count);
-        assert.deepEqual([1, 2, 3], await toArray(iterable));
+        t.is(0, count);
+        t.deepEqual([1, 2, 3], await toArray(iterable));
 
-        assert.is(1, count);
-        assert.deepEqual([1, 2, 3], await toArray(iterable));
+        t.is(1, count);
+        t.deepEqual([1, 2, 3], await toArray(iterable));
 
-        assert.is(2, count);
+        t.is(2, count);
     },
+);
 
-    async "iterableGenerator forwards arguments to generator function"() {
+test(
+
+
+    "iterableGenerator forwards arguments to generator function",
+    async (t) => {
         async function* gen(start: number, end: number) {
             for (let i = start; i < end; i += 1) {
                 yield i;
@@ -52,10 +61,10 @@ export const tests = {
         const iterableGen = iterableGenerator(gen);
         const iterable = iterableGen(10, 15);
 
-        assert.deepEqual([10, 11, 12, 13, 14], await toArray(iterable));
+        t.deepEqual([10, 11, 12, 13, 14], await toArray(iterable));
 
         const iterable2 = iterableGen(8, 12);
 
-        assert.deepEqual([8, 9, 10, 11], await toArray(iterable2));
+        t.deepEqual([8, 9, 10, 11], await toArray(iterable2));
     },
-};
+);

@@ -1,92 +1,30 @@
-import * as assert from "../lib/assert.js";
+import test from "ava";
+import CountClosing from "./helpers/CountClosing.js";
+import asyncIterableOf from "./helpers/asyncIterableOf.js";
+import iterator from "./iterator.js";
 import toArray from "./toArray.js";
 import unique from "./unique.js";
-import CountClosing from "./helpers/CountClosing.js";
-import iterator from "./iterator.js";
 
-class PointSet {
-    private _set = new Set<string>();
-
-    add(point: { x: number, y: number}) {
-        this._set.add(`${ point.x }/${ point.y }`);
-    }
-
-    has(point: { x: number, y: number }) {
-        return this._set.has(`${ point.x }/${ point.y }`);
-    }
-
-    * values() {
-        for (const string of this._set) {
-            const [x, y] = string.split("/");
-            yield { x: Number(x), y: Number(y) };
-        }
-    }
-}
-
-export const tests = {
-    async "unique doesn't emit items already emitted"() {
-        const data = [1, 2, 3, 4, 1, 2, 5];
+test(
+    "unique doesn't emit items already emitted",
+    async (t) => {
+        const data = asyncIterableOf([1, 2, 3, 4, 1, 2, 5]);
         const expected = [1, 2, 3, 4, 5];
 
-        assert.deepEqual(expected, await toArray(unique(data)));
+        t.deepEqual(expected, await toArray(unique(data)));
     },
+);
 
-    async "unique can use a custom set type for storing data"() {
-        const makeSet = () => new PointSet();
-
-        const data = [
-            { x: 10, y: 20 },
-            { x: 10, y: 30 },
-            { x: 10, y: 20 },
-            { x: 20, y: 10 },
-            { x: 20, y: 30 },
-            { x: 30, y: 40 },
-            { x: 30, y: 40 },
-        ];
-
-        const expected = [
-            { x: 10, y: 20 },
-            { x: 10, y: 30 },
-            { x: 20, y: 10 },
-            { x: 20, y: 30 },
-            { x: 30, y: 40 },
-        ];
-
-        assert.deepEqual(expected, await toArray(unique(data, makeSet)));
-    },
-
-    async "unique iterator closing"() {
-        const iter = new CountClosing([1, 2, 3, 4]);
+test(
+    "unique iterator closing",
+    async (t) => {
+        const iter = new CountClosing(asyncIterableOf([1, 2, 3, 4]));
         const seq = iterator(unique(iter));
 
         await seq.next();
         await seq.next();
         await seq.return();
 
-        assert.is(iter.closed, 1);
+        t.is(iter.closed, 1);
     },
-
-    async "unique iterator closing on set method error"() {
-        const iter = new CountClosing([1, 2, 3, 4]);
-
-        const set = {
-            add(i: number) {
-                if (i === 3) {
-                    throw new Error("Test");
-                }
-            },
-
-            has() {
-                return false;
-            },
-        };
-
-        const seq = iterator(unique(iter, () => set));
-
-        await seq.next();
-        await seq.next();
-        await assert.throwsAsync(() => seq.next());
-
-        assert.is(iter.closed, 1);
-    },
-};
+);

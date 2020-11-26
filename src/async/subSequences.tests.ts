@@ -1,40 +1,51 @@
-import * as assert from "../lib/assert.js";
+import test from "ava";
+import CountClosing from "./helpers/CountClosing.js";
+import asyncIterableOf from "./helpers/asyncIterableOf.js";
+import iterator from "./iterator.js";
 import subSequences from "./subSequences.js";
 import toArray from "./toArray.js";
-import CountClosing from "./helpers/CountClosing.js";
-import iterator from "./iterator.js";
 
-export const tests = {
-    async "subSequences emits all subSequences of length n"() {
-        const data = [1, 2, 3, 4, 5];
+test(
+    "subSequences emits all subSequences of length n",
+    async (t) => {
+        const data = asyncIterableOf([1, 2, 3, 4, 5]);
 
         const expected = [[1, 2, 3], [2, 3, 4], [3, 4, 5]];
 
-        assert.deepEqual(expected, await toArray(subSequences(data, 3)));
+        t.deepEqual(expected, await toArray(subSequences(data, 3)));
     },
+);
 
-    async "subSequences throws error when sequence is too short"() {
-        const data1: Array<number> = [];
-        const data2: Array<number> = [1, 2];
+test(
+    "subSequences throws error when sequence is too short",
+    async (t) => {
+        const data1 = asyncIterableOf<number>([]);
+        const data2 = asyncIterableOf([1, 2]);
 
-        await assert.throwsAsync(() => toArray(subSequences(data1, 3)));
-        await assert.throwsAsync(() => toArray(subSequences(data2, 3)));
+        await t.throwsAsync(() => toArray(subSequences(data1, 3)));
+        await t.throwsAsync(() => toArray(subSequences(data2, 3)));
     },
+);
 
-    async "subSequences emits nothing given a subSequence too large and allowShorter=true"() {
-        const data = [1, 2, 3];
+test(
+    "subSequences emits nothing given a subSequence too large and allowShorter=true",
+    async (t) => {
+        const data = asyncIterableOf([1, 2, 3]);
 
-        assert.deepEqual([], await toArray(subSequences(data, 1000, true)));
+        t.deepEqual([], await toArray(subSequences(data, 1000, true)));
     },
+);
 
-    async "subSequences iterator closing"() {
-        const iter = new CountClosing([1, 2, 3, 4, 5]);
+test(
+    "subSequences iterator closing",
+    async (t) => {
+        const iter = new CountClosing(asyncIterableOf([1, 2, 3, 4, 5]));
         const seq = iterator(subSequences(iter, 3));
 
         await seq.next();
         await seq.next();
         await seq.return();
 
-        assert.is(iter.closed, 1);
+        t.is(iter.closed, 1);
     },
-};
+);

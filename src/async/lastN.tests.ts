@@ -1,23 +1,31 @@
-import * as assert from "../lib/assert.js";
+import test from "ava";
+import asyncIterableOf from "./helpers/asyncIterableOf.js";
 import lastN from "./lastN.js";
 
-export const tests = {
-    async "lastN returns a sequence of the correct length"() {
-        const data = [1, 2, 3, 4, 5, 6, 7];
+test(
+    "lastN returns a sequence of the correct length",
+    async (t) => {
+        const data = asyncIterableOf([1, 2, 3, 4, 5, 6, 7]);
 
-        assert.deepEqual([5, 6, 7], await lastN(data, 3));
-        assert.deepEqual([7], await lastN(data, 1));
-        assert.deepEqual([], await lastN([], 0));
+        t.deepEqual([5, 6, 7], await lastN(data, 3));
+        t.deepEqual([7], await lastN(data, 1));
+        t.deepEqual([], await lastN(asyncIterableOf([]), 0));
     },
+);
 
-    async "lastN with sequence too short throws an error"() {
-        await assert.throwsAsync(() => lastN([1, 2], 3));
-        await assert.throwsAsync(() => lastN([], 1));
+test(
+    "lastN with sequence too short throws an error",
+    async (t) => {
+        await t.throwsAsync(() => lastN(asyncIterableOf([1, 2]), 3));
+        await t.throwsAsync(() => lastN(asyncIterableOf([]), 1));
     },
+);
 
-    async "lastN with sequence too short can be return shorter sequence by passing true"() {
-        assert.deepEqual([1, 2], await lastN([1, 2], 3, true));
-        assert.deepEqual([], await lastN([], 3, true));
+test(
+    "lastN with sequence too short can be return shorter sequence by passing true",
+    async (t) => {
+        t.deepEqual([1, 2], await lastN(asyncIterableOf([1, 2]), 3, true));
+        t.deepEqual([], await lastN(asyncIterableOf([]), 3, true));
     },
-};
+);
 

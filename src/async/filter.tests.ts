@@ -1,13 +1,14 @@
 import test from "ava";
 import filter from "./filter.js";
 import CountClosing from "./helpers/CountClosing.js";
+import asyncIterableOf from "./helpers/asyncIterableOf.js";
 import iterator from "./iterator.js";
 import toArray from "./toArray.js";
 
 test(
     "filter can filter data out of the sequence",
     async (t) => {
-        const data = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+        const data = asyncIterableOf([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
         const expected = [3, 6, 9];
 
         t.deepEqual(expected, await toArray(filter(data, (i) => i % 3 === 0)));
@@ -17,7 +18,7 @@ test(
 test(
     "filter receives the index",
     async (t) => {
-        const data = [4, 3, 2, 1];
+        const data = asyncIterableOf([4, 3, 2, 1]);
         const expected = [4, 2];
 
         t.deepEqual(
@@ -30,7 +31,7 @@ test(
 test(
     "filter iterator closing",
     async (t) => {
-        const iter = new CountClosing([1, 2, 3, 4]);
+        const iter = new CountClosing(asyncIterableOf([1, 2, 3, 4]));
         const seq = iterator(filter(iter, (x) => x % 2 === 0));
 
         await seq.next();
@@ -43,7 +44,7 @@ test(
 test(
     "filter iterator closing on predicate error",
     async (t) => {
-        const iter = new CountClosing([1, 2, 3, 4]);
+        const iter = new CountClosing(asyncIterableOf([1, 2, 3, 4]));
         const seq = iterator(filter(iter, (value) => {
             if (value === 3) {
                 throw new Error("Test");

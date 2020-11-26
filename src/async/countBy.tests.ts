@@ -1,11 +1,12 @@
 import test from "ava";
 import countBy from "./countBy.js";
 import CountClosing from "./helpers/CountClosing.js";
+import asyncIterableOf from "./helpers/asyncIterableOf.js";
 
 test(
     "countBy returns a map mapping items to counts",
     async (t) => {
-        const data = [1, 2, 3, 4, 1, 2, 3, 3, 3];
+        const data = asyncIterableOf([1, 2, 3, 4, 1, 2, 3, 3, 3]);
 
         const result = await countBy(data);
         t.true(result instanceof Map);
@@ -24,7 +25,7 @@ test(
 
         const toEvenOddKey = (value: number) => value % 2 === 0 ? "even" : "odd";
 
-        const counts = await countBy(data, toEvenOddKey);
+        const counts = await countBy(asyncIterableOf(data), toEvenOddKey);
 
         t.is(counts.get("even"), data.filter((i) => i % 2 === 0).length);
         t.is(counts.get("odd"), data.filter((i) => i % 2 === 1).length);
@@ -34,7 +35,7 @@ test(
 test(
     "iterator closing with toKey function",
     async (t) => {
-        const iter = new CountClosing([1, 2, 3, 4]);
+        const iter = new CountClosing(asyncIterableOf([1, 2, 3, 4]));
 
         function toKey(value: number) {
             if (value === 3) {

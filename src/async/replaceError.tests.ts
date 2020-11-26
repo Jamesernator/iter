@@ -1,10 +1,12 @@
-import * as assert from "../lib/assert.js";
+import test from "ava";
+import CountClosing from "./helpers/CountClosing.js";
+import asyncIterableOf from "./helpers/asyncIterableOf.js";
 import replaceError from "./replaceError.js";
 import toArray from "./toArray.js";
-import CountClosing from "./helpers/CountClosing.js";
 
-export const tests = {
-    async "replaceError can replace an error with another sequence"() {
+test(
+    "replaceError can replace an error with another sequence",
+    async (t) => {
         async function* seq() {
             yield 1;
             yield 2;
@@ -13,10 +15,18 @@ export const tests = {
 
         const expected = [1, 2, 3, 4];
 
-        assert.deepEqual(expected, await toArray(replaceError(seq(), async () => [3, 4])));
+        t.deepEqual(
+            expected,
+            await toArray(replaceError(seq(), async () => {
+                return asyncIterableOf([3, 4]);
+            })),
+        );
     },
+);
 
-    async "replaceError will throw error from second sequence"() {
+test(
+    "replaceError will throw error from second sequence",
+    async (t ) => {
         async function* seq1() {
             yield 1;
             yield 2;
@@ -30,16 +40,19 @@ export const tests = {
 
         const seen: Array<number> = [];
 
-        await assert.throwsAsync(async () => {
+        await t.throwsAsync(async () => {
             for await (const item of replaceError(seq1(), () => seq2())) {
                 seen.push(item);
             }
         });
 
-        assert.deepEqual([1, 2, 3], seen);
+        t.deepEqual([1, 2, 3], seen);
     },
+);
 
-    async "replaceError iterator closing"() {
+test(
+    "replaceError iterator closing",
+    async (t) => {
         async function* seq() {
             yield 1;
             yield 2;
@@ -52,10 +65,13 @@ export const tests = {
         await iter.next();
         await iter.return();
 
-        assert.is(iter.closed, 1);
+        t.is(iter.closed, 1);
     },
+);
 
-    async "replaceError iterator closing on replaced sequence"() {
+test(
+    "replaceError iterator closing on replaced sequence",
+    async (t) => {
         async function* seq1() {
             yield 1;
             yield 2;
@@ -79,7 +95,8 @@ export const tests = {
         await iter.next();
         await iter.return();
 
-        assert.is(iter.closed, 1);
-        assert.isTrue(closed);
+        t.is(iter.closed, 1);
+        t.true(closed);
     },
-};
+);
+

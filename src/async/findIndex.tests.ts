@@ -2,13 +2,16 @@ import test from "ava";
 import findIndex from "./findIndex.js";
 import CountClosing from "./helpers/CountClosing.js";
 
-export const tests = {
-    async "findIndex returns the first index of a given item"() {
+test(
+    "findIndex returns the first index of a given item",
+    async (t) => {
         const data = [1, 2, 3, 4];
 
-        assert.is(2, await findIndex(data, (i) => i === 3));
+        t.is(2, await findIndex(data, (i) => i === 3));
     },
+);
 
+export const tests = {
     async "findIndex throws an error if no item is found"() {
         const data = [1, 2, 3, 4];
 

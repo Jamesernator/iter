@@ -1,16 +1,18 @@
-import * as assert from "../lib/assert.js";
-import length from "./length.js";
+import test from "ava";
+import asyncIterableOf from "./helpers/asyncIterableOf.js";
 import iterator from "./iterator.js";
+import length from "./length.js";
 
-export const tests = {
-    async "length returns the length of the iterable"() {
-        const data1 = [1, 2, 3, 4];
+test(
+    "length returns the length of the iterable",
+    async (t) => {
+        const data1 = asyncIterableOf([1, 2, 3, 4]);
         const data2 = iterator([1, 2]);
-        const data3: Array<number> = [];
+        const data3 = asyncIterableOf<number>([]);
 
-        assert.is(4, await length(data1));
-        assert.is(2, await length(data2));
-        assert.is(0, await length(data2));
-        assert.is(0, await length(data3));
+        t.is(4, await length(data1));
+        t.is(2, await length(data2));
+        t.is(0, await length(data2));
+        t.is(0, await length(data3));
     },
-};
+);
