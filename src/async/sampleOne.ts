@@ -1,8 +1,9 @@
+import type { AsyncOrSyncIterable } from "../lib/AsyncOrSyncIterable.js";
 import enumerate from "./enumerate.js";
 
-type AsyncOrSyncIterable<T> = import("../lib/AsyncOrSyncIterable.js").AsyncOrSyncIterable<T>;
-
-export default async function sampleOne<T>(iterable: AsyncOrSyncIterable<T>) {
+export default async function sampleOne<T>(
+    iterable: AsyncOrSyncIterable<T>,
+): Promise<T> {
     let chosen: T;
     let chosenSet = false;
     for await (const [idx, item] of enumerate(iterable)) {

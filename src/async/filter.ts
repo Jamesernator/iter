@@ -15,7 +15,7 @@ async function* filter<T, K extends T = T>(
     predicate:
     ((value: T, index: number) => value is K)
     | (( value: T, index: number) => any),
-) {
+): AsyncGenerator<T, void> {
     for await (const [idx, item] of enumerate(iterable)) {
         if (await predicate(item, idx)) {
             yield item;

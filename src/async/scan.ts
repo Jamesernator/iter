@@ -1,7 +1,6 @@
+import type { AsyncOrSyncIterable } from "../lib/AsyncOrSyncIterable.js";
 import iterableGenerator from "./iterableGenerator.js";
 import iterator from "./iterator.js";
-
-type AsyncOrSyncIterable<T> = import("../lib/AsyncOrSyncIterable.js").AsyncOrSyncIterable<T>;
 
 function scan<T>(
     iterable: AsyncOrSyncIterable<T>,
@@ -22,7 +21,7 @@ async function* scan<T, R=T>(
     ...options:
     [(accumulator: T, value: T, index: number) => T | PromiseLike<T>]
     | [R, (accumulator: R, value: T, index: number) => R | PromiseLike<R>]
-) {
+): AsyncGenerator<R, void> {
     let reduction:
     {
         seeded: true,
@@ -47,16 +46,16 @@ async function* scan<T, R=T>(
 
     const iter = iterator(iterable);
     try {
-        let acc;
+        let acc: any;
         let idx = 0;
         if (reduction.seeded) {
             acc = reduction.seedValue;
         } else {
-            const { value, done } = await iter.next();
-            if (done) {
+            const res = await iter.next();
+            if (res.done) {
                 throw new Error(`[reduce] Can't reduce empty sequence with no initial value`);
             }
-            acc = value;
+            acc = res.value;
             idx += 1;
         }
 

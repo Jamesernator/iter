@@ -1,4 +1,4 @@
-type AsyncOrSyncIterable<T> = import("../lib/AsyncOrSyncIterable.js").AsyncOrSyncIterable<T>;
+import type { AsyncOrSyncIterable } from "../lib/AsyncOrSyncIterable.js";
 
 export default async function lastN<T>(
     iterable: AsyncOrSyncIterable<T>,
@@ -34,7 +34,7 @@ export default async function lastN<T>(
     iterable: AsyncOrSyncIterable<T>,
     n: number,
     allowShorter=false,
-) {
+): Promise<Array<T>> {
     const buff = [];
     for await (const item of iterable) {
         buff.push(item);

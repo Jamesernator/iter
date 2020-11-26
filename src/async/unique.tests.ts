@@ -16,6 +16,20 @@ test(
 );
 
 test(
+    "unique with custom toKey",
+    async (t) => {
+        const data = asyncIterableOf([
+            { name: "bob", id: 3 },
+            { name: "frank", id: 7 },
+            { name: "bob", id: 3 },
+        ]);
+        const expected = [{ name: "bob", id: 3 }, { name: "frank", id: 7 }];
+
+        t.deepEqual(expected, await toArray(unique(data, (i) => i.id)));
+    },
+);
+
+test(
     "unique iterator closing",
     async (t) => {
         const iter = new CountClosing(asyncIterableOf([1, 2, 3, 4]));

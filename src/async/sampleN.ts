@@ -1,6 +1,5 @@
+import type { AsyncOrSyncIterable } from "../lib/AsyncOrSyncIterable.js";
 import enumerate from "./enumerate.js";
-
-type AsyncOrSyncIterable<T> = import("../lib/AsyncOrSyncIterable.js").AsyncOrSyncIterable<T>;
 
 export default async function sampleN<T>(
     iterable: AsyncOrSyncIterable<T>,
@@ -36,7 +35,7 @@ export default async function sampleN<T>(
     iterable: AsyncOrSyncIterable<T>,
     n: number,
     allowLess=false,
-) {
+): Promise<Array<T>> {
     const chosenList: Array<T> = [];
     for await (const [idx, item] of enumerate(iterable)) {
         if (idx < n) {

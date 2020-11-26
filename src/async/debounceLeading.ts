@@ -5,7 +5,7 @@ const debounceLeading = iterableGenerator(
     async function* debounceLeading<T>(
         iterable: AsyncOrSyncIterable<T>,
         time: number,
-    ) {
+    ): AsyncGenerator<T> {
         let previousTime = -Infinity;
         for await (const item of iterable) {
             const now = Date.now();

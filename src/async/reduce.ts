@@ -1,6 +1,5 @@
+import type { AsyncOrSyncIterable } from "../lib/AsyncOrSyncIterable.js";
 import iterator from "./iterator.js";
-
-type AsyncOrSyncIterable<T> = import("../lib/AsyncOrSyncIterable.js").AsyncOrSyncIterable<T>;
 
 export default async function reduce<T>(
     iterable: AsyncOrSyncIterable<T>,
@@ -21,7 +20,7 @@ export default async function reduce<T, R=T>(
     ...options:
     [(accumulator: T, value: T, index: number) => T | PromiseLike<T>]
     | [R, (accumulator: R, value: T, index: number) => R | PromiseLike<R>]
-) {
+): Promise<R> {
     let reduction:
     {
         seeded: true,
@@ -51,11 +50,11 @@ export default async function reduce<T, R=T>(
         if (reduction.seeded) {
             acc = reduction.seedValue;
         } else {
-            const { value, done } = await iter.next();
-            if (done) {
+            const res = await iter.next();
+            if (res.done) {
                 throw new Error(`[reduce] Can't reduce empty sequence with no initial value`);
             }
-            acc = value;
+            acc = res.value as unknown as R;
             idx += 1;
         }
 
@@ -65,7 +64,7 @@ export default async function reduce<T, R=T>(
             acc = await reducer(acc as T & R, item, idx);
             idx += 1;
         }
-        return acc;
+        return acc as unknown as R;
     } finally {
         await iter.return();
     }

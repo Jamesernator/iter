@@ -1,7 +1,6 @@
+import type { AsyncOrSyncIterable } from "../lib/AsyncOrSyncIterable.js";
 import iterableGenerator from "./iterableGenerator.js";
 import iterator from "./iterator.js";
-
-type AsyncOrSyncIterable<T> = import("../lib/AsyncOrSyncIterable.js").AsyncOrSyncIterable<T>;
 
 function subSequences<T>(
     iterable: AsyncOrSyncIterable<T>,
@@ -32,23 +31,23 @@ async function* subSequences<T>(
     iterable: AsyncOrSyncIterable<T>,
     subSequenceSize: number,
     allowShorter=false,
-) {
+): AsyncGenerator<Array<T>, void> {
     if (subSequenceSize < 1) {
         throw new RangeError(`[subSequences] subSequenceSize must be at least one`);
     }
     const iter = iterator(iterable);
     try {
-        const buff = [];
+        const buff: Array<T> = [];
         for (let i = 0; i < subSequenceSize; i += 1) {
-            const { value, done } = await iter.next();
-            if (done) {
+            const res = await iter.next();
+            if (res.done) {
                 if (allowShorter) {
                     return;
                 }
                 const message = `[subSequence] Can't get a subSequence of size ${ subSequenceSize } from a sequence of length ${ i }`;
                 throw new Error(message);
             }
-            buff.push(value);
+            buff.push(res.value);
         }
 
         for await (const item of iter) {

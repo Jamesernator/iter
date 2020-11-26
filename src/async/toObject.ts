@@ -1,9 +1,9 @@
-type AsyncOrSyncIterable<T> = import("../lib/AsyncOrSyncIterable.js").AsyncOrSyncIterable<T>;
+import type { AsyncOrSyncIterable } from "../lib/AsyncOrSyncIterable.js";
 
 export default async function toObject<V>(
     iterable: AsyncOrSyncIterable<[string, V]>,
-) {
-    const o: { [key: string]: V } = Object.create(null);
+): Promise<Record<string, V>> {
+    const o: Record<string, V> = Object.create(null);
     for await (const [key, value] of iterable) {
         o[key] = value;
     }

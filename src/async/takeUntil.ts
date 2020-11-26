@@ -1,13 +1,12 @@
+import type { AsyncOrSyncIterable } from "../lib/AsyncOrSyncIterable.js";
 import iterableGenerator from "./iterableGenerator.js";
 import iterator from "./iterator.js";
-
-type AsyncOrSyncIterable<T> = import("../lib/AsyncOrSyncIterable.js").AsyncOrSyncIterable<T>;
 
 const takeUntil = iterableGenerator(
     async function* takeUntil<T>(
         iterable: AsyncOrSyncIterable<T>,
         createTimeout: () => any,
-    ) {
+    ): AsyncGenerator<T> {
         const promise = Promise.resolve(createTimeout());
 
         const terminated = promise.then((value) => ({
@@ -25,11 +24,11 @@ const takeUntil = iterableGenerator(
                 if (nextItem.type === "interrupt") {
                     return;
                 }
-                const { done, value: iteratorValue } = nextItem.value;
-                if (done) {
+                const res = nextItem.value;
+                if (res.done) {
                     return;
                 }
-                yield iteratorValue;
+                yield res.value;
             }
         } finally {
             await it.return();

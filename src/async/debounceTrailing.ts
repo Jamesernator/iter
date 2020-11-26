@@ -12,7 +12,7 @@ const debounceTrailing = iterableGenerator(
     async function* debounceTrailing<T>(
         iterable: AsyncOrSyncIterable<T>,
         time: number,
-    ) {
+    ): AsyncGenerator<T> {
         const it = iterator(iterable);
 
         const next = () => Promise.resolve(it.next())
@@ -22,8 +22,8 @@ const debounceTrailing = iterableGenerator(
             }));
 
         try {
-            let { value: previousValue, done } = await it.next();
-            if (done) {
+            const res = await it.next();
+            if (res.done) {
                 return;
             }
             let nextResult = next();
@@ -36,6 +36,7 @@ const debounceTrailing = iterableGenerator(
                     nextResult,
                     delay(time, { type: "delay" as const }),
                 ]);
+                let previousValue = res.value;
                 if (val.type === "delay") {
                     yield previousValue;
                     const result = await nextResult;

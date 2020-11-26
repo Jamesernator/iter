@@ -1,16 +1,16 @@
+import type { AsyncOrSyncIterable } from "../lib/AsyncOrSyncIterable.js";
 import iterableGenerator from "./iterableGenerator.js";
-
-type AsyncOrSyncIterable<T> = import("../lib/AsyncOrSyncIterable.js").AsyncOrSyncIterable<T>;
-
 
 const unique = iterableGenerator(
     async function* unique<T>(
         iterable: AsyncOrSyncIterable<T>,
-    ) {
+        toKey: ((value: T) => any) = (i) => i,
+    ): AsyncGenerator<T> {
         const set = new Set();
         for await (const item of iterable) {
-            if (!set.has(item)) {
-                set.add(item);
+            const key = toKey(item);
+            if (!set.has(key)) {
+                set.add(key);
                 yield item;
             }
         }
