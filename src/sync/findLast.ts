@@ -1,24 +1,26 @@
+import type { AsyncOrSyncIterable } from "../lib/AsyncOrSyncIterable.js";
 import enumerate from "./enumerate.js";
 
 export default function findLast<T>(
-    iterable: Iterable<T>,
-): T | undefined;
+    iterable: AsyncOrSyncIterable<T>,
+): Promise<T | undefined>;
 export default function findLast<T>(
-    iterable: Iterable<T>,
+    iterable: AsyncOrSyncIterable<T>,
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
     predicate: ((value: T, index: number) => any),
-): T | undefined;
+): Promise<T | undefined>;
 export default function findLast<T, Default=T>(
-    iterable: Iterable<T>,
+    iterable: AsyncOrSyncIterable<T>,
     defaultValue: Default,
     predicate: ((value: T, index: number) => any),
-): T | Default;
-export default function findLast<T, Default=T>(
-    iterable: Iterable<T>,
+): Promise<T | Default>;
+export default async function findLast<T, Default=T>(
+    iterable: AsyncOrSyncIterable<T>,
     ...options:
     []
     | [((value: T, index: number) => any)]
     | [Default, ((value: T, index: number) => any)]
-) {
+): Promise<T | Default> {
     let predicate: (value: T, index: number) => any;
     let hasDefault: boolean = false;
     let defaultValue: Default;
@@ -38,8 +40,8 @@ export default function findLast<T, Default=T>(
     let found = false;
     let foundItem: T;
 
-    for (const [idx, item] of enumerate(iterable)) {
-        if (predicate(item, idx)) {
+    for await (const [idx, item] of enumerate(iterable)) {
+        if (await predicate(item, idx)) {
             found = true;
             foundItem = item;
         }

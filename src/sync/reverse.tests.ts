@@ -1,13 +1,15 @@
-import * as assert from "../lib/assert.js";
-import toArray from "./toArray.js";
+import test from "ava";
+import asyncIterableOf from "./helpers/asyncIterableOf.js";
 import reverse from "./reverse.js";
+import toArray from "./toArray.js";
 
-export const tests = {
-     "reverse returns the items in reverse order"() {
-        const data = [1, 2, 3, 4];
+test(
+    "reverse returns the items in reverse order",
+    async (t) => {
+        const data = asyncIterableOf([1, 2, 3, 4]);
 
-        assert.deepEqual([4, 3, 2, 1],  toArray(reverse(data)));
+        t.deepEqual([4, 3, 2, 1], await toArray(reverse(data)));
 
-        assert.deepEqual([],  toArray(reverse([])));
+        t.deepEqual([], await toArray(reverse(asyncIterableOf([]))));
     },
-};
+);

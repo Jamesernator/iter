@@ -1,7 +1,10 @@
+import type { AsyncOrSyncIterable } from "../lib/AsyncOrSyncIterable.js";
 
-export default function toArray<T>(iterable: Iterable<T>): Array<T> {
+export default async function toArray<T>(
+    iterable: AsyncOrSyncIterable<T>,
+): Promise<Array<T>> {
     const result: Array<T> = [];
-    for (const item of iterable) {
+    for await (const item of iterable) {
         result.push(item);
     }
     return result;

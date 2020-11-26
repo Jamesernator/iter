@@ -5,6 +5,7 @@ export default function find<T>(
 ): T | undefined;
 export default function find<T>(
     iterable: Iterable<T>,
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
     predicate: ((value: T, index: number) => any),
 ): T | undefined;
 export default function find<T, Default=T>(
@@ -18,7 +19,7 @@ export default function find<T, Default=T>(
     []
     | [((value: T, index: number) => any)]
     | [Default, ((value: T, index: number) => any)]
-) {
+): T | Default {
     let predicate: (value: T, index: number) => any;
     let hasDefault: boolean = false;
     let defaultValue: Default;

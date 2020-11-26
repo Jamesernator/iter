@@ -1,18 +1,20 @@
-import * as assert from "../lib/assert.js";
+import test from "ava";
+import asyncIterableOf from "./helpers/asyncIterableOf.js";
 import toSet from "./toSet.js";
 
-export const tests ={
-     "toSet returns a set from the given sequence"() {
-        const data = [1, 2, 3, 4, 3, 3, 2];
+test(
+    "toSet returns a set from the given sequence",
+    async (t) => {
+        const data = asyncIterableOf([1, 2, 3, 4, 3, 3, 2]);
 
-        const set =  toSet(data);
+        const set = await toSet(data);
 
-        assert.isTrue(set instanceof Set);
-        assert.is(set.size, 4);
+        t.true(set instanceof Set);
+        t.is(set.size, 4);
 
-        assert.isTrue(set.has(1));
-        assert.isTrue(set.has(2));
-        assert.isTrue(set.has(3));
-        assert.isTrue(set.has(4));
+        t.true(set.has(1));
+        t.true(set.has(2));
+        t.true(set.has(3));
+        t.true(set.has(4));
     },
-};
+);

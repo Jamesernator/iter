@@ -1,11 +1,42 @@
+import type { AsyncOrSyncIterable } from "../lib/AsyncOrSyncIterable.js";
 
-export default function lastN<T>(
-    iterable: Iterable<T>,
+export default async function lastN<T>(
+    iterable: AsyncOrSyncIterable<T>,
+    n: 0,
+    allowShorter?: boolean,
+): Promise<[]>;
+export default async function lastN<T>(
+    iterable: AsyncOrSyncIterable<T>,
+    n: 1,
+    allowShorter?: false,
+): Promise<[T]>;
+export default async function lastN<T>(
+    iterable: AsyncOrSyncIterable<T>,
+    n: 2,
+    allowShorter?: false,
+): Promise<[T, T]>;
+export default async function lastN<T>(
+    iterable: AsyncOrSyncIterable<T>,
+    n: 3,
+    allowShorter?: false,
+): Promise<[T, T, T]>;
+export default async function lastN<T>(
+    iterable: AsyncOrSyncIterable<T>,
+    n: 4,
+    allowShorter?: false,
+): Promise<[T, T, T, T]>;
+export default async function lastN<T>(
+    iterable: AsyncOrSyncIterable<T>,
+    n: number,
+    allowShorter?: boolean,
+): Promise<Array<T>>;
+export default async function lastN<T>(
+    iterable: AsyncOrSyncIterable<T>,
     n: number,
     allowShorter=false,
-) {
+): Promise<Array<T>> {
     const buff = [];
-    for (const item of iterable) {
+    for await (const item of iterable) {
         buff.push(item);
         if (buff.length > n) {
             buff.shift();

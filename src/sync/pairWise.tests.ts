@@ -1,50 +1,62 @@
-import * as assert from "../lib/assert.js";
+import test from "ava";
+import CountClosing from "./helpers/CountClosing.js";
+import asyncIterableOf from "./helpers/asyncIterableOf.js";
+import iterator from "./iterator.js";
 import pairWise from "./pairWise.js";
 import toArray from "./toArray.js";
-import CountClosing from "./helpers/CountClosing.js";
-import iterator from "./iterator.js";
 
-export const tests = {
-     "pairWise returns pairs of values from the sequence"() {
-        const data1 = [1, 2, 3, 4, 5];
+test(
+    "pairWise returns pairs of values from the sequence",
+    async (t) => {
+        const data1 = asyncIterableOf([1, 2, 3, 4, 5]);
         const expected1 = [[1, 2], [2, 3], [3, 4], [4, 5]];
 
-        assert.deepEqual(expected1,  toArray(pairWise(data1)));
+        t.deepEqual(expected1, await toArray(pairWise(data1)));
 
-        const data2 = [1, 2];
+        const data2 = asyncIterableOf([1, 2]);
         const expected2 = [[1, 2]];
 
-        assert.deepEqual(expected2,  toArray(pairWise(data2)));
+        t.deepEqual(expected2, await toArray(pairWise(data2)));
     },
+);
 
-     "pairWise throws error on sequence of insufficient length"() {
-        const data1 = [1];
+test(
+    "pairWise throws error on sequence of insufficient length",
+    async (t) => {
+        const data1 = asyncIterableOf([1]);
 
-         assert.throws(() => toArray(pairWise(data1)));
+        await t.throwsAsync(() => toArray(pairWise(data1)));
 
-        const data2: Array<number> = [];
+        const data2 = asyncIterableOf<number>([]);
 
-         assert.throws(() => toArray(pairWise(data2)));
+        await t.throwsAsync(() => toArray(pairWise(data2)));
     },
+);
 
-     "pairWise doesn't throw error on sequence of insufficient length if allowShorter is true"() {
-        const data1 = [1];
+test(
+    "pairWise doesn't throw error on sequence of insufficient length if allowShorter is true",
+    async (t) => {
+        const data1 = asyncIterableOf([1]);
 
-        assert.deepEqual([],  toArray(pairWise(data1, true)));
+        t.deepEqual([], await toArray(pairWise(data1, true)));
 
-        const data2: Array<number> = [];
+        const data2 = asyncIterableOf<number>([]);
 
-        assert.deepEqual([],  toArray(pairWise(data2, true)));
+        t.deepEqual([], await toArray(pairWise(data2, true)));
     },
+);
 
-     "pairWise iterator closing"() {
-        const iter = new CountClosing([1, 2, 3, 4]);
+test(
+    "pairWise iterator closing",
+    async (t) => {
+        const iter = new CountClosing(asyncIterableOf([1, 2, 3, 4]));
         const seq = iterator(pairWise(iter));
 
-         seq.next();
-         seq.next();
-         seq.return();
+        await seq.next();
+        await seq.next();
+        await seq.return();
 
-        assert.is(iter.closed, 1);
+        t.is(iter.closed, 1);
     },
-};
+);
+

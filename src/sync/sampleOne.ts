@@ -1,9 +1,12 @@
+import type { AsyncOrSyncIterable } from "../lib/AsyncOrSyncIterable.js";
 import enumerate from "./enumerate.js";
 
-export default function sampleOne<T>(iterable: Iterable<T>) {
+export default async function sampleOne<T>(
+    iterable: AsyncOrSyncIterable<T>,
+): Promise<T> {
     let chosen: T;
     let chosenSet = false;
-    for (const [idx, item] of enumerate(iterable)) {
+    for await (const [idx, item] of enumerate(iterable)) {
         if (Math.random() < 1/(idx + 1)) {
             chosen = item;
             chosenSet = true;

@@ -1,14 +1,22 @@
-import * as assert from "../lib/assert.js";
+import test from "ava";
+import asyncIterableOf from "./helpers/asyncIterableOf.js";
 import last from "./last.js";
 
-export const tests = {
-     "last returns the last item of the sequence"() {
-        assert.is(4,  last([1, 2, 3, 4]));
+test(
+    "last returns the last item of the sequence",
+    async (t) => {
+        t.is(4, await last(asyncIterableOf([1, 2, 3, 4])));
 
-        assert.is("banana",  last([2, "banana", 34, "banana"]));
+        t.is("banana", await last(asyncIterableOf(
+            [2, "banana", 34, "banana"],
+        )));
     },
+);
 
-     "last throws error with empty sequence"() {
-         assert.throws(() => last([]));
+test(
+    "last throws error with empty sequence",
+    async (t) => {
+        await t.throwsAsync(() => last(asyncIterableOf([])));
     },
-};
+);
+

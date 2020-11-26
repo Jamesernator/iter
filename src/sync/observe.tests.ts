@@ -1,41 +1,49 @@
-import * as assert from "../lib/assert.js";
-import toArray from "./toArray.js";
-import observe from "./observe.js";
+import test from "ava";
 import CountClosing from "./helpers/CountClosing.js";
+import asyncIterableOf from "./helpers/asyncIterableOf.js";
 import iterator from "./iterator.js";
+import observe from "./observe.js";
 
-export const tests = {
-     "observe invokes the function for each value in the sequence"() {
+test(
+    "observe invokes the function for each value in the sequence",
+    async (t) => {
         const data = [1, 2, 3, 4];
 
         const copy: Array<[number, number]> = [];
         const observer = (value: number, i: number) => copy.push([value, i]);
 
         const items: Array<number> = [];
-        for  (const item of observe(data, observer)) {
+        for await (const item of observe(asyncIterableOf(data), observer)) {
             items.push(item);
         }
         const expected = [[1, 0], [2, 1], [3, 2], [4, 3]];
 
-        assert.deepEqual(expected, copy);
-        assert.deepEqual(data, items);
+        t.deepEqual(expected, copy);
+        t.deepEqual(data, items);
     },
+);
 
-     "observe is not called for items not consumed"() {
-        const data = [1, 2, 3, 4];
+test(
+    "observe is not called for items not consumed",
+    async (t) => {
+        const data = asyncIterableOf([1, 2, 3, 4]);
 
         const observed: Array<number> = [];
         const observer = (value: number) => observed.push(value);
         const iter = iterator(observe(data, observer));
 
-         iter.next();
-         iter.next();
-         iter.return();
+        await iter.next();
+        await iter.next();
+        await iter.return();
 
-        assert.deepEqual([1, 2], observed);
+        t.deepEqual([1, 2], observed);
     },
+);
 
-     "observe logs to the console by default"() {
+
+test(
+    "observe logs to the console by default",
+    async (t) => {
         const data = [1, 2, 3, 4];
 
         const observed: Array<number> = [];
@@ -43,40 +51,54 @@ export const tests = {
 
         console.log = (value: number) => observed.push(value);
 
-        for  (const _ of observe(data)) {
+        // eslint-disable-next-line @typescript-eslint/naming-convention
+        for await (const _ of observe(asyncIterableOf(data))) {
             // Just consume the iterator
         }
 
-        assert.deepEqual(data, observed);
+        t.deepEqual(data, observed);
 
         Object.defineProperty(console, "log", originalLog);
     },
+);
 
-     "iterator closing"() {
-        const iter = new CountClosing([1, 2, 3, 4]);
+test(
+    "iterator closing",
+    async (t) => {
+        const iter = new CountClosing(asyncIterableOf([1, 2, 3, 4]));
         const seq = iterator(observe(iter, () => null));
 
-         seq.next();
-         seq.next();
-         seq.return();
+        await seq.next();
+        await seq.next();
+        await seq.return();
 
-        assert.is(iter.closed, 1);
+        t.is(iter.closed, 1);
     },
 
-     "iterator closing on observer error"() {
-        const iter = new CountClosing([1, 2, 3, 4]);
+);
+
+test(
+    "iterator closing on observer error",
+    async (t) => {
+        const iter = new CountClosing(asyncIterableOf([1, 2, 3, 4]));
         const seq = iterator(observe(iter, (value) => {
             if (value === 2) {
                 throw new Error("Test");
             }
         }));
 
-         assert.throws( () => {
-            for  (const _ of seq) {
+        await t.throwsAsync(async () => {
+            // eslint-disable-next-line @typescript-eslint/naming-convention
+            for await (const _ of seq) {
                 // Just consume the iterator
             }
         });
 
-        assert.is(iter.closed, 1);
+        t.is(iter.closed, 1);
     },
+);
+
+export const tests = {
+
+
 };

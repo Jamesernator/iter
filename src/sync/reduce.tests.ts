@@ -1,41 +1,68 @@
-import * as assert from "../lib/assert.js";
-import reduce from "./reduce.js";
+import test from "ava";
 import CountClosing from "./helpers/CountClosing.js";
+import asyncIterableOf from "./helpers/asyncIterableOf.js";
+import reduce from "./reduce.js";
 
-export const tests = {
-     "reduce reduces the sequence using the given reducer"() {
-        const data1 = ["Cat", "Hat", "Bat"];
+test(
+    "reduce reduces the sequence using the given reducer",
+    async (t) => {
+        const data1 = asyncIterableOf(["Cat", "Hat", "Bat"]);
 
-        assert.is("CatHatHatBatBat",  reduce(data1, (acc, i) => acc + i.repeat(2)));
+        t.is("CatHatHatBatBat", await reduce(
+            data1,
+            (acc, i) => acc + i.repeat(2),
+        ));
 
-        const data2 = ["Cat", "Hat", "Bat", "Rat"];
+        const data2 = asyncIterableOf(["Cat", "Hat", "Bat", "Rat"]);
 
-        assert.is("CatHatBatBatRatRatRat",  reduce(data2, (acc, i, idx) => acc + i.repeat(idx)));
+        t.is("CatHatBatBatRatRatRat", await reduce(
+            data2,
+            (acc, i, idx) => acc + i.repeat(idx),
+        ));
     },
+);
 
-     "reduce with initial value calls the callback with that value initiall"() {
-        const data = ["Cat", "Hat", "Bat"];
+test(
+    "reduce with initial value calls the callback with that value initiall",
+    async (t) => {
+        const data = asyncIterableOf(["Cat", "Hat", "Bat"]);
 
-        assert.is("TatCatHatBat",  reduce(data, "Tat", (acc, item) => acc + item));
-        assert.deepEqual(["Tat", "Cat", "Hat", "Bat"],  reduce(data, ["Tat"], (acc, item) => [...acc, item]));
+        t.is("TatCatHatBat", await reduce(
+            data,
+            "Tat",
+            (acc, item) => acc + item,
+        ));
+        t.deepEqual(
+            ["Tat", "Cat", "Hat", "Bat"],
+            await reduce(data, ["Tat"], (acc, item) => [...acc, item]),
+        );
     },
+);
 
-     "reduce without seed throws on empty sequence"() {
-        const data: Array<number> = [];
+test(
+    "reduce without seed throws on empty sequence",
+    async (t) => {
+        const data = asyncIterableOf<number>([]);
 
-         assert.throws(() => reduce(data, (a, b) => a + b));
+        await t.throwsAsync(() => reduce(data, (a, b) => a + b));
     },
+);
 
-     "reduce with seed returns it on empty sequence"() {
-        const data: Array<number> = [];
+test(
+    "reduce with seed returns it on empty sequence",
+    async (t) => {
+        const data = asyncIterableOf<number>([]);
 
-        assert.is(99,  reduce(data, 99, (a, b) => a + b));
+        t.is(99, await reduce(data, 99, (a, b) => a + b));
     },
+);
 
-     "reduce iterator closing on reducer error"() {
-        const iter = new CountClosing([1, 2, 3, 4]);
+test(
+    "reduce iterator closing on reducer error",
+    async (t) => {
+        const iter = new CountClosing(asyncIterableOf([1, 2, 3, 4]));
 
-         assert.throws(() => {
+        await t.throwsAsync(() => {
             return reduce(iter, (acc, value) => {
                 if (value === 2) {
                     throw new Error("Test");
@@ -44,6 +71,12 @@ export const tests = {
             });
         });
 
-        assert.is(iter.closed, 1);
+        t.is(iter.closed, 1);
     },
+);
+
+export const tests = {
+
+
+
 };

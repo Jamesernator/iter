@@ -1,16 +1,18 @@
-import * as assert from "../lib/assert.js";
+import test from "ava";
+import asyncIterableOf from "./helpers/asyncIterableOf.js";
 import toArray from "./toArray.js";
 
-export const tests = {
-     "toArray converts the given sequence to an array"() {
-        const seq =  function* () {
+test(
+    "toArray converts the given sequence to an array",
+    async (t) => {
+        const seq = async function* () {
             yield 1;
             yield 2;
             yield 3;
         };
 
-        assert.deepEqual([1, 2, 3],  toArray(seq()));
+        t.deepEqual([1, 2, 3], await toArray(seq()));
 
-        assert.deepEqual([],  toArray([]));
+        t.deepEqual([], await toArray(asyncIterableOf([])));
     },
-};
+);

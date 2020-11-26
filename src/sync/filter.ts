@@ -14,7 +14,7 @@ function* filter<T, K extends T = T>(
     predicate:
     ((value: T, index: number) => value is K)
     | (( value: T, index: number) => any),
-) {
+): Generator<T, void> {
     for (const [idx, item] of enumerate(iterable)) {
         if (predicate(item, idx)) {
             yield item;

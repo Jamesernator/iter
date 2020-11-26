@@ -1,10 +1,12 @@
 import iterableGenerator from "./iterableGenerator.js";
 
 const enumerate = iterableGenerator(
-    function* enumerate<T>(iterable: Iterable<T>) {
+    function* enumerate<T>(
+        iterable: Iterable<T>,
+    ): Generator<[number, T]> {
         let idx = 0;
         for (const item of iterable) {
-            yield [idx, item] as const;
+            yield [idx, item];
             idx += 1;
         }
     },

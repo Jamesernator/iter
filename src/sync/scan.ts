@@ -1,34 +1,35 @@
+import type { AsyncOrSyncIterable } from "../lib/AsyncOrSyncIterable.js";
 import iterableGenerator from "./iterableGenerator.js";
 import iterator from "./iterator.js";
 
 function scan<T>(
-    iterable: Iterable<T>,
-    reducer: (accumulator: T, value: T, index: number) => T,
-): Generator<T, void>;
+    iterable: AsyncOrSyncIterable<T>,
+    reducer: (accumulator: T, value: T, index: number) => T | PromiseLike<T>,
+): AsyncGenerator<T, void>;
 function scan<T>(
-    iterable: Iterable<T>,
+    iterable: AsyncOrSyncIterable<T>,
     seed: T,
-    reducer: (accumulator: T, value: T, index: number) => T,
-): Generator<T, void>;
+    reducer: (accumulator: T, value: T, index: number) => T | PromiseLike<T>,
+): AsyncGenerator<T, void>;
 function scan<T, R>(
-    iterable: Iterable<T>,
+    iterable: AsyncOrSyncIterable<T>,
     seed: R,
-    reducer: (accumulator: R, value: T, index: number) => R,
-): Generator<R, void>;
-function* scan<T, R=T>(
-    iterable: Iterable<T>,
+    reducer: (accumulator: R, value: T, index: number) => R | PromiseLike<R>,
+): AsyncGenerator<R, void>;
+async function* scan<T, R=T>(
+    iterable: AsyncOrSyncIterable<T>,
     ...options:
-    [(accumulator: T, value: T, index: number) => T]
-    | [R, (accumulator: R, value: T, index: number) => R]
-) {
+    [(accumulator: T, value: T, index: number) => T | PromiseLike<T>]
+    | [R, (accumulator: R, value: T, index: number) => R | PromiseLike<R>]
+): AsyncGenerator<R, void> {
     let reduction:
     {
         seeded: true,
         seedValue: R,
-        reducer: (accumulator: R, value: T, index: number) => R,
+        reducer: (accumulator: R, value: T, index: number) => R | PromiseLike<R>,
     } | {
         seeded: false,
-        reducer: (accumulator: T, value: T, index: number) => T,
+        reducer: (accumulator: T, value: T, index: number) => T | PromiseLike<T>,
     };
     if (options.length === 1) {
         reduction = {
@@ -45,47 +46,47 @@ function* scan<T, R=T>(
 
     const iter = iterator(iterable);
     try {
-        let acc;
+        let acc: any;
         let idx = 0;
         if (reduction.seeded) {
             acc = reduction.seedValue;
         } else {
-            const { value, done } = iter.next();
-            if (done) {
+            const res = await iter.next();
+            if (res.done) {
                 throw new Error(`[reduce] Can't reduce empty sequence with no initial value`);
             }
-            acc = value;
+            acc = res.value;
             idx += 1;
         }
 
         const { reducer } = reduction;
 
         yield acc;
-        for (const item of iter) {
-            acc = reducer(acc as T & R, item, idx);
+        for await (const item of iter) {
+            acc = await reducer(acc as T & R, item, idx);
             yield acc;
             idx += 1;
         }
     } finally {
-        iter.return();
+        await iter.return();
     }
 }
 
 type Scan = {
     <T>(
-        iterable: Iterable<T>,
+        iterable: AsyncOrSyncIterable<T>,
         reducer: (accumulator: T, value: T, index: number) => T,
-    ): Iterable<T>,
+    ): AsyncIterable<T>,
     <T>(
-        iterable: Iterable<T>,
+        iterable: AsyncOrSyncIterable<T>,
         seed: T,
         reducer: (accumulator: T, value: T, index: number) => T,
-    ): Iterable<T>,
+    ): AsyncIterable<T>,
     <T, R>(
-        iterable: Iterable<T>,
+        iterable: AsyncOrSyncIterable<T>,
         seed: R,
         reducer: (accumulator: R, value: T, index: number) => R,
-    ): Iterable<R>,
+    ): AsyncIterable<R>,
 };
 
 export default iterableGenerator(scan) as Scan;

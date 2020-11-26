@@ -1,7 +1,10 @@
+import type { AsyncOrSyncIterable } from "../lib/AsyncOrSyncIterable.js";
 
-export default function toMap<K, V>(iterable: Iterable<[K, V]>) {
+export default async function toMap<K, V>(
+    iterable: AsyncOrSyncIterable<[K, V]>,
+): Promise<Map<K, V>> {
     const m: Map<K, V> = new Map();
-    for (const item of iterable) {
+    for await (const item of iterable) {
         const [key, value] = item;
         m.set(key, value);
     }

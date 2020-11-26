@@ -5,9 +5,10 @@ export default function findLastIndex<T>(
 ): number | undefined;
 export default function findLastIndex<T>(
     iterable: Iterable<T>,
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
     predicate: ((value: T, index: number) => any),
 ): number | undefined;
-export default function findLastIndex<T, Default>(
+export default function findLastIndex<T, Default=number>(
     iterable: Iterable<T>,
     defaultValue: Default,
     predicate: ((value: T, index: number) => any),
@@ -18,7 +19,7 @@ export default function findLastIndex<T>(
     []
     | [((value: T, index: number) => any)]
     | [number, ((value: T, index: number) => any)]
-) {
+): any {
     let predicate: (value: T, index: number) => any;
     let hasDefault: boolean = false;
     let defaultValue: number;

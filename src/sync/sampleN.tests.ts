@@ -1,31 +1,41 @@
-import * as assert from "../lib/assert.js";
+import test from "ava";
+import asyncIterableOf from "./helpers/asyncIterableOf.js";
 import sampleN from "./sampleN.js";
 
-export const tests = {
-     "sampleN returns an arbitrary array of items from the sequence of size n"() {
+test(
+    "sampleN returns an arbitrary array of items from the sequence of size n",
+    async (t) => {
         const data = [1, 2, 3, 4, 5];
 
-        const choice =  sampleN(data, 3);
+        for (let i = 0; i < 10; i+=1) {
+            const choice = await sampleN(asyncIterableOf(data), 3);
 
-        assert.isTrue(Array.isArray(choice));
-        assert.is(choice.length, 3);
+            t.true(Array.isArray(choice));
+            t.is(choice.length, 3);
 
-        for (const element of choice) {
-            assert.isTrue(data.includes(element));
+            for (const element of choice) {
+                t.true(data.includes(element));
+            }
+
+            t.is(choice.length, new Set(choice).size);
         }
-
-        assert.is(choice.length, new Set(choice).size);
     },
+);
 
-     "sampleN on a sequence too short throws an error"() {
-        const data = [1, 2, 3];
+test(
+    "sampleN on a sequence too short throws an error",
+    async (t) => {
+        const data = asyncIterableOf([1, 2, 3]);
 
-         assert.throws(() => sampleN(data, 5));
+        await t.throwsAsync(() => sampleN(data, 5));
     },
+);
 
-     "sampleN on a sequence too short returns the whole sequence if allowShorter is true"() {
-        const data = [1, 2, 3];
+test(
+    "sampleN on a sequence too short returns the whole sequence if allowShorter is true",
+    async (t) => {
+        const data = asyncIterableOf([1, 2, 3]);
 
-        assert.deepEqual([1, 2, 3],  sampleN(data, 11, true));
+        t.deepEqual([1, 2, 3], await sampleN(data, 11, true));
     },
-};
+);

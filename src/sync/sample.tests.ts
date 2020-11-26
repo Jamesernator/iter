@@ -1,18 +1,24 @@
-import * as assert from "../lib/assert.js";
+import test from "ava";
+import asyncIterableOf from "./helpers/asyncIterableOf.js";
 import sampleOne from "./sampleOne.js";
 
-export const tests = {
-     "sampleOne returns an arbitrary element of the sequence"() {
+test(
+    "sampleOne returns an arbitrary element of the sequence",
+    async (t) => {
         const data = [1, 2, 3, 4];
-        const choice =  sampleOne(data);
+        const choice = await sampleOne(asyncIterableOf(data));
 
-        assert.is(typeof choice, "number");
-        assert.isTrue(data.includes(choice));
+        t.is(typeof choice, "number");
+        t.true(data.includes(choice));
     },
+);
 
-     "sampleOne throws given an empty sequence"() {
-        const data: Array<number> = [];
+test(
+    "sampleOne throws given an empty sequence",
+    async (t) => {
+        const data = asyncIterableOf([]);
 
-         assert.throws(() => sampleOne(data));
+        await t.throwsAsync(() => sampleOne(data));
     },
-};
+);
+

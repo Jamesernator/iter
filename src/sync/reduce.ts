@@ -1,33 +1,34 @@
+import type { AsyncOrSyncIterable } from "../lib/AsyncOrSyncIterable.js";
 import iterator from "./iterator.js";
 
-export default function reduce<T>(
-    iterable: Iterable<T>,
-    reducer: (accumulator: T, value: T, index: number) => T,
-): T;
-export default function reduce<T>(
-    iterable: Iterable<T>,
+export default async function reduce<T>(
+    iterable: AsyncOrSyncIterable<T>,
+    reducer: (accumulator: T, value: T, index: number) => T | PromiseLike<T>,
+): Promise<T>;
+export default async function reduce<T>(
+    iterable: AsyncOrSyncIterable<T>,
     seed: T,
-    reducer: (accumulator: T, value: T, index: number) => T,
-): T;
-export default function reduce<T, R>(
-    iterable: Iterable<T>,
+    reducer: (accumulator: T, value: T, index: number) => T | PromiseLike<T>,
+): Promise<T>;
+export default async function reduce<T, R>(
+    iterable: AsyncOrSyncIterable<T>,
     seed: R,
-    reducer: (accumulator: R, value: T, index: number) => R,
-): R;
-export default function reduce<T, R=T>(
-    iterable: Iterable<T>,
+    reducer: (accumulator: R, value: T, index: number) => R | PromiseLike<R>,
+): Promise<R>;
+export default async function reduce<T, R=T>(
+    iterable: AsyncOrSyncIterable<T>,
     ...options:
-    [(accumulator: T, value: T, index: number) => T]
-    | [R, (accumulator: R, value: T, index: number) => R]
-) {
+    [(accumulator: T, value: T, index: number) => T | PromiseLike<T>]
+    | [R, (accumulator: R, value: T, index: number) => R | PromiseLike<R>]
+): Promise<R> {
     let reduction:
     {
         seeded: true,
         seedValue: R,
-        reducer: (accumulator: R, value: T, index: number) => R,
+        reducer: (accumulator: R, value: T, index: number) => R | PromiseLike<R>,
     } | {
         seeded: false,
-        reducer: (accumulator: T, value: T, index: number) => T,
+        reducer: (accumulator: T, value: T, index: number) => T | PromiseLike<T>,
     };
     if (options.length === 1) {
         reduction = {
@@ -49,22 +50,22 @@ export default function reduce<T, R=T>(
         if (reduction.seeded) {
             acc = reduction.seedValue;
         } else {
-            const { value, done } = iter.next();
-            if (done) {
+            const res = await iter.next();
+            if (res.done) {
                 throw new Error(`[reduce] Can't reduce empty sequence with no initial value`);
             }
-            acc = value;
+            acc = res.value as unknown as R;
             idx += 1;
         }
 
         const { reducer } = reduction;
 
-        for (const item of iter) {
-            acc = reducer(acc as T & R, item, idx);
+        for await (const item of iter) {
+            acc = await reducer(acc as T & R, item, idx);
             idx += 1;
         }
-        return acc;
+        return acc as unknown as R;
     } finally {
-        iter.return();
+        await iter.return();
     }
 }

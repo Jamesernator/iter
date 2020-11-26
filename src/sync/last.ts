@@ -1,8 +1,11 @@
+import type { AsyncOrSyncIterable } from "../lib/AsyncOrSyncIterable.js";
 
-export default function lastOne<T>(iterable: Iterable<T>): T {
+export default async function last<T>(
+    iterable: AsyncOrSyncIterable<T>,
+): Promise<T> {
     let item: T;
     let itemSet = false;
-    for (item of iterable) {
+    for await (item of iterable) {
         itemSet = true;
     }
     if (itemSet) {

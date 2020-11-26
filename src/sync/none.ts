@@ -1,11 +1,12 @@
+import type { AsyncOrSyncIterable } from "../lib/AsyncOrSyncIterable.js";
 import enumerate from "./enumerate.js";
 
-export default function none<T>(
-    iterable: Iterable<T>,
+export default async function none<T>(
+    iterable: AsyncOrSyncIterable<T>,
     predicate: ((value: T, index: number) => any) = (i) => i,
-) {
-    for (const [idx, item] of enumerate(iterable)) {
-        if (predicate(item, idx)) {
+): Promise<boolean> {
+    for await (const [idx, item] of enumerate(iterable)) {
+        if (await predicate(item, idx)) {
             return false;
         }
     }
