@@ -48,8 +48,6 @@ test(
 );
 
 test(
-
-
     "iterableGenerator forwards arguments to generator function",
     async (t) => {
         async function* gen(start: number, end: number) {

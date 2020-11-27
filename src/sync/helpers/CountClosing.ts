@@ -1,33 +1,33 @@
 import iterator from "../iterator.js";
 
 export default class CountClosing<T> implements Generator<T, void> {
-    private _closed: number = 0;
-    private readonly _iterator: Generator<T, void>;
-    private readonly _throwError: boolean;
+    #closed: number = 0;
+    readonly #iterator: Generator<T, void>;
+    readonly #throwError: boolean;
 
     constructor(iterable: Iterable<T>, throwError: boolean = false) {
-        this._iterator = iterator(iterable);
-        this._throwError = throwError;
+        this.#iterator = iterator(iterable);
+        this.#throwError = throwError;
     }
 
-    get closed() {
-        return this._closed;
+    get closed(): number {
+        return this.#closed;
     }
 
-    next() {
-        return this._iterator.next();
+    next(): IteratorResult<T> {
+        return this.#iterator.next();
     }
 
-    return() {
-        if (this._throwError) {
+    return(): IteratorResult<T> {
+        if (this.#throwError) {
             throw new Error("[CountClosing] Iterator closing error");
         }
-        this._closed += 1;
+        this.#closed += 1;
         return { done: true as const, value: undefined };
     }
 
-    throw(err: any) {
-        return this._iterator.throw(err);
+    throw(err: any): IteratorResult<T> {
+        return this.#iterator.throw(err);
     }
 
     [Symbol.iterator](): Generator<T, void> {

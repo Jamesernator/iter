@@ -33,7 +33,7 @@ test(
 
 test(
     "iterator closing with toKey function",
-    async (t) => {
+    (t) => {
         const iter = new CountClosing([1, 2, 3, 4]);
 
         function toKey(value: number) {

@@ -74,9 +74,3 @@ test(
         t.is(iter.closed, 1);
     },
 );
-
-export const tests = {
-
-
-
-};

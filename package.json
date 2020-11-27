@@ -34,9 +34,9 @@
       "src/**/*.tests.ts"
     ],
     "nodeArguments": [
+      "--experimental-loader=./typescript-loader.js",
       "--enable-source-maps",
       "--no-warnings",
-      "--loader=./typescript-loader.js",
       "--experimental-specifier-resolution=node"
     ],
     "nonSemVerExperiments": {

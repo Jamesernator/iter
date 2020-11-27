@@ -13,7 +13,7 @@ test(
 
 test(
     "findIndex throws an error if no item is found",
-    async (t) => {
+    (t) => {
         const data = [1, 2, 3, 4];
 
         t.throws(() => findIndex(data, (x) => x === 42));

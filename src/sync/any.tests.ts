@@ -17,7 +17,7 @@ test(
 
 test(
     "any returns true if the predicate returns true for all of the values",
-    async (t) => {
+    (t) => {
         const values = [1, 3, 5, 7];
 
         t.true(any(values, (item) => item % 2 === 1));

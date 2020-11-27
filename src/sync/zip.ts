@@ -36,18 +36,21 @@ const zip = iterableGenerator(
             }
         } catch (error: any) {
             errors.push(error);
-        }
-        for (const iterator of iterators) {
-            try {
-                iterator.return();
-            } catch (error: any) {
-                errors.push(error);
+        } finally {
+            for (const iterator of iterators) {
+                try {
+                    iterator.return();
+                } catch (error: any) {
+                    errors.push(error);
+                }
             }
-        }
-        if (errors.length === 1) {
-            throw errors[0];
-        } else if (errors.length > 1) {
-            throw new AggregateError(errors);
+            if (errors.length === 1) {
+                // eslint-disable-next-line no-unsafe-finally
+                throw errors[0];
+            } else if (errors.length > 1) {
+                // eslint-disable-next-line no-unsafe-finally
+                throw new AggregateError(errors);
+            }
         }
     },
 );

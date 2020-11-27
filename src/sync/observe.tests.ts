@@ -1,19 +1,18 @@
 import test from "ava";
 import CountClosing from "./helpers/CountClosing.js";
-import asyncIterableOf from "./helpers/asyncIterableOf.js";
 import iterator from "./iterator.js";
 import observe from "./observe.js";
 
 test(
     "observe invokes the function for each value in the sequence",
-    async (t) => {
+    (t) => {
         const data = [1, 2, 3, 4];
 
         const copy: Array<[number, number]> = [];
         const observer = (value: number, i: number) => copy.push([value, i]);
 
         const items: Array<number> = [];
-        for await (const item of observe(asyncIterableOf(data), observer)) {
+        for (const item of observe(data, observer)) {
             items.push(item);
         }
         const expected = [[1, 0], [2, 1], [3, 2], [4, 3]];
@@ -25,16 +24,16 @@ test(
 
 test(
     "observe is not called for items not consumed",
-    async (t) => {
-        const data = asyncIterableOf([1, 2, 3, 4]);
+    (t) => {
+        const data = [1, 2, 3, 4];
 
         const observed: Array<number> = [];
         const observer = (value: number) => observed.push(value);
         const iter = iterator(observe(data, observer));
 
-        await iter.next();
-        await iter.next();
-        await iter.return();
+        iter.next();
+        iter.next();
+        iter.return();
 
         t.deepEqual([1, 2], observed);
     },
@@ -43,7 +42,7 @@ test(
 
 test(
     "observe logs to the console by default",
-    async (t) => {
+    (t) => {
         const data = [1, 2, 3, 4];
 
         const observed: Array<number> = [];
@@ -52,7 +51,7 @@ test(
         console.log = (value: number) => observed.push(value);
 
         // eslint-disable-next-line @typescript-eslint/naming-convention
-        for await (const _ of observe(asyncIterableOf(data))) {
+        for (const _ of observe(data)) {
             // Just consume the iterator
         }
 
@@ -64,13 +63,13 @@ test(
 
 test(
     "iterator closing",
-    async (t) => {
-        const iter = new CountClosing(asyncIterableOf([1, 2, 3, 4]));
+    (t) => {
+        const iter = new CountClosing([1, 2, 3, 4]);
         const seq = iterator(observe(iter, () => null));
 
-        await seq.next();
-        await seq.next();
-        await seq.return();
+        seq.next();
+        seq.next();
+        seq.return();
 
         t.is(iter.closed, 1);
     },
@@ -79,17 +78,17 @@ test(
 
 test(
     "iterator closing on observer error",
-    async (t) => {
-        const iter = new CountClosing(asyncIterableOf([1, 2, 3, 4]));
+    (t) => {
+        const iter = new CountClosing([1, 2, 3, 4]);
         const seq = iterator(observe(iter, (value) => {
             if (value === 2) {
                 throw new Error("Test");
             }
         }));
 
-        await t.throwsAsync(async () => {
+        t.throws( () => {
             // eslint-disable-next-line @typescript-eslint/naming-convention
-            for await (const _ of seq) {
+            for (const _ of seq) {
                 // Just consume the iterator
             }
         });
@@ -97,8 +96,3 @@ test(
         t.is(iter.closed, 1);
     },
 );
-
-export const tests = {
-
-
-};

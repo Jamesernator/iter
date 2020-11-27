@@ -4,8 +4,8 @@ import toArray from "./toArray.js";
 
 test(
     "iterableGenerator returns an object that can be iterated",
-    async (t) => {
-        async function* gen() {
+    (t) => {
+        function* gen() {
             yield 1;
             yield 2;
             yield 3;
@@ -17,17 +17,17 @@ test(
 
         const iterable = iterableGen();
 
-        t.is(typeof iterable[Symbol.asyncIterator], "function");
+        t.is(typeof iterable[Symbol.iterator], "function");
 
-        t.deepEqual(await toArray(iterable), [1, 2, 3]);
+        t.deepEqual( toArray(iterable), [1, 2, 3]);
     },
 );
 
 test(
     "iterableGenerator function returns an object that can be iterated many times",
-    async (t) => {
+    (t) => {
         let count = 0;
-        async function* gen() {
+        function* gen() {
             yield 1;
             yield 2;
             yield 3;
@@ -38,21 +38,19 @@ test(
         const iterable = iterableGen();
 
         t.is(0, count);
-        t.deepEqual([1, 2, 3], await toArray(iterable));
+        t.deepEqual([1, 2, 3], toArray(iterable));
 
         t.is(1, count);
-        t.deepEqual([1, 2, 3], await toArray(iterable));
+        t.deepEqual([1, 2, 3], toArray(iterable));
 
         t.is(2, count);
     },
 );
 
 test(
-
-
     "iterableGenerator forwards arguments to generator function",
-    async (t) => {
-        async function* gen(start: number, end: number) {
+    (t) => {
+        function* gen(start: number, end: number) {
             for (let i = start; i < end; i += 1) {
                 yield i;
             }
@@ -61,10 +59,10 @@ test(
         const iterableGen = iterableGenerator(gen);
         const iterable = iterableGen(10, 15);
 
-        t.deepEqual([10, 11, 12, 13, 14], await toArray(iterable));
+        t.deepEqual([10, 11, 12, 13, 14], toArray(iterable));
 
         const iterable2 = iterableGen(8, 12);
 
-        t.deepEqual([8, 9, 10, 11], await toArray(iterable2));
+        t.deepEqual([8, 9, 10, 11], toArray(iterable2));
     },
 );
