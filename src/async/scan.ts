@@ -1,26 +1,27 @@
 import type { AsyncOrSyncIterable } from "../lib/AsyncOrSyncIterable.js";
+import type { Awaitable } from "../lib/Awaitable.js";
 import iterableGenerator from "./iterableGenerator.js";
 import iterator from "./iterator.js";
 
 function scan<T>(
     iterable: AsyncOrSyncIterable<T>,
-    reducer: (accumulator: T, value: T, index: number) => T | PromiseLike<T>,
+    reducer: (accumulator: T, value: T, index: number) => Awaitable<T>,
 ): AsyncGenerator<T, void>;
 function scan<T>(
     iterable: AsyncOrSyncIterable<T>,
     seed: T,
-    reducer: (accumulator: T, value: T, index: number) => T | PromiseLike<T>,
+    reducer: (accumulator: T, value: T, index: number) => Awaitable<T>,
 ): AsyncGenerator<T, void>;
 function scan<T, R>(
     iterable: AsyncOrSyncIterable<T>,
     seed: R,
-    reducer: (accumulator: R, value: T, index: number) => R | PromiseLike<R>,
+    reducer: (accumulator: R, value: T, index: number) => Awaitable<R>,
 ): AsyncGenerator<R, void>;
 async function* scan<T, R=T>(
     iterable: AsyncOrSyncIterable<T>,
     ...options:
-    [(accumulator: T, value: T, index: number) => T | PromiseLike<T>]
-    | [R, (accumulator: R, value: T, index: number) => R | PromiseLike<R>]
+    [(accumulator: T, value: T, index: number) => Awaitable<T>]
+    | [R, (accumulator: R, value: T, index: number) => Awaitable<R>]
 ): AsyncGenerator<R, void> {
     let reduction:
     {
@@ -75,17 +76,17 @@ async function* scan<T, R=T>(
 type Scan = {
     <T>(
         iterable: AsyncOrSyncIterable<T>,
-        reducer: (accumulator: T, value: T, index: number) => T,
+        reducer: (accumulator: T, value: T, index: number) => Awaitable<T>,
     ): AsyncIterable<T>,
     <T>(
         iterable: AsyncOrSyncIterable<T>,
         seed: T,
-        reducer: (accumulator: T, value: T, index: number) => T,
+        reducer: (accumulator: T, value: T, index: number) => Awaitable<T>,
     ): AsyncIterable<T>,
     <T, R>(
         iterable: AsyncOrSyncIterable<T>,
         seed: R,
-        reducer: (accumulator: R, value: T, index: number) => R,
+        reducer: (accumulator: R, value: T, index: number) => Awaitable<R>,
     ): AsyncIterable<R>,
 };
 

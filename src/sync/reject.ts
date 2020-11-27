@@ -1,14 +1,13 @@
-import type { AsyncOrSyncIterable } from "../lib/AsyncOrSyncIterable.js";
 import enumerate from "./enumerate.js";
 import iterableGenerator from "./iterableGenerator.js";
 
 const reject = iterableGenerator(
-    async function* reject<T>(
-        iterable: AsyncOrSyncIterable<T>,
+    function* reject<T>(
+        iterable: Iterable<T>,
         predicate: ((value: T, index: number) => any),
-    ): AsyncGenerator<T> {
-        for await (const [idx, item] of enumerate(iterable)) {
-            if (!await predicate(item, idx)) {
+    ): Generator<T> {
+        for (const [idx, item] of enumerate(iterable)) {
+            if (!predicate(item, idx)) {
                 yield item;
             }
         }

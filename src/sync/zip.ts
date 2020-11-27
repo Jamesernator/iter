@@ -1,18 +1,17 @@
-import type { AsyncOrSyncIterable } from "../lib/AsyncOrSyncIterable.js";
 import iterableGenerator from "./iterableGenerator.js";
 import iterator from "./iterator.js";
 
-type Unwrap<T> = T extends AsyncOrSyncIterable<infer R> ? R : never;
+type Unwrap<T> = T extends Iterable<infer R> ? R : never;
 type ZipUnwrapped<T> = { [P in keyof T]: Unwrap<T[P]> };
 
 const zip = iterableGenerator(
-    async function* zip<
-        Iterables extends Array<AsyncOrSyncIterable<any>> | [AsyncOrSyncIterable<any>],
+    function* zip<
+        Iterables extends Array<Iterable<any>> | [Iterable<any>],
     >(
         iterables: Iterables,
-    ): AsyncGenerator<ZipUnwrapped<Iterables>, void> {
+    ): Generator<ZipUnwrapped<Iterables>, void> {
         const iteratorsDone = new Set();
-        const iterators: Array<AsyncGenerator<any, void>> = [];
+        const iterators: Array<Generator<any, void>> = [];
         const errors: Array<any> = [];
         try {
             for (const iterable of iterables as any) {
@@ -20,17 +19,16 @@ const zip = iterableGenerator(
             }
 
             while (true) {
-                const nexts = await Promise.all(iterators.map(async (iterator) => {
+                const nexts = iterators.map((iterator) => {
                     if (iteratorsDone.has(iterator)) {
                         return { done: true, value: undefined };
                     }
-                    const result = await iterator.next();
-                    const { done } = result;
-                    if (done) {
+                    const result = iterator.next();
+                    if (result.done) {
                         iteratorsDone.add(iterator);
                     }
-                    return { done, value: result.value };
-                }));
+                    return result;
+                });
                 if (nexts.some(({ done }) => done)) {
                     return;
                 }
@@ -41,7 +39,7 @@ const zip = iterableGenerator(
         }
         for (const iterator of iterators) {
             try {
-                await iterator.return();
+                iterator.return();
             } catch (error: any) {
                 errors.push(error);
             }

@@ -1,25 +1,26 @@
 import type { AsyncOrSyncIterable } from "../lib/AsyncOrSyncIterable.js";
+import type { Awaitable } from "../lib/Awaitable.js";
 import iterator from "./iterator.js";
 
 export default async function reduce<T>(
     iterable: AsyncOrSyncIterable<T>,
-    reducer: (accumulator: T, value: T, index: number) => T | PromiseLike<T>,
+    reducer: (accumulator: T, value: T, index: number) => Awaitable<T>,
 ): Promise<T>;
 export default async function reduce<T>(
     iterable: AsyncOrSyncIterable<T>,
     seed: T,
-    reducer: (accumulator: T, value: T, index: number) => T | PromiseLike<T>,
+    reducer: (accumulator: T, value: T, index: number) => Awaitable<T>,
 ): Promise<T>;
 export default async function reduce<T, R>(
     iterable: AsyncOrSyncIterable<T>,
     seed: R,
-    reducer: (accumulator: R, value: T, index: number) => R | PromiseLike<R>,
+    reducer: (accumulator: R, value: T, index: number) => Awaitable<R>,
 ): Promise<R>;
 export default async function reduce<T, R=T>(
     iterable: AsyncOrSyncIterable<T>,
     ...options:
-    [(accumulator: T, value: T, index: number) => T | PromiseLike<T>]
-    | [R, (accumulator: R, value: T, index: number) => R | PromiseLike<R>]
+    [(accumulator: T, value: T, index: number) => Awaitable<T>]
+    | [R, (accumulator: R, value: T, index: number) => Awaitable<R>]
 ): Promise<R> {
     let reduction:
     {

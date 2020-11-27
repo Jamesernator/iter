@@ -1,11 +1,12 @@
 import type { AsyncOrSyncIterable } from "../lib/AsyncOrSyncIterable.js";
+import type { Awaitable } from "../lib/Awaitable.js";
 import iterableGenerator from "./iterableGenerator.js";
 import iterator from "./iterator.js";
 
 const takeUntil = iterableGenerator(
     async function* takeUntil<T>(
         iterable: AsyncOrSyncIterable<T>,
-        createTimeout: () => any,
+        createTimeout: () => Awaitable<any>,
     ): AsyncGenerator<T> {
         const promise = Promise.resolve(createTimeout());
 

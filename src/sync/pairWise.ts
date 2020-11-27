@@ -1,15 +1,14 @@
-import type { AsyncOrSyncIterable } from "../lib/AsyncOrSyncIterable.js";
 import iterableGenerator from "./iterableGenerator.js";
 import iterator from "./iterator.js";
 
 const pairWise = iterableGenerator(
-    async function* pairWise<T>(
-        iterable: AsyncOrSyncIterable<T>,
+    function* pairWise<T>(
+        iterable: Iterable<T>,
         allowShorter: boolean=false,
-    ): AsyncGenerator<[T, T]> {
+    ): Generator<[T, T]> {
         const iter = iterator(iterable);
         try {
-            const res = await iter.next();
+            const res = iter.next();
             if (res.done) {
                 if (allowShorter) {
                     return;
@@ -19,7 +18,7 @@ const pairWise = iterableGenerator(
 
             let last = res.value;
             let gotPair = false;
-            for await (const item of iter) {
+            for (const item of iter) {
                 gotPair = true;
                 yield [last, item];
                 last = item;
@@ -29,7 +28,7 @@ const pairWise = iterableGenerator(
                 throw new Error(`[pairWise] Can't get a pair from sequence of size 1`);
             }
         } finally {
-            await iter.return();
+            iter.return();
         }
     },
 );

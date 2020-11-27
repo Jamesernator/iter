@@ -1,43 +1,42 @@
-import type { AsyncOrSyncIterable } from "../lib/AsyncOrSyncIterable.js";
 import enumerate from "./enumerate.js";
 
-export default async function sampleN<T>(
-    iterable: AsyncOrSyncIterable<T>,
+export default function sampleN<T>(
+    iterable: Iterable<T>,
     n: 0,
     allowShorter?: boolean,
-): Promise<[]>;
-export default async function sampleN<T>(
-    iterable: AsyncOrSyncIterable<T>,
+): [];
+export default function sampleN<T>(
+    iterable: Iterable<T>,
     n: 1,
     allowShorter?: false,
-): Promise<[T]>;
-export default async function sampleN<T>(
-    iterable: AsyncOrSyncIterable<T>,
+): [T];
+export default function sampleN<T>(
+    iterable: Iterable<T>,
     n: 2,
     allowShorter?: false,
-): Promise<[T, T]>;
-export default async function sampleN<T>(
-    iterable: AsyncOrSyncIterable<T>,
+): [T, T];
+export default function sampleN<T>(
+    iterable: Iterable<T>,
     n: 3,
     allowShorter?: false,
-): Promise<[T, T, T]>;
-export default async function sampleN<T>(
-    iterable: AsyncOrSyncIterable<T>,
+): [T, T, T];
+export default function sampleN<T>(
+    iterable: Iterable<T>,
     n: 4,
     allowShorter?: false,
-): Promise<[T, T, T, T]>;
-export default async function sampleN<T>(
-    iterable: AsyncOrSyncIterable<T>,
+): [T, T, T, T];
+export default function sampleN<T>(
+    iterable: Iterable<T>,
     n: number,
     allowShorter?: boolean,
-): Promise<Array<T>>;
-export default async function sampleN<T>(
-    iterable: AsyncOrSyncIterable<T>,
+): Array<T>;
+export default function sampleN<T>(
+    iterable: Iterable<T>,
     n: number,
     allowLess=false,
-): Promise<Array<T>> {
+): Array<T> {
     const chosenList: Array<T> = [];
-    for await (const [idx, item] of enumerate(iterable)) {
+    for (const [idx, item] of enumerate(iterable)) {
         if (idx < n) {
             chosenList.push(item);
         } else if (Math.random() < n/(idx + 1)) {

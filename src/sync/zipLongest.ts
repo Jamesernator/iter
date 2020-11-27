@@ -1,16 +1,19 @@
-import type { AsyncOrSyncIterable } from "../lib/AsyncOrSyncIterable.js";
 import iterableGenerator from "./iterableGenerator.js";
 import iterator from "./iterator.js";
 
-type Unwrap<T> = T extends AsyncOrSyncIterable<infer R> ? R : never;
-type ZipUnwrapped<T> = { [P in keyof T]: Unwrap<T[P]> | undefined };
+type Unwrap<T> = T extends Iterable<infer R> ? R : never;
+type ZipUnwrapped<T, Default=undefined> = {
+    [P in keyof T]: Unwrap<T[P]> | Default
+};
 
 const zipLongest = iterableGenerator(
-    async function* zipLongest<
-        Iterables extends Array<AsyncOrSyncIterable<any>> | [AsyncOrSyncIterable<any>],
+    function* zipLongest<
+        Iterables extends Array<Iterable<any>> | [Iterable<any>],
+        Default=undefined,
     >(
         iterables: Iterables,
-    ): AsyncGenerator<ZipUnwrapped<Iterables>> {
+        createDefault: () => Default=() => undefined as unknown as Default,
+    ): Generator<ZipUnwrapped<Iterables>> {
         const iteratorsDone = new Set();
         const iterators: Array<any> = [];
         const errors: Array<any> = [];
@@ -20,17 +23,17 @@ const zipLongest = iterableGenerator(
             }
 
             while (true) {
-                const nexts = await Promise.all(iterators.map(async (iterator) => {
+                const nexts = iterators.map((iterator) => {
                     if (iteratorsDone.has(iterator)) {
-                        return { done: true, value: undefined };
+                        return { done: true, value: createDefault() };
                     }
-                    const result = await iterator.next();
+                    const result = iterator.next();
                     const { done } = result;
                     if (done) {
                         iteratorsDone.add(iterator);
                     }
                     return { done, value: result.value };
-                }));
+                });
                 if (nexts.every(({ done }) => done)) {
                     return;
                 }
@@ -42,11 +45,9 @@ const zipLongest = iterableGenerator(
 
         for (const iterator of iterators) {
             try {
-                await iterator.return();
+                iterator.return();
             } catch (error: any) {
                 errors.push(error);
-
-                /* Ensure all iterators close */
             }
         }
         if (errors.length === 1) {

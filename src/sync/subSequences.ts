@@ -1,37 +1,36 @@
-import type { AsyncOrSyncIterable } from "../lib/AsyncOrSyncIterable.js";
 import iterableGenerator from "./iterableGenerator.js";
 import iterator from "./iterator.js";
 
 function subSequences<T>(
-    iterable: AsyncOrSyncIterable<T>,
+    iterable: Iterable<T>,
     size: 1,
     allowShorter?: false,
-): AsyncGenerator<[T], void>;
+): Generator<[T], void>;
 function subSequences<T>(
-    iterable: AsyncOrSyncIterable<T>,
+    iterable: Iterable<T>,
     size: 2,
     allowShorter?: false,
-): AsyncGenerator<[T, T], void>;
+): Generator<[T, T], void>;
 function subSequences<T>(
-    iterable: AsyncOrSyncIterable<T>,
+    iterable: Iterable<T>,
     size: 3,
     allowShorter?: false,
-): AsyncGenerator<[T, T, T], void>;
+): Generator<[T, T, T], void>;
 function subSequences<T>(
-    iterable: AsyncOrSyncIterable<T>,
+    iterable: Iterable<T>,
     size: 4,
     allowShorter?: false,
-): AsyncGenerator<[T, T, T, T], void>;
+): Generator<[T, T, T, T], void>;
 function subSequences<T>(
-    iterable: AsyncOrSyncIterable<T>,
+    iterable: Iterable<T>,
     size: number,
     allowShorter?: boolean,
-): AsyncGenerator<Array<T>, void>;
-async function* subSequences<T>(
-    iterable: AsyncOrSyncIterable<T>,
+): Generator<Array<T>, void>;
+function* subSequences<T>(
+    iterable: Iterable<T>,
     subSequenceSize: number,
     allowShorter=false,
-): AsyncGenerator<Array<T>, void> {
+): Generator<Array<T>, void> {
     if (subSequenceSize < 1) {
         throw new RangeError(`[subSequences] subSequenceSize must be at least one`);
     }
@@ -39,7 +38,7 @@ async function* subSequences<T>(
     try {
         const buff: Array<T> = [];
         for (let i = 0; i < subSequenceSize; i += 1) {
-            const res = await iter.next();
+            const res = iter.next();
             if (res.done) {
                 if (allowShorter) {
                     return;
@@ -50,43 +49,43 @@ async function* subSequences<T>(
             buff.push(res.value);
         }
 
-        for await (const item of iter) {
+        for (const item of iter) {
             yield [...buff];
             buff.shift();
             buff.push(item);
         }
         yield [...buff];
     } finally {
-        await iter.return();
+        iter.return();
     }
 }
 
 type SubSequences = {
     <T>(
-        iterable: AsyncOrSyncIterable<T>,
+        iterable: Iterable<T>,
         size: 1,
         allowShorter?: false,
-    ): AsyncIterable<[T]>,
+    ): Iterable<[T]>,
     <T>(
-        iterable: AsyncOrSyncIterable<T>,
+        iterable: Iterable<T>,
         size: 2,
         allowShorter?: false,
-    ): AsyncIterable<[T, T]>,
+    ): Iterable<[T, T]>,
     <T>(
-        iterable: AsyncOrSyncIterable<T>,
+        iterable: Iterable<T>,
         size: 3,
         allowShorter?: false,
-    ): AsyncIterable<[T, T, T]>,
+    ): Iterable<[T, T, T]>,
     <T>(
-        iterable: AsyncOrSyncIterable<T>,
+        iterable: Iterable<T>,
         size: 4,
         allowShorter?: false,
-    ): AsyncIterable<[T, T, T, T]>,
+    ): Iterable<[T, T, T, T]>,
     <T>(
-        iterable: AsyncOrSyncIterable<T>,
+        iterable: Iterable<T>,
         size: number,
         allowShorter?: boolean,
-    ): AsyncIterable<Array<T>>,
+    ): Iterable<Array<T>>,
 };
 
 export default iterableGenerator(subSequences) as SubSequences;

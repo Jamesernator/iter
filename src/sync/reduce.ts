@@ -1,26 +1,25 @@
-import type { AsyncOrSyncIterable } from "../lib/AsyncOrSyncIterable.js";
 import iterator from "./iterator.js";
 
-export default async function reduce<T>(
-    iterable: AsyncOrSyncIterable<T>,
-    reducer: (accumulator: T, value: T, index: number) => T | PromiseLike<T>,
-): Promise<T>;
-export default async function reduce<T>(
-    iterable: AsyncOrSyncIterable<T>,
+export default function reduce<T>(
+    iterable: Iterable<T>,
+    reducer: (accumulator: T, value: T, index: number) => T,
+): T;
+export default function reduce<T>(
+    iterable: Iterable<T>,
     seed: T,
-    reducer: (accumulator: T, value: T, index: number) => T | PromiseLike<T>,
-): Promise<T>;
-export default async function reduce<T, R>(
-    iterable: AsyncOrSyncIterable<T>,
+    reducer: (accumulator: T, value: T, index: number) => T,
+): T;
+export default function reduce<T, R>(
+    iterable: Iterable<T>,
     seed: R,
-    reducer: (accumulator: R, value: T, index: number) => R | PromiseLike<R>,
-): Promise<R>;
-export default async function reduce<T, R=T>(
-    iterable: AsyncOrSyncIterable<T>,
+    reducer: (accumulator: R, value: T, index: number) => R,
+): R;
+export default function reduce<T, R=T>(
+    iterable: Iterable<T>,
     ...options:
-    [(accumulator: T, value: T, index: number) => T | PromiseLike<T>]
-    | [R, (accumulator: R, value: T, index: number) => R | PromiseLike<R>]
-): Promise<R> {
+    [(accumulator: T, value: T, index: number) => T]
+    | [R, (accumulator: R, value: T, index: number) => R]
+): R {
     let reduction:
     {
         seeded: true,
@@ -50,7 +49,7 @@ export default async function reduce<T, R=T>(
         if (reduction.seeded) {
             acc = reduction.seedValue;
         } else {
-            const res = await iter.next();
+            const res = iter.next();
             if (res.done) {
                 throw new Error(`[reduce] Can't reduce empty sequence with no initial value`);
             }
@@ -60,12 +59,12 @@ export default async function reduce<T, R=T>(
 
         const { reducer } = reduction;
 
-        for await (const item of iter) {
-            acc = await reducer(acc as T & R, item, idx);
+        for (const item of iter) {
+            acc = reducer(acc as T & R, item, idx);
             idx += 1;
         }
         return acc as unknown as R;
     } finally {
-        await iter.return();
+        iter.return();
     }
 }
