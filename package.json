@@ -12,6 +12,9 @@
     "./sync": "./dist/sync.js",
     "./sync/*": "./dist/sync/*.js"
   },
+  "typesVersions": {
+    "*": { "*": ["./src/*"] }
+  },
   "files": [
     "build.cjs",
     "tsconfig.json",
